@@ -1,0 +1,52 @@
+:root {
+
+    /*
+     * Base
+     */
+    --main-bg: #262222;
+    --main-fg: #F4F1D3;
+
+    /*
+     * Interaction
+     */
+
+     --interaction-primary-idle: hsla(238, 75%, 50%, 1);
+     --interaction-primary-hover: hsla(238, 75%, 55%, 1);
+     --interaction-primary-active: hsla(238, 75%, 45%, 1);
+     --interaction-primary-focus: hsla(238, 75%, 45%, 1);
+
+     --interaction-neutral-idle: hsla(68, 100%, 90%, 1);
+     --interaction-neutral-hover: hsla(68, 100%, 95%, 1);
+     --interaction-neutral-active: hsla(68, 100%, 90%, 1);
+     --interaction-neutral-focus: hsla(68, 100%, 90%, 1);     
+
+
+    /*
+     * Links
+     */
+
+     --active-indicator: 1px dashed hsla(22, 46%, 67%, 1);
+     
+
+    /*
+     * Inputs
+     */
+     
+    --input-bg-idle: hsla(0, 0%, 0%, 0.1);
+    --input-bg-hover: hsla(0, 0%, 0%, 0.3);
+    --input-bg-focus: hsla(0, 0%, 0%, 0.3);
+    --input-bg-active: var(--input-bg-focus);
+    --input-bg-valid: hsla(0, 0%, 0%, 0.1); 
+    --input-bg-invalid: hsla(8, 72%, 62%, 0.1); 
+    --input-bg-disabled: hsla(0, 16%, 10%, 1); 
+
+    --input-border-idle: 1px solid hsla(55, 60%, 89%, 0.4);
+    --input-border-hover: 1px solid hsla(55, 60%, 89%, 0.7);
+    --input-border-focus: 1px solid hsla(55, 60%, 89%, 1);
+    --input-border-active: var(--input-border-focus);
+    --input-border-valid: hsla(68, 100%, 30%, 0.7);
+    --input-border-invalid: border 2px solid hsla(8, 72%, 62%, 0.1);
+    --input-border-disabled: none;
+
+
+}

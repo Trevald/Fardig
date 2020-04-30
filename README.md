@@ -1,4 +1,5 @@
-# fardig-dev
+# Fardig
+Just another ToDo handler
 
 ## Project setup
 ```

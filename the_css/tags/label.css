@@ -1,0 +1,5 @@
+
+label {
+    padding: var(--unit-half) var(--unit-half) var(--unit-half) var(--unit-half);
+    margin-bottom: var(--unit-quarter);
+}

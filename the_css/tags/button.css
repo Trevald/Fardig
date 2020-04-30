@@ -1,0 +1,85 @@
+button {
+    appearance: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+
+    min-width: 10rem;
+    
+    margin: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    min-height: 3rem;
+
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: normal;
+    font-variation-settings: "wght" 600;
+    
+    border-radius: 2px;
+    border: none;
+
+    transition: all .3s ease;
+    user-select: none;
+}
+
+button {
+    background: var(--interaction-neutral-idle);
+    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.16);
+    outline: 1px dashed transparent;
+    outline-offset: 0.5rem;
+    color: var(--main-bg);
+}
+
+button:hover {
+    background: var(--interaction-neutral-hover);
+    transform: scale(1.05); /* 50.4 */
+}
+
+button:active {
+    background: var(--interaction-neutral-active);
+    transform: scale(1.05) translateY(0.125rem);
+}
+
+button:focus:not(:active) {
+    background: var(--interaction-neutral-focus);
+    outline-color: #869DD2;
+}
+
+
+/*
+ * Primary
+ */
+
+button[type="submit"],
+button.primary {
+    color: var(--main-fg);
+    background: var(--interaction-primary-idle);
+}
+
+button[type="submit"]:hover,
+button.primary:hover {
+    background: var(--interaction-primary-hover);
+    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.48);
+}
+
+button[type="submit"]:active,
+button.primary:active {
+    background: var(--interaction-primary-active);
+    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.16);
+}
+
+button[type="submit"]:focus,
+button.primary:focus {
+    background: var(--interaction-primary-focus);
+}
+/*
+--interaction-primary-idle: hsla(238, 75%, 50%, 1);
+--interaction-primary-hover: hsla(238, 75%, 55%, 1);
+--interaction-primary-active: hsla(238, 75%, 45%, 1);
+--interaction-primary-focus: hsla(238, 75%, 45%, 1);
+
+--interaction-neutral-idle: hsla(68, 100%, 95%, 1);
+--interaction-neutral-hover: hsla(238, 75%, 100%, 1);
+--interaction-neutral-active: hsla(238, 75%, 90%, 1);
+--interaction-neutral-focus: hsla(238, 75%, 90%, 1);     
+*/

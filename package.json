@@ -1,7 +1,13 @@
 {
-  "name": "fardig-dev",
+  "name": "fardig",
+  "description": "Get Fardig!",
   "version": "0.1.0",
   "private": true,
+  "author": "@trevald",
+  "license": "ISC",
+  "bin": {
+    "fardig": "./bin/cli.js"
+  },
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -9,6 +15,8 @@
   },
   "dependencies": {
     "core-js": "^3.6.4",
+    "tiptap": "^1.27.1",
+    "tiptap-extensions": "^1.29.1",
     "vue": "^2.6.11"
   },
   "devDependencies": {

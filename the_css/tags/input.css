@@ -1,0 +1,15 @@
+input:not([type]),
+input[type="text"] {
+    margin: 0;
+    padding: var(--unit) var(--unit-half);
+    min-height: calc(var(--unit) * 3);
+    
+
+    color: var(--main-fg);
+    font-size: var(--unit);
+    line-height: 1;
+
+    background-color: var(--input-bg-idle);
+    border: var(--input-border-idle);
+    box-shadow: none;
+}

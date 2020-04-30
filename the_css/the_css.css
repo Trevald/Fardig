@@ -1,0 +1,34 @@
+/*
+ * Vendors
+ */
+
+@import "./vendor/Inter-3-2/Inter Web/inter.css";
+@import "./vendor/IBMPlexMono/IBMPlexMono.css";
+
+/*
+ * Variables
+ */
+
+@import "./partials/unit.css";
+@import "./partials/distances.css";
+@import "./partials/colors.css";
+
+@import "./partials/typography.css";
+@import "./partials/base.css";
+
+/*
+ * Tags
+ */
+ @import "./tags/button.css";   
+@import "./tags/p.css";  
+@import "./tags/input.css"; 
+@import "./tags/label.css"; 
+@import "./tags/section.css";
+
+
+/* 
+ * Add-ons
+ */
+
+@import "./partials/containers.css";
+@import "./partials/grid.css";

@@ -1,0 +1,22 @@
+@import "./../../the_css/the_css.css";
+
+.app-header {
+    margin: 0 0 2rem 0;
+    padding: 2rem 0 0 0;
+    border-bottom: 1px solid var(--main-fg);
+}
+
+.app-header .logo {
+    display: inline-block;
+    width: 120px;
+    height: auto;
+    margin: 0 0 0.5rem 0;
+}
+
+.app-header .logo path {
+    fill: var(--main-fg);
+}
+
+.ProseMirror:focus {
+    outline: none;
+}

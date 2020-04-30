@@ -1,0 +1,6 @@
+.label-and-input {
+    display: flex;
+    flex-direction: column;
+    padding: var(--unit-half);
+    min-height: calc(var(--unit) * 7)
+}

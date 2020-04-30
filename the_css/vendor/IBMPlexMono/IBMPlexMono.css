@@ -1,0 +1,14 @@
+@font-face {
+    font-family: 'IBMPlexMono';
+    font-style:  normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url("IBMPlexMono-Regular.woff2?v=1.00") format("woff2");
+  }
+  @font-face {
+    font-family: 'IBMPlexMono';
+    font-style:  normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url("IBMPlexMono-Medium.woff2?v=1.00") format("woff2");
+  }  

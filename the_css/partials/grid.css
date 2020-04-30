@@ -1,0 +1,49 @@
+
+.col-2 {
+    width: calc(var(--unit) * var(--grid-width) * 3);
+}
+
+
+.col-3 {
+    width: calc(var(--unit) * var(--grid-width) * 3);
+}
+
+
+/*
+ * Grid helper
+ */
+
+html.toggle-grid {
+    
+    background-image: 
+        linear-gradient(to bottom, 
+            hsla(55, 60%, 89%, .05) 1px, 
+            transparent 1px),
+        linear-gradient(to right, 
+            hsla(55, 60%, 89%, .05) 1px, 
+            transparent 1px);
+    background-size: calc(var(--unit) * 1) calc(var(--unit) * 1);
+    background-size: 2vw var(--unit);
+    
+    /*
+    background-image: url(../img/bg-grid.svg?v=2);
+    background-size: 100% auto;
+    background-repeat: repeat-y;
+    background-position: center 0;
+    */
+}
+
+/*
+@media screen and (min-width: 944px) {
+    html {
+        background-size: 944px auto;
+    }
+}
+*/
+
+.container {
+    margin: 0 auto;
+    padding: 0 1vw;
+    max-width: 80rem;
+    width: 100%;
+}

@@ -1,0 +1,69 @@
+html { font-family: 'Inter', sans-serif; }
+
+@supports (font-variation-settings: normal) {
+  html { font-family: 'Inter var', sans-serif; }
+}
+
+/* 16, 32, 48, 64 = 1,2,3,4 */
+
+h1, h2, h3, h4, h5, h6 {
+    padding: 0;
+    margin: 0;
+    color: inherit;
+}
+
+h1 {
+    padding-top: calc(var(--unit) * 2.5);
+    margin-bottom: calc(var(--unit) * 2.5);
+
+    font-size: 2.5rem;
+    font-variation-settings: "wght" 900;
+    letter-spacing: -0.02em;
+    line-height: 3rem;
+}
+
+h2 {
+    padding-top: calc(var(--unit) * 1.25);
+    margin-bottom: calc(var(--unit) * 1.75);
+
+    font-size: 1.75rem;
+    font-variation-settings: "wght" 900;
+    letter-spacing: -0.03em;
+    line-height: 2rem;
+}
+
+h3 {
+    padding-top: calc(var(--unit) * 1.5);
+    margin-bottom: calc(var(--unit) * 1.5);
+
+    font-size: 1.5rem;
+    font-variation-settings: "wght" 700;
+    letter-spacing: -0.01em;
+    line-height: 2rem;
+}
+
+h4 {
+    padding-top: calc(var(--unit) * 1.15);
+    margin-bottom: calc(var(--unit) * 0.35);
+
+    font-size: 1rem;
+    line-height: 1.5rem;
+}
+
+@media screen and (min-width: 80rem) {
+    h1 {
+        font-size: 4rem;
+    }
+
+    h2 {
+        font-size: 3rem;
+    } 
+    
+    h3 {
+        font-size: 2rem;
+    } 
+
+    h4 {
+        font-size: 1rem;
+    } 
+}

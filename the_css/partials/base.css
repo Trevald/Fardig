@@ -1,0 +1,22 @@
+html {
+    box-sizing: border-box;
+    display: flex;
+    min-width: 100%;
+    min-height: 100%; 
+    background: var(--main-bg);
+    color: var(--main-fg);
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-width: 100%;
+    min-height: 100%;
+    margin: 0;
+    padding: var(--unit);
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
