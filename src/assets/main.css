@@ -1,16 +1,20 @@
 @import "./../../the_css/the_css.css";
 
 .app-header {
-    margin: 0 0 2rem 0;
-    padding: 2rem 0 0 0;
-    border-bottom: 1px solid var(--main-fg);
+    margin: 0 0 calc(var(--v-unit) * 2) 0;
+    padding: calc(var(--v-unit) * 2) 0 0 0;
+    box-shadow: white 0 -0.5px 0 0 inset;
+    min-height: calc(var(--v-unit) * 2);
+    display: flex;
+    align-items: baseline;
+
 }
 
 .app-header .logo {
-    display: inline-block;
-    width: 120px;
+    
+    width: 110px;
     height: auto;
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 calc(var(--v-unit) / 2) 0;
 }
 
 .app-header .logo path {

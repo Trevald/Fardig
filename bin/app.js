@@ -1,4 +1,4 @@
-function main(args, database, fs) {
+function main(args, database, fs, todoParser) {
         const action = getAction(args);
         const text = getText(args);
 
@@ -6,7 +6,7 @@ function main(args, database, fs) {
             case "ADD": 
             case "A": 
             case "AD": 
-                addTodo(text, database, fs);
+                addTodo(text, database, fs, todoParser);
                 break;
             case "LS":
                 console.log("What to do:");
@@ -19,9 +19,9 @@ function main(args, database, fs) {
         }
     }
 
-function addTodo(text, database, fs) {
-    let todo = parseText(text, database);
-    
+function addTodo(text, database, fs, todoParser) {
+    let todo = todoParser.parseText(text);
+    todo.id = database.length;
     database.push(todo); 
 
     fs.writeFile("./database.json",  JSON.stringify(database), "utf8", (err) => {

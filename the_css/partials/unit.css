@@ -1,14 +1,21 @@
 :root {
-    --unit: 1rem;
-    --unit-half: 0.5rem;
-    --unit-quarter: 0.25rem;
-    --unit-eight: 0.125rem;
-    --unit-sixteenth: 0,0625rem;
+    --unit: min(1.25vw, 1rem);
+    --unit-half: calc(var(--unit) / 2);
+    --unit-quarter: calc(var(--unit) / 4);
+    --unit-eight: calc(var(--unit) / 8);
+    --unit-sixteenth: calc(var(--unit) / 16);
 
-    --unit-2: 0.5rem;
-    --unit-4: 0.25rem;
-    --unit-8: 0.125rem;
-    --unit-16: 0.0625rem;
+    --unit-2: calc(var(--unit) * 2);
+    --unit-3: calc(var(--unit) * 3);
+    --unit-4: calc(var(--unit) * 4);
+    --unit-6: calc(var(--unit) * 6);
+    --unit-8: calc(var(--unit) * 8);
+    --unit-12: calc(var(--unit) * 12);
+    --unit-16: calc(var(--unit) * 16); 
+
+    --v-unit: 1rem;
+    --v-unit-half: var(--unit-v) / 2;
+    --v-unit-quarter: var(--unit-v) / 4;
 
 
 }

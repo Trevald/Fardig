@@ -21,13 +21,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 h1 {
-    padding-top: calc(var(--unit) * 2.5);
-    margin-bottom: calc(var(--unit) * 2.5);
+    padding-top: calc(var(--v-unit) * 2);
+    margin-bottom: calc(var(--v-unit) * 3);
 
-    font-size: 2.5rem;
+    font-size: calc(var(--v-unit) * 2.5);
     font-variation-settings: "wght" 900;
     letter-spacing: -0.02em;
-    line-height: 3rem;
+    line-height: calc(var(--v-unit) * 3);
 }
 
 h2 {

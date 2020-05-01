@@ -13,6 +13,15 @@
 @import "./partials/distances.css";
 @import "./partials/colors.css";
 
+/* 
+ * Settings
+ */
+
+:root {
+    --view-max-width: calc(var(--unit) * 45);
+}
+
+
 @import "./partials/typography.css";
 @import "./partials/base.css";
 

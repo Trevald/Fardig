@@ -1,8 +1,9 @@
 import { Node } from 'tiptap'
 import { textblockTypeInputRule, toggleBlockType } from 'tiptap-commands'
 
+import AppTodo from "./AppTodo";
 
-export default class AppTodo extends Node {
+export default class AppTodoNode extends Node {
 
     get name() {
         return 'app_todo'
@@ -65,34 +66,8 @@ export default class AppTodo extends Node {
   // return a vue component
   // this can be an object or an imported component
   
-  get view() {
-    return {
-      // there are some props available
-      // `node` is a Prosemirror Node Object
-      // `updateAttrs` is a function to update attributes defined in `schema`
-      // `view` is the ProseMirror view instance
-      // `options` is an array of your extension options
-      // `selected` is a boolean which is true when selected
-      // `editor` is a reference to the TipTap editor instance
-      // `getPos` is a function to retrieve the start position of the node
-      // `decorations` is an array of decorations around the node
-      props: ['node', 'updateAttrs', 'view'],
-      
-        computed: {
-            content() {
-                return "";
-            }
-        },
-
-      template: `
-        <div class="todo" style="display: flex; justify-content: flex-start; align-items: flex-start">
-            <input type="checkbox">
-            <div class="todo-content" ref="content" :contenteditable="view.editable.toString()"></div>
-        </div>
-      `,
+    get view() {
+        return AppTodo;
     }
-    
-  }
- 
 
 }

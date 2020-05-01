@@ -21,7 +21,7 @@ import {  TEXT_FILE } from "./../text-file";
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import { Bold, Code, CodeBlock, Link, Heading, Italic, ListItem, OrderedList, BulletList, Blockquote  } from "tiptap-extensions"
 
-import AppTodo from "./AppTodo.js"
+import AppTodoNode from "./AppTodoNode"
 
 const marked = require('marked');
 
@@ -75,7 +75,7 @@ export default {
         
         this.editor = new Editor({
             extensions: [
-                new AppTodo(),
+                new AppTodoNode(),
                 new OrderedList(),
                 new Blockquote(),
                 new BulletList(),
