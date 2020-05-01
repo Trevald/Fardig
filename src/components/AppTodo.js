@@ -5,7 +5,7 @@ import { textblockTypeInputRule, toggleBlockType } from 'tiptap-commands'
 export default class AppTodo extends Node {
 
     get name() {
-        return 'appTodo'
+        return 'app_todo'
     }
 
     get schema() {
@@ -28,10 +28,15 @@ export default class AppTodo extends Node {
         isText: true,
         
         parseDOM: [{
-            tag: "p.todo"
+            priority: 51,
+            tag: `[data-type="${this.name}"]`
         }],
         
-        toDOM: node => ['p', { class: "todo"}, node.attrs, 0],
+        toDOM: () => {
+            return ["p", {
+                "data-type": this.name
+            }]
+        }
     }
   }
 

@@ -6,7 +6,7 @@
         <button type="button" :class="{ 'is-active': isActive.bold() }" @click="commands.bold">
           Bold
         </button>
-        <button type="button" class="primary" @click="commands.appTodo">
+        <button type="button" class="primary" @click="commands.app_todo">
           ToDo
         </button>
         </div>
@@ -16,10 +16,14 @@
 
 <script>
 
+import {  TEXT_FILE } from "./../text-file";
+
 import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
 import { Bold, Code, CodeBlock, Link, Heading, Italic, ListItem, OrderedList, BulletList, Blockquote  } from "tiptap-extensions"
 
 import AppTodo from "./AppTodo.js"
+
+const marked = require('marked');
 
 export default {
 
@@ -37,6 +41,38 @@ export default {
     },
     
     mounted() {
+        const renderer = {
+            paragraph(text) {
+                const re = /^\[[\s|x]\].*$/gmi
+                const re2 = /(\[[\s|x]\])/gmi
+                const hasTodos  = text.match(re);
+
+                console.log("text", text);
+                
+                // Break if no todos
+                if (!hasTodos) {
+                    return `<p>${text}</p>`;
+                }
+                const textLines = text.split(/\r?\n/);
+                
+                let returnValue = "";
+                textLines.forEach(textLine => {
+                    let isTodo = textLine.match(re2);
+                    if (isTodo) {
+                        const todoIndicator = isTodo[0];
+                        const isTicked = todoIndicator.includes("x");                        
+                        returnValue+= `<p data-type="app_todo" data-done="${isTicked}">${textLine.replace(todoIndicator, "")}</p>`;                        
+                    } else {
+                        returnValue+=`<p>${textLine}</p>`;
+                    }
+                });
+
+                return returnValue;
+            }
+        }
+        marked.use({ renderer });
+        const content = marked(TEXT_FILE);
+        
         this.editor = new Editor({
             extensions: [
                 new AppTodo(),
@@ -51,12 +87,7 @@ export default {
                 new Bold(),
                 new Italic()
             ],
-            content: `
-                <h1>Will you ever be Fardig</h1>
-                <p>This is just a boring paragraph</p>
-
-                <p class="todo">This is my todo</p>
-            `
+            content: content
         })
     },
     
