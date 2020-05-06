@@ -27,6 +27,7 @@ export default class AppTodoNode extends Node {
         defining: true,
         draggable: false,
         isText: true,
+        text: {},
         
         parseDOM: [{
             priority: 51,
@@ -34,7 +35,7 @@ export default class AppTodoNode extends Node {
         }],
         
         toDOM: () => {
-            return ["p", {
+            return ["div", {
                 "data-type": this.name
             }]
         }

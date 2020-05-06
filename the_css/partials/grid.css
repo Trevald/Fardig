@@ -1,54 +1,17 @@
 
 .col-2 {
-    width: calc(var(--unit) * var(--grid-width) * 3);
+    width: calc(var(--unit-fluid) * var(--grid-width) * 3);
 }
 
 
 .col-3 {
-    width: calc(var(--unit) * var(--grid-width) * 3);
+    width: calc(var(--unit-fluid) * var(--grid-width) * 3);
 }
 
-
-/*
- * Grid helper
- */
-/*
-html.toggle-grid {
-    
-    
-    background-image: 
-        linear-gradient(to bottom, 
-            hsla(55, 60%, 89%, .05) 1px, 
-            transparent 1px),
-        linear-gradient(to right, 
-            hsla(55, 60%, 89%, .05) 1px, 
-            transparent 1px);
-    background-position: center top;
-    background-size: calc(var(--unit) * 1) calc(var(--unit) * 1);
-    background-size: min(1.25vw, 1rem) var(--unit);
-    
-    
-    Need 2 bg that can scale independently. One x and one for y
-
-    background-image: url(../img/bg-grid.svg?v=2);
-    background-size: min(1280px, 100%) auto;
-    background-repeat: repeat-y;
-    background-position: center 0;
-    
-}
-*/
-
-/*
-@media screen and (min-width: 944px) {
-    html {
-        background-size: 944px auto;
-    }
-}
-*/
 
 .container {
     margin: 0 auto;
-    padding: 0 calc(var(--unit) * 2);
+    padding: 0 calc(var(--unit-fluid) * 2);
     max-width: var(--view-max-width);
     width: 100%;
 }
@@ -68,11 +31,11 @@ html.toggle-grid::after {
 
     background-image: 
         linear-gradient(to bottom, 
-            hsla(55, 60%, 89%, .05) 1px, 
+            hsla(55, 60%, 89%, .1) 1px, 
             transparent 1px),
         linear-gradient(to right, 
-            hsla(55, 60%, 89%, .05) 1px, 
+            hsla(55, 60%, 89%, .1) 1px, 
             transparent 1px);
     background-position: -0.5px 0;
-    background-size: min(1.25vw, 1rem) var(--v-unit);    
+    background-size: var(--unit-fluid) var(--unit);
 }

@@ -18,12 +18,25 @@ input[type="text"] {
  * Checkbox
  */
 input[type="checkbox"] {
+    position: relative;
     appearance: none;
-    width: 1.375rem;
-    height: 1.375rem;
+    width: calc(var(--unit) * 3);
+    height: calc(var(--unit) * 3);
     border-radius: 2px;
     background-color: rgba(0, 0, 0, 0.08);
     border: 1px solid rgba(244, 241, 211, 0.32);
+    margin: var(--unit) var(--unit-fluid);
+}
+
+input[type="checkbox"]::before {
+    content: "";
+    position: absolute;
+    top: calc(var(--unit) * -1);
+    right: calc(var(--unit-fluid) * -1);
+    bottom: calc(var(--unit) * -1);
+    left: calc(var(--unit-fluid) * -1);
+
+    
 }
 
 input[type="checkbox"]:checked {

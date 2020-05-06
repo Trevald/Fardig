@@ -1,20 +1,22 @@
 @import "./../../the_css/the_css.css";
 
 .app-header {
-    margin: 0 0 calc(var(--v-unit) * 2) 0;
-    padding: calc(var(--v-unit) * 2) 0 0 0;
+    margin: 0 0 calc(var(--unit) * 2) 0;
+    padding: calc(var(--unit) * 2) 0 0 0;
     box-shadow: white 0 -0.5px 0 0 inset;
-    min-height: calc(var(--v-unit) * 2);
+    min-height: calc(var(--unit) * 2);
     display: flex;
-    align-items: baseline;
+    align-items: stretch;
+    justify-content: flex-start;
+    min-height: calc(var(--unit) * 6);
 
 }
 
 .app-header .logo {
-    
-    width: 110px;
+    flex: 0 0 auto;
+    width: 120px;
     height: auto;
-    margin: 0 0 calc(var(--v-unit) / 2) 0;
+    margin: 0 0 calc(var(--unit) / 2) 0;
 }
 
 .app-header .logo path {
@@ -24,3 +26,32 @@
 .ProseMirror:focus {
     outline: none;
 }
+
+.todo {
+    --font-size: calc(var(--unit) * 2.25);
+    --line-height: calc(var(--unit) * 4); /* 1.28 */
+    --line-height-percentage: calc(4 / 2.25);
+    --cap-height: 0.7;
+    --offset: calc(var(--font-size) * (var(--line-height-percentage) - var(--cap-height)) / 2);
+
+    position: relative;
+    padding: 0 0 0 0;
+    margin: 0 0 calc((var(--unit) / 1) - var(--offset)) 0;
+    min-height: calc(var(--unit) * 6);
+
+    font-size: var(--font-size);
+    line-height: var(--line-height);
+}
+
+.todo-value {
+    position: absolute;
+    top: calc(var(--offset) - 0.25rem);
+    left: calc(var(--unit-fluid) * -7);
+}
+
+.todo-content {
+    margin-bottom: 0;
+    
+}
+
+

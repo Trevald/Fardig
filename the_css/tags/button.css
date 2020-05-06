@@ -1,6 +1,6 @@
 button {
     appearance: none;
-    display: inline-flex;
+    display: inline-block;
     justify-content: center;
     align-items: center;
 
@@ -11,7 +11,7 @@ button {
     min-height: 3rem;
 
     font-family: inherit;
-    font-size: 1rem;
+    font-size: calc(var(--unit) * 2.25);
     font-weight: normal;
     font-variation-settings: "wght" 600;
     
@@ -20,6 +20,9 @@ button {
 
     transition: all .3s ease;
     user-select: none;
+    backface-visibility: hidden;
+    will-change: transform;
+    transform-style: preserve-3d;
 }
 
 button {
@@ -32,7 +35,8 @@ button {
 
 button:hover {
     background: var(--interaction-neutral-hover);
-    transform: scale(1.05); /* 50.4 */
+     transform: scale(1.125) translateZ(0) perspective(1px);/*  50.4 */
+
 }
 
 button:active {

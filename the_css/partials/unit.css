@@ -1,9 +1,9 @@
 :root {
-    --unit: min(1.25vw, 1rem);
-    --unit-half: calc(var(--unit) / 2);
-    --unit-quarter: calc(var(--unit) / 4);
-    --unit-eight: calc(var(--unit) / 8);
-    --unit-sixteenth: calc(var(--unit) / 16);
+    --unit: 0.5rem;
+    --unit-fluid: min(0.625vw, var(--unit));
+    --unit-small: calc(var(--unit) / 2);
+    --unit-smaller: calc(var(--unit) / 4);
+    --unit-smallest: calc(var(--unit) / 8);
 
     --unit-2: calc(var(--unit) * 2);
     --unit-3: calc(var(--unit) * 3);
@@ -13,9 +13,21 @@
     --unit-12: calc(var(--unit) * 12);
     --unit-16: calc(var(--unit) * 16); 
 
-    --v-unit: 1rem;
-    --v-unit-half: var(--unit-v) / 2;
-    --v-unit-quarter: var(--unit-v) / 4;
+    --v-unit: 0.5rem;
 
+
+    --unit-x: min(0.625vw, 0.5rem);
+    --unit-y: 0.5rem;
+
+    /*
+font-size * (line-height — cap-height) / 2
+
+16 * ((1.5 * 16) - (0.75 * 16)) / 2
+
+*/
+    --font-size: calc(var(--unit) * 2);
+    --line-height: calc(1.5 * 1);
+    --cap-height: calc(0.75 * 1);
+    --offset: calc(var(--font-size) * (var(--line-height) - var(--cap-height)) / 2);
 
 }

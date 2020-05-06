@@ -1,24 +1,15 @@
 <template>
 <div>
   <editor-content :editor="editor" />
-  <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
-      <div>
-        <button type="button" :class="{ 'is-active': isActive.bold() }" @click="commands.bold">
-          Bold
-        </button>
-        <button type="button" class="primary" @click="commands.app_todo">
-          ToDo
-        </button>
-        </div>
-    </editor-menu-bar>
+
     </div>
 </template>
 
 <script>
 
-import {  TEXT_FILE } from "./../text-file";
+// import {  TEXT_FILE } from "./../text-file";
 
-import { Editor, EditorContent, EditorMenuBar } from 'tiptap'
+import { Editor, EditorContent } from 'tiptap'
 import { Bold, Code, CodeBlock, Link, Heading, Italic, ListItem, OrderedList, BulletList, Blockquote  } from "tiptap-extensions"
 
 import AppTodoNode from "./AppTodoNode"
@@ -30,8 +21,11 @@ export default {
     name: "AppEditor",
 
     components: {
-        EditorContent,
-        EditorMenuBar
+        EditorContent
+    },
+
+    props: {
+        file: String
     },
     
     data() {
@@ -71,7 +65,7 @@ export default {
             }
         }
         marked.use({ renderer });
-        const content = marked(TEXT_FILE);
+        const content = marked(this.file);
         
         this.editor = new Editor({
             extensions: [
@@ -87,7 +81,12 @@ export default {
                 new Bold(),
                 new Italic()
             ],
-            content: content
+            content: content,
+
+            onUpdate: ({getHTML}) => {
+                const newContent = getHTML();
+                this.$emit("change", newContent);
+            }
         })
     },
     

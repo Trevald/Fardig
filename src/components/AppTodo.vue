@@ -1,8 +1,10 @@
 <template>
-    <p class="todo" style="display: flex; justify-content: flex-start; align-items: flex-start">
-        <input type="checkbox">
-        <span class="todo-content" ref="content" :contenteditable="view.editable.toString()"></span>
-    </p>
+    <div class="todo">
+        <span class="todo-value" contenteditable="false">
+            <input type="checkbox">
+        </span>
+        <p class="todo-content" ref="content" :contenteditable="view.editable.toString()"></p>
+    </div>
 </template>
 
 <script>
