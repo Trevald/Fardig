@@ -16,6 +16,7 @@ import AppEditor from './components/AppEditor.vue'
 import AppLogo from './components/AppLogo.vue'
 
 import DropboxApi from "./cloud/dropbox";
+import TurndownService from "turndown";
 
 export default {
   name: 'App',
@@ -31,7 +32,8 @@ export default {
           cloudStorage: undefined,
           fileContents: undefined,
           fileMeta: undefined,
-          newFile: undefined
+          newFile: undefined,
+          turndownService: undefined
       }
   },
 
@@ -49,10 +51,36 @@ export default {
           });
       },
 
-      fileChanged(data) {
-          console.log("fc", data);
-          this.newFile = data;
-      }
+      fileChanged(html) {
+          const markdown = this.convertToMarkdown(html);
+
+          this.newFile = markdown;
+      },
+
+    convertToMarkdown(html) {
+        if (this.turndownService === undefined) { 
+            this.turndownService = new TurndownService({
+                headingStyle: "atx",
+            });
+
+            this.turndownService.addRule('todo', {
+                filter: (node) => {
+                    return node.getAttribute("data-type") === "app_todo";  // [data-type="${this.name}"]
+                },
+                replacement: function (content, node) {
+                    const state = node.getAttribute("data-state") === "done" ? "x" : " ";
+                    console.log("state", state);
+                    return `[${state}] ${content}\n`;
+                }
+            });
+            
+            
+        }
+
+        const markdown = this.turndownService.turndown(html);
+
+        return markdown;
+    }      
   },
 
   mounted() {

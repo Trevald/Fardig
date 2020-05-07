@@ -14,6 +14,7 @@ export default class AppTodoNode extends Node {
         // here you have to specify all values that can be stored in this node
         attrs: {
             text: { default: null },
+            state: { default: "not started" },
             datetime: { default: null },
             tags: { default: [] },
             notification: { default: null}
@@ -31,13 +32,18 @@ export default class AppTodoNode extends Node {
         
         parseDOM: [{
             priority: 51,
-            tag: `[data-type="${this.name}"]`
+            tag: `[data-type="${this.name}"]`,
+            getAttrs: dom => ({
+                state: dom.getAttribute('data-state')
+            })
         }],
         
-        toDOM: () => {
+        toDOM: (node) => {
+            const attrs = node.attrs;
             return ["div", {
-                "data-type": this.name
-            }]
+                "data-type": this.name,
+                "data-state": attrs.state
+            }, 0]
         }
     }
   }

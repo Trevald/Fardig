@@ -40,8 +40,6 @@ export default {
                 const re = /^\[[\s|x]\].*$/gmi
                 const re2 = /(\[[\s|x]\])/gmi
                 const hasTodos  = text.match(re);
-
-                console.log("text", text);
                 
                 // Break if no todos
                 if (!hasTodos) {
@@ -54,8 +52,8 @@ export default {
                     let isTodo = textLine.match(re2);
                     if (isTodo) {
                         const todoIndicator = isTodo[0];
-                        const isTicked = todoIndicator.includes("x");                        
-                        returnValue+= `<p data-type="app_todo" data-done="${isTicked}">${textLine.replace(todoIndicator, "")}</p>`;                        
+                        const state = todoIndicator.includes("x") ? "done" : "not started";
+                        returnValue+= `<p data-type="app_todo" data-state="${state}">${textLine.replace(todoIndicator, "")}</p>`;                        
                     } else {
                         returnValue+=`<p>${textLine}</p>`;
                     }
@@ -67,6 +65,8 @@ export default {
         marked.use({ renderer });
         const content = marked(this.file);
         
+console.log("text", content);
+
         this.editor = new Editor({
             extensions: [
                 new AppTodoNode(),

@@ -19,6 +19,7 @@
     "marked": "^1.0.0",
     "tiptap": "^1.27.1",
     "tiptap-extensions": "^1.29.1",
+    "turndown": "^6.0.0",
     "vue": "^2.6.11"
   },
   "devDependencies": {
