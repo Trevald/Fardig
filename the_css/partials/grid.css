@@ -18,7 +18,9 @@
 
 html.toggle-grid::after {
     content: "";
+    
     position: absolute;
+    
     top: 0;
     right: auto;
     bottom: 0;
@@ -34,8 +36,14 @@ html.toggle-grid::after {
             hsla(55, 60%, 89%, .1) 1px, 
             transparent 1px),
         linear-gradient(to right, 
-            hsla(55, 60%, 89%, .1) 1px, 
+            hsla(55, 60%, 89%, 0.025) 1px, 
+            transparent 1px),
+            linear-gradient(to bottom, 
+            hsla(55, 60%, 89%, 0.2) 1px, 
             transparent 1px);
     background-position: -0.5px 0;
-    background-size: var(--unit-fluid) var(--unit);
+    background-size: 
+        calc(var(--unit-fluid) * 2) calc(var(--unit) * 1),
+        calc(var(--unit-fluid) * 2) calc(var(--unit) * 1),
+        calc(var(--unit-fluid) * 2) calc(var(--unit) * 4);
 }

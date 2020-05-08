@@ -35,7 +35,7 @@
     --offset: calc(var(--font-size) * (var(--line-height-percentage) - var(--cap-height)) / 2);
 
     position: relative;
-    padding: 0 0 0 0;
+    padding: var(--unit) 0 0 0;
     margin: 0 0 calc((var(--unit) / 1) - var(--offset)) 0;
     min-height: calc(var(--unit) * 6);
 
@@ -45,13 +45,12 @@
 
 .todo-value {
     position: absolute;
-    top: calc(var(--offset) - 0.25rem);
-    left: calc(var(--unit-fluid) * -7);
+    top: calc(var(--unit) + var(--offset) - var(--unit) / 2);
+    left: calc(var(--unit-fluid) * -8);
 }
 
 .todo-content {
     margin-bottom: 0;
-    
 }
 
 

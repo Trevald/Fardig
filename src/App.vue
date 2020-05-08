@@ -4,6 +4,7 @@
             <AppLogo />
             <a v-if="dropboxAuthLink" :href="dropboxAuthLink">Login with Dropbox</a>
             <button @click="upload" style="transform: scale(0.5)">Save</button>
+            <input type="checkbox" @change="toggleGrid" :checked="shouldShowGrid">
         </header>
         <AppEditor v-if="fileContents" :file="fileContents" @change="fileChanged" />
         
@@ -33,7 +34,8 @@ export default {
           fileContents: undefined,
           fileMeta: undefined,
           newFile: undefined,
-          turndownService: undefined
+          turndownService: undefined,
+          shouldShowGrid: false
       }
   },
 
@@ -80,7 +82,12 @@ export default {
         const markdown = this.turndownService.turndown(html);
 
         return markdown;
-    }      
+    },
+
+    toggleGrid() {
+        this.shouldShowGrid = !this.shouldShowGrid;
+        document.querySelector("html").classList.toggle("toggle-grid", this.shouldShowGrid);
+    }
   },
 
   mounted() {

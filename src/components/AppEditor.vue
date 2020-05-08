@@ -77,7 +77,7 @@ console.log("text", content);
                 new CodeBlock(),
                 new Link(),
                 new ListItem(),
-                new Heading({ levels: [1, 2, 3] }),
+                new Heading({ levels: [1, 2, 3, 4] }),
                 new Bold(),
                 new Italic()
             ],
