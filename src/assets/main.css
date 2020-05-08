@@ -1,7 +1,35 @@
 @import "./../../the_css/the_css.css";
 
+/* Main layout */
+
+#app {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+
+    width: 100%;
+}
+
 .app-header {
-    margin: 0 0 calc(var(--unit) * 2) 0;
+    flex: 0 0 auto;
+}
+
+.app-main {
+    flex: 1 1 0;
+    overflow: auto;
+}
+
+.app-status {
+    flex: 0 0 auto;
+    padding: calc(var(--unit) / 2) calc(var(--unit) / 1);
+    background: rgba(50, 100, 250, 0.6);
+    font-size: calc(var(--unit) * 1.5);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+
+.app-header {
+
     padding: calc(var(--unit) * 2) 0 0 0;
     box-shadow: white 0 -0.5px 0 0 inset;
     min-height: calc(var(--unit) * 2);
@@ -35,8 +63,7 @@
     --offset: calc(var(--font-size) * (var(--line-height-percentage) - var(--cap-height)) / 2);
 
     position: relative;
-    padding: var(--unit) 0 0 0;
-    margin: 0 0 calc((var(--unit) / 1) - var(--offset)) 0;
+    padding: var(--unit) 0 calc((var(--unit) / 1) - var(--offset)) 0;
     min-height: calc(var(--unit) * 6);
 
     font-size: var(--font-size);

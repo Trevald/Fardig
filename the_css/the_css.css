@@ -28,11 +28,13 @@
 /*
  * Tags
  */
+ @import "./tags/a.css";
  @import "./tags/button.css";   
-@import "./tags/p.css";  
 @import "./tags/input.css"; 
 @import "./tags/label.css"; 
+@import "./tags/p.css";  
 @import "./tags/section.css";
+@import "./tags/ul.css"; 
 
 
 /* 
@@ -41,3 +43,4 @@
 
 @import "./partials/containers.css";
 @import "./partials/grid.css";
+@import "./partials/scrollbar.css";

@@ -1,13 +1,19 @@
 <template>
-    <div id="app" class="container">
+    <div id="app" v-hotkey="keymap">
         <header class="app-header">
-            <AppLogo />
-            <a v-if="dropboxAuthLink" :href="dropboxAuthLink">Login with Dropbox</a>
-            <button @click="upload" style="transform: scale(0.5)">Save</button>
-            <input type="checkbox" @change="toggleGrid" :checked="shouldShowGrid">
+            
+                <AppLogo />
+                <a v-if="dropboxAuthLink" :href="dropboxAuthLink">Login with Dropbox</a>
+                <button @click="upload" style="transform: scale(0.5)">Save</button>
+                <input type="checkbox" v-model="shouldShowGrid">
+            
         </header>
-        <AppEditor v-if="fileContents" :file="fileContents" @change="fileChanged" />
-        
+        <main class="app-main" >
+            <div class="container" :class="{'show-baseline-grid': shouldShowGrid}">
+                <AppEditor v-if="fileContents" :file="fileContents" @change="fileChanged" />
+            </div>
+        </main>
+        <AppStatus class="app-status" :isSaving="isSaving" :hasUnsavedChanges="hasUnsavedChanges" />
     </div>
 </template>
 
@@ -15,29 +21,48 @@
 
 import AppEditor from './components/AppEditor.vue'
 import AppLogo from './components/AppLogo.vue'
+import AppStatus from './components/AppStatus.vue'
 
 import DropboxApi from "./cloud/dropbox";
 import TurndownService from "turndown";
 
 export default {
-  name: 'App',
+    name: 'App',
 
-  components: {
-    AppEditor,
-    AppLogo
-  },
+    components: {
+        AppEditor,
+        AppLogo,
+        AppStatus
+    },
 
-  data() {
-      return {
-          dropboxAuthLink: undefined,
-          cloudStorage: undefined,
-          fileContents: undefined,
-          fileMeta: undefined,
-          newFile: undefined,
-          turndownService: undefined,
-          shouldShowGrid: false
-      }
-  },
+    data() {
+        return {
+            dropboxAuthLink: undefined,
+            cloudStorage: undefined,
+            fileContents: undefined,
+            fileMeta: undefined,
+            newFile: undefined,
+            turndownService: undefined,
+            shouldShowGrid: false,
+            isSaving: false,
+            lastChanged: 0,
+            lastUpdate: 0
+        }
+    },
+
+    computed: {
+        hasUnsavedChanges() {
+            return this.lastUpdate < this.lastChanged;
+        },
+
+        keymap() {
+            return {
+                "ctrl+s": () => {
+                    this.upload();
+                }
+            }
+        }
+    },
 
   methods: {
       upload() {
@@ -48,13 +73,19 @@ export default {
               mode: "overwrite",
               path: this.fileMeta.path_lower
           }
+
+          this.isSaving = true;
+          this.lastUpdate = this.lastChanged;
           this.cloudStorage.storeContents(filesCommitInfo).then(file => {
+              this.isSaving = false;
+              
               console.log('upload', file);
           });
       },
 
       fileChanged(html) {
           const markdown = this.convertToMarkdown(html);
+          this.lastChanged = Date.now();
 
           this.newFile = markdown;
       },
@@ -110,6 +141,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
 
 </style>

@@ -10,7 +10,18 @@
 // import {  TEXT_FILE } from "./../text-file";
 
 import { Editor, EditorContent } from 'tiptap'
-import { Bold, Code, CodeBlock, Link, Heading, Italic, ListItem, OrderedList, BulletList, Blockquote  } from "tiptap-extensions"
+import { 
+    Bold, 
+    Code, 
+    CodeBlock, 
+    Link, 
+    Heading, 
+    Italic, 
+    ListItem, 
+    OrderedList, 
+    BulletList, 
+    Blockquote  
+} from "tiptap-extensions"
 
 import AppTodoNode from "./AppTodoNode"
 
