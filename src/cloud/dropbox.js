@@ -39,7 +39,6 @@ export default class DropboxApi {
     getContents(path) {
         return this.dbx.filesDownload({path})
             .then(response => {
-                
                 return response.fileBlob.text();
             })
             .catch(function(error) {
@@ -50,7 +49,7 @@ export default class DropboxApi {
     storeContents(filesCommitInfo) {
         return this.dbx.filesUpload(filesCommitInfo)
             .then(response => {
-                console.log(response);
+                return response;
             })
             .catch(function(error) {
                 console.error(error);

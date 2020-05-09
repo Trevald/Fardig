@@ -13,7 +13,7 @@
                 <AppEditor v-if="fileContents" :file="fileContents" @change="fileChanged" />
             </div>
         </main>
-        <AppStatus class="app-status" :isSaving="isSaving" :hasUnsavedChanges="hasUnsavedChanges" />
+        <AppStatus class="app-status" :isSaving="isUploading" :hasUnsavedChanges="hasUnsavedChanges" />
     </div>
 </template>
 
@@ -26,6 +26,9 @@ import AppStatus from './components/AppStatus.vue'
 import DropboxApi from "./cloud/dropbox";
 import TurndownService from "turndown";
 
+import DocumentHandler from "./utils/DocumentHandler";
+
+
 export default {
     name: 'App',
 
@@ -37,22 +40,37 @@ export default {
 
     data() {
         return {
+            activeFile: undefined,
             dropboxAuthLink: undefined,
             cloudStorage: undefined,
-            fileContents: undefined,
             fileMeta: undefined,
             newFile: undefined,
             turndownService: undefined,
-            shouldShowGrid: false,
-            isSaving: false,
-            lastChanged: 0,
-            lastUpdate: 0
+            shouldShowGrid: false
         }
     },
 
     computed: {
+
+        isUploading() {
+            return this.activeFile?.isUploading;
+        },
+
+        lastChanged() {
+            return this.activeFile?.lastChanged;
+        },
+
+        lastUpdated() {
+            return this.activeFile?.lastUpdated;
+        },
+
+        fileContents() {
+            console.log("fc", this.activeFile?.contents);
+            return this.activeFile?.contents;
+        },
+
         hasUnsavedChanges() {
-            return this.lastUpdate < this.lastChanged;
+            return this.lastUpdated < this.lastChanged;
         },
 
         keymap() {
@@ -66,18 +84,10 @@ export default {
 
   methods: {
       upload() {
-          const blob = new Blob([this.newFile], {type: 'text/plain'});
-          const filesCommitInfo = {
-              contents: blob,
-              autorename: false,
-              mode: "overwrite",
-              path: this.fileMeta.path_lower
-          }
+          const filesCommitInfo = this.activeFile.getCommitInfo();
 
-          this.isSaving = true;
-          this.lastUpdate = this.lastChanged;
           this.cloudStorage.storeContents(filesCommitInfo).then(file => {
-              this.isSaving = false;
+              this.activeFile.isUploading = false;
               
               console.log('upload', file);
           });
@@ -85,9 +95,9 @@ export default {
 
       fileChanged(html) {
           const markdown = this.convertToMarkdown(html);
-          this.lastChanged = Date.now();
+          this.activeFile.lastChanged = Date.now();
 
-          this.newFile = markdown;
+          this.activeFile.contents = markdown;
       },
 
     convertToMarkdown(html) {
@@ -118,25 +128,33 @@ export default {
     toggleGrid() {
         this.shouldShowGrid = !this.shouldShowGrid;
         document.querySelector("html").classList.toggle("toggle-grid", this.shouldShowGrid);
+    },
+
+    login() {
+        this.cloudStorage = new DropboxApi();
+        if (!this.cloudStorage.isAuthenticated()) {
+            this.dropboxAuthLink = this.cloudStorage.getAuthUrl();
+        } else {
+            this.cloudStorage.getEntries().then(files => {
+                
+                files.forEach(file => {
+                    this.cloudStorage.getContents(file.path_lower).then( fileContent => {
+                        window.DOCUMENT_HANDLER.add(file, fileContent);
+                        if (this.activeFile === undefined) {
+                            this.activeFile = window.DOCUMENT_HANDLER.get(file.id);
+                        }
+                    })
+                })
+            })  
+        }
     }
   },
 
+    created() {
+        window.DOCUMENT_HANDLER = new DocumentHandler();
+    },
   mounted() {
-    this.cloudStorage = new DropboxApi();
-    if (!this.cloudStorage.isAuthenticated()) {
-        this.dropboxAuthLink = this.cloudStorage.getAuthUrl();
-    } else {
-        this.cloudStorage.getEntries().then(files => {
-            console.log(files);
-            this.cloudStorage.getContents(files[0].path_lower).then( file => {
-                console.log(file);
-                this.fileMeta = files[0];
-                this.fileContents = file;
-            })
-        // this.file = files[0];
-        });
-        
-    }
+      this.login();
   }
 }
 </script>
