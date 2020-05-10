@@ -12,6 +12,10 @@ html { font-family: 'Inter', sans-serif; }
     }
 }
 
+:root {
+    --font-monospace: IBMPlexMono, monaco, courier;
+}
+
 
 /* 16, 32, 48, 64 = 1,2,3,4 */
 /* 16, 26, 42, 68*/

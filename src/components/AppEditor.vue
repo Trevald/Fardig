@@ -1,13 +1,8 @@
 <template>
-<div>
-  <editor-content :editor="editor" />
-
-    </div>
+    <editor-content :editor="editor" />
 </template>
 
 <script>
-
-// import {  TEXT_FILE } from "./../text-file";
 
 import { Editor, EditorContent } from 'tiptap'
 import { 
@@ -75,8 +70,6 @@ export default {
         }
         marked.use({ renderer });
         const content = marked(this.file);
-        
-console.log("text", content);
 
         this.editor = new Editor({
             extensions: [

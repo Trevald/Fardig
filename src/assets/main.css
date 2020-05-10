@@ -12,6 +12,10 @@
 
 .app-header {
     flex: 0 0 auto;
+    box-shadow: rgba(255, 255, 255, 0.2) 0 -0.5px 0 0 inset;
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
 }
 
 .app-main {
@@ -28,17 +32,6 @@
 }
 
 
-.app-header {
-
-    padding: calc(var(--unit) * 2) 0 0 0;
-    box-shadow: white 0 -0.5px 0 0 inset;
-    min-height: calc(var(--unit) * 2);
-    display: flex;
-    align-items: stretch;
-    justify-content: flex-start;
-    min-height: calc(var(--unit) * 6);
-
-}
 
 .app-header .logo {
     flex: 0 0 auto;
@@ -81,3 +74,101 @@
 }
 
 
+/*
+ * Command
+ */
+
+.app-command {
+    position: fixed;
+    top: var(--unit);
+    left: 50%;
+    transform: translateX(-50%);
+    min-width: calc(var(--unit) * 85);
+    max-width: 95vw;
+
+    background: #36363A;
+    border-radius: 2px;
+
+    color: #E6F1A2;
+    box-shadow: rgba(0,0,0,0.25) 0 15px 35px;
+} 
+
+input.app-command-input {
+    display: block;
+    box-shadow: none;
+    border: none;
+    background: transparent;
+    font-family: var(--font-monospace);
+    font-size: calc(var(--unit) * 2.25);
+    color: #E6F1A2;
+    padding: calc(var(--unit) * 2); 
+}
+
+input.app-command-input:focus {
+    outline: none;
+}
+
+.app-command-results {
+    padding: 0;
+    list-style: none;
+}
+
+.app-command-results > li {
+    padding: calc(var(--unit) * 2.5) calc(var(--unit) * 4);
+    font-size: calc(var(--unit) * 2);
+    font-family: var(--font-monospace);
+}
+
+.app-command-results > li.is-active {
+    color: white;
+    background: rgba(134, 157, 210, 0.1);
+}
+
+.app-command-results > li:last-child {
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+}
+
+/*
+ * Tabs
+ */
+
+ .tabs {
+     display: block;
+     flex: 1 1 auto;
+     background: rgba(0,0,0,0.1);
+ }
+
+.tabs ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: flex-start;
+    
+}
+
+.tabs li {
+    display: block;
+    flex: 0 0 auto;
+} 
+
+.tabs button {
+    display: block;
+    margin: 0 var(--unit);
+    padding: calc(var(--unit) * 1) 0;
+    color: rgba(255, 255, 255, 0.6);
+    font-variation-settings: "wght" 400;
+    font-size: calc(var(--unit) * 1.75);
+    border-bottom: 2px solid transparent;
+} 
+
+.tabs button.is-active {
+    background: rgba(0,0,0,0);
+    color: var(--main-fg);
+    border-color: #6BE548;
+} 
+
+.tabs button:focus:active {
+    outline: none;
+}

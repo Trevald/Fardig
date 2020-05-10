@@ -15,4 +15,5 @@ p {
     padding-bottom: calc(var(--unit) * 2 - var(--offset));
     font-size: var(--font-size);
     line-height: var(--line-height);
+    font-variation-settings: "wght" 250;
 }

@@ -11,16 +11,26 @@ export default class DocumentHandler {
         });
     }
 
+    getAll() {
+        return this.documents;
+    }
+
     getDocuments() {
         return this.documents;
     }
 
     add(data, contents) {
-        this.documents.push(new Document(data, contents));
+        const document = new Document(data, contents);
+        this.documents.push(document);
+
+        return document;
     }
 
     createNew() {
-        this.documents.add({}, "");
+        return this.add({
+            id: `temp-${Date.now()}`,
+            name: "Untitled"
+        }, "My new file");
     }
 }
 

@@ -1,31 +1,44 @@
-button {
+button.no-style {
     appearance: none;
     display: inline-block;
-    justify-content: center;
-    align-items: center;
-
-    min-width: 10rem;
     
-    margin: 0.5rem;
-    padding: 0.25rem 0.5rem;
-    min-height: 3rem;
+    margin: 0;
+    padding: 0;
+    min-height: unset;
+    min-width: unset;
 
     font-family: inherit;
     font-size: calc(var(--unit) * 2.25);
     font-weight: normal;
-    font-variation-settings: "wght" 600;
+    font-variation-settings: "wght" 400;
     
-    border-radius: 2px;
+    border-radius: 0;
     border: none;
+    background-image: none;
+    background-color: transparent;
 
     transition: all .3s ease;
     user-select: none;
+}
+
+button:not(.no-style) {
+    margin: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    min-height: 3rem;
+    min-width: 10rem;
+
+    font-size: calc(var(--unit) * 2.25);
+    font-variation-settings: "wght" 600;
+    
+    border-radius: 2px;
+
+    transition: all .3s ease;
     backface-visibility: hidden;
     will-change: transform;
     transform-style: preserve-3d;
 }
 
-button {
+button:not(.no-style) {
     background: var(--interaction-neutral-idle);
     box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.16);
     outline: 1px dashed transparent;
@@ -33,18 +46,18 @@ button {
     color: var(--main-bg);
 }
 
-button:hover {
+button:not(.no-style):hover {
     background: var(--interaction-neutral-hover);
      transform: scale(1.125) translateZ(0) perspective(1px);/*  50.4 */
 
 }
 
-button:active {
+button:not(.no-style):active {
     background: var(--interaction-neutral-active);
     transform: scale(1.05) translateY(0.125rem);
 }
 
-button:focus:not(:active) {
+button:not(.no-style):focus:not(:active) {
     background: var(--interaction-neutral-focus);
     outline-color: #869DD2;
 }
@@ -54,25 +67,25 @@ button:focus:not(:active) {
  * Primary
  */
 
-button[type="submit"],
+button[type="submit"]:not(.no-style),
 button.primary {
     color: var(--main-fg);
     background: var(--interaction-primary-idle);
 }
 
-button[type="submit"]:hover,
+button[type="submit"]:not(.no-style):hover,
 button.primary:hover {
     background: var(--interaction-primary-hover);
     box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.48);
 }
 
-button[type="submit"]:active,
+button[type="submit"]:not(.no-style):active,
 button.primary:active {
     background: var(--interaction-primary-active);
     box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.16);
 }
 
-button[type="submit"]:focus,
+button[type="submit"]:not(.no-style):focus,
 button.primary:focus {
     background: var(--interaction-primary-focus);
 }
@@ -87,3 +100,4 @@ button.primary:focus {
 --interaction-neutral-active: hsla(238, 75%, 90%, 1);
 --interaction-neutral-focus: hsla(238, 75%, 90%, 1);     
 */
+
