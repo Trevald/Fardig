@@ -20,8 +20,6 @@ import {
 
 import AppTodoNode from "./AppTodoNode"
 
-const marked = require('marked');
-
 export default {
 
     name: "AppEditor",
@@ -31,45 +29,17 @@ export default {
     },
 
     props: {
-        file: String
+        html: String
     },
     
     data() {
         return {
-            editor: null,
+            editor: null
         }
     },
     
     mounted() {
-        const renderer = {
-            paragraph(text) {
-                const re = /^\[[\s|x]\].*$/gmi
-                const re2 = /(\[[\s|x]\])/gmi
-                const hasTodos  = text.match(re);
-                
-                // Break if no todos
-                if (!hasTodos) {
-                    return `<p>${text}</p>`;
-                }
-                const textLines = text.split(/\r?\n/);
-                
-                let returnValue = "";
-                textLines.forEach(textLine => {
-                    let isTodo = textLine.match(re2);
-                    if (isTodo) {
-                        const todoIndicator = isTodo[0];
-                        const state = todoIndicator.includes("x") ? "done" : "not started";
-                        returnValue+= `<p data-type="app_todo" data-state="${state}">${textLine.replace(todoIndicator, "")}</p>`;                        
-                    } else {
-                        returnValue+=`<p>${textLine}</p>`;
-                    }
-                });
-
-                return returnValue;
-            }
-        }
-        marked.use({ renderer });
-        const content = marked(this.file);
+        const content = this.html;
 
         this.editor = new Editor({
             extensions: [

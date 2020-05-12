@@ -11,6 +11,8 @@ button.no-style {
     font-size: calc(var(--unit) * 2.25);
     font-weight: normal;
     font-variation-settings: "wght" 400;
+    color: inherit;
+    text-align: left;
     
     border-radius: 0;
     border: none;

@@ -2,7 +2,9 @@
     <div class="app-command">
         <input ref="input" type="text" class="app-command-input" placeholder="Your wish..."  v-hotkey="keymap">
         <ul class="app-command-results no-list">
-            <li v-for="(option, index) in options" :key="index" :class="{'is-active': isOptionActive(index)}">{{option.name}}</li>
+            <li v-for="(option, index) in options" :key="index">
+                <button type="button" @mouseover="setActiveOptionToIndex(index)" @click="doActiveOption" :class="{'no-style': true, 'is-active': isOptionActive(index)}">{{option.name}}</button>
+            </li>
         </ul>
     </div>
 </template>
@@ -56,6 +58,10 @@ export default {
             this.$emit("command", {command: "CLOSE_ME"})
         },
 
+        doMe() {
+
+        },
+
         doActiveOption() {
             const option = this.options[this.activeItem];
             if (option.command !== undefined) {
@@ -70,6 +76,10 @@ export default {
 
         isOptionActive(index) {
             return index === this.activeItem;
+        },
+
+        setActiveOptionToIndex(index) {
+            this.activeItem = index;
         },
 
         setActiveItem(value) {

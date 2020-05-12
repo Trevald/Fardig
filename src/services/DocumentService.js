@@ -11,6 +11,10 @@ export default class DocumentHandler {
         });
     }
 
+    getFirst() {
+        return this.documents[0]
+    }
+
     getAll() {
         return this.documents;
     }
@@ -29,7 +33,6 @@ export default class DocumentHandler {
     createNew() {
         return this.add({
             id: `temp-${Date.now()}`,
-            name: "Untitled"
         }, "<h1>My new file</h1>");
     }
 }
@@ -37,7 +40,8 @@ export default class DocumentHandler {
 class Document {
     constructor(data, contents) {
         this.id = data?.id;
-        this.name = data?.name;
+        this._name = data?.name;
+        this.rev = data?.rev;
         this.unsavedChanges = data?.unsavedChanges;
         this.isUploading = data?.isUploading;
         this.lastChanged = data.lastChanged ? data.lastChanged : 0;
@@ -54,14 +58,43 @@ class Document {
         return `/${this.name}`;
     }
 
+    get commitModeAdd() {
+        return "add";
+    }
+
+    get commitModeUpdate() {
+        return {
+            ".tag": "update",
+            "update": this.rev            
+        }
+    }
+
+    get name() {
+        if (this._name && this._name !== "") { return this._name; }
+        const textLines = this.contents.split("\n")
+        if (textLines.length <= 0) { return "Untitled.txt" }
+        let firstTextLine = textLines[0].replace("#", "").replace(/(<([^>]+)>)/ig,"")
+        firstTextLine = firstTextLine.length > 32 ? firstTextLine.substring(0, 32) : firstTextLine
+
+        return `${firstTextLine}.txt`
+    }
+
+    get title() {
+        return this.name.endsWith(".txt") ? this.name.replace(".txt", "") : this.name
+    }
+
     getCommitInfo() {
         this.isUploading = true;
         this.lastUpdate = this.lastChanged;
         return  {
             contents: this.blob,
             autorename: false,
-            mode: "overwrite",
+            mode: this.getCommitMode(),
             path: this.path
         }
+    }
+
+    getCommitMode() {
+        return this.rev === undefined ? this.commitModeAdd : this.commitModeUpdate;
     }
 }

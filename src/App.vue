@@ -7,7 +7,7 @@
             <nav class="tabs">
                 <ul>
                 <li v-for="file in openFiles" :key="file.id">
-                    <button class="no-style" type="button" @click="activeFile = file" :class="{'is-active': activeFile.id === file.id}">{{file.name}}</button>
+                    <button class="no-style" type="button" @click="activeFile = file" :class="{'is-active': activeFile.id === file.id}">{{file.title}}</button>
                 </li>
             </ul>
             </nav>
@@ -16,14 +16,14 @@
             <div class="container" :class="{'show-baseline-grid': shouldShowGrid}">
                 <ul class="no-list">
                     <li v-for="file in openFiles" :key="file.id">
-                        <AppEditor v-show="activeFile.id === file.id" v-if="file.contents" :file="file.contents" @change="fileChanged(file, event)" />
+                        <AppDocument v-show="activeFile.id === file.id" :file="file" :active-file="activeFile" />
                     </li>
                 </ul>
             </div>
         </main>
         <AppStatus class="app-status" :isSaving="isUploading" :hasUnsavedChanges="hasUnsavedChanges" />
         <transition name="fade">
-            <AppCommand v-if="documentHandler && showCommand" :documents="documentHandler.documents" @command="doCommand" />
+            <AppCommand v-if="documentService && showCommand" :documents="documentService.documents" @command="doCommand" />
         </transition>
     </div>
 </template>
@@ -31,35 +31,35 @@
 <script>
 
 import AppCommand from "./components/AppCommand"
-import AppEditor from './components/AppEditor.vue'
+import AppDocument from "./components/AppDocument"
 import AppStatus from './components/AppStatus.vue'
 
-import DropboxApi from "./cloud/dropbox";
-import TurndownService from "turndown";
+import DropboxApi from "./cloud/dropbox"
 
-import DocumentHandler from "./utils/DocumentHandler";
+import DocumentService from "./services/DocumentService"
+import UserService from "./services/UserService"
 
 export default {
     name: 'App',
 
     components: {
         AppCommand,
-        AppEditor,
+        AppDocument,
         AppStatus
     },
 
     data() {
         return {
             activeFile: undefined,
-            openFiles: new Set(),
-            documentHandler: undefined,
+            documentService: new DocumentService(),
+            userService: new UserService(),
             dropboxAuthLink: undefined,
             cloudStorage: undefined,
             fileMeta: undefined,
             newFile: undefined,
-            turndownService: undefined,
             shouldShowGrid: false,
-            showCommand: false
+            showCommand: false,
+            openFiles: new Set()
         }
     },
 
@@ -92,6 +92,9 @@ export default {
                 },
                 "ctrl+space": () => {
                     this.showCommand = !this.showCommand;
+                },
+                "ctrl+p": () => {
+                    this.showCommand = !this.showCommand;
                 }
             }
         }
@@ -105,57 +108,29 @@ export default {
                   // this.showCommand = false;
                   break
             case "NEW_FILE":
-                this.activeFile = this.documentHandler.createNew()
+                this.activeFile = this.documentService.createNew()
                 this.openFiles.add(this.activeFile)
-                console.log(this.activeFile)
                 break
             case "OPEN":
-                this.activeFile = this.documentHandler.get(event.id)
+                this.activeFile = this.documentService.get(event.id)
+                this.openFiles.add(this.activeFile)
                 break
             default:
                     break
           }
           this.showCommand = false;
+          this.savePreferences();
       },
 
       upload() {
-          const filesCommitInfo = this.activeFile.getCommitInfo();
+          const fileToUpload = this.activeFile;
+          const filesCommitInfo = fileToUpload.getCommitInfo();
+          fileToUpload.lastUpdated = fileToUpload.lastChanged;
 
           this.cloudStorage.storeContents(filesCommitInfo).then(() => {
-              this.activeFile.isUploading = false;
+              fileToUpload.isUploading = false;
           });
       },
-
-      fileChanged(file, html) {
-          const markdown = this.convertToMarkdown(html);
-          file.lastChanged = Date.now();
-
-          file.contents = markdown;
-      },
-
-    convertToMarkdown(html) {
-        if (this.turndownService === undefined) { 
-            this.turndownService = new TurndownService({
-                headingStyle: "atx",
-            });
-
-            this.turndownService.addRule('todo', {
-                filter: (node) => {
-                    return node.getAttribute("data-type") === "app_todo";  // [data-type="${this.name}"]
-                },
-                replacement: function (content, node) {
-                    const state = node.getAttribute("data-state") === "done" ? "x" : " ";
-                    return `[${state}] ${content}\n`;
-                }
-            });
-            
-            
-        }
-
-        const markdown = this.turndownService.turndown(html);
-
-        return markdown;
-    },
 
     toggleGrid() {
         this.shouldShowGrid = !this.shouldShowGrid;
@@ -168,23 +143,47 @@ export default {
             this.dropboxAuthLink = this.cloudStorage.getAuthUrl();
         } else {
             this.cloudStorage.getEntries().then(files => {
-                
+                let loadedFiles = [];
                 files.forEach(file => {
                     this.cloudStorage.getContents(file.path_lower).then( fileContent => {
-                        this.documentHandler.add(file, fileContent);
-                        if (this.activeFile === undefined) {
-                            this.activeFile = this.documentHandler.get(file.id);
-                            this.openFiles.add(this.activeFile);
+                        this.documentService.add(file, fileContent);
+                        loadedFiles.push(file.id)
+                        if (loadedFiles.length === files.length) {
+                            this.allFilesLoaded()
                         }
                     })
                 })
             })  
         }
+    },
+
+    allFilesLoaded() {
+        this.documentService.documents.forEach(file => {
+            if(this.userService.activeFile === file.id) {
+                this.activeFile = this.documentService.get(file.id);
+                this.openFiles.add(this.activeFile);
+                console.log("Is active", file.id);
+            } else if(this.userService.openFiles.has(file.id)) {
+                console.log("Is open", file.id);
+                this.openFiles.add(this.documentService.get(file.id));
+            }
+        })
+
+        if (this.activeFile === undefined) {
+            this.activeFile = this.documentService.getFirst();
+        }
+    },
+
+    savePreferences() {
+        this.userService.updatePrefs({
+            activeFile: this.activeFile,
+            openFiles: this.openFiles
+        });
     }
   },
 
   created() {
-      this.documentHandler = new DocumentHandler();
+
   },
 
   mounted() {

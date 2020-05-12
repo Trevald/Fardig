@@ -137,17 +137,24 @@ input.app-command-input:focus {
 }
 
 .app-command-results > li {
+    margin: 0;
+    padding: 0;
+}
+
+.app-command-results > li > button {
     padding: calc(var(--unit) * 2.5) calc(var(--unit) * 4);
     font-size: calc(var(--unit) * 2);
     font-family: var(--font-monospace);
+    display: block;
+    width: 100%;
 }
 
-.app-command-results > li.is-active {
+.app-command-results > li > button.is-active {
     color: white;
     background: rgba(134, 157, 210, 0.1);
 }
 
-.app-command-results > li:last-child {
+.app-command-results > li:last-child > button {
     border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
 }
