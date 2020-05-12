@@ -14,7 +14,11 @@
         </header>
         <main class="app-main" >
             <div class="container" :class="{'show-baseline-grid': shouldShowGrid}">
-                <AppEditor v-if="fileContents" :file="fileContents" @change="fileChanged" />
+                <ul class="no-list">
+                    <li v-for="file in openFiles" :key="file.id">
+                        <AppEditor v-show="activeFile.id === file.id" v-if="file.contents" :file="file.contents" @change="fileChanged(file, event)" />
+                    </li>
+                </ul>
             </div>
         </main>
         <AppStatus class="app-status" :isSaving="isUploading" :hasUnsavedChanges="hasUnsavedChanges" />
@@ -122,11 +126,11 @@ export default {
           });
       },
 
-      fileChanged(html) {
+      fileChanged(file, html) {
           const markdown = this.convertToMarkdown(html);
-          this.activeFile.lastChanged = Date.now();
+          file.lastChanged = Date.now();
 
-          this.activeFile.contents = markdown;
+          file.contents = markdown;
       },
 
     convertToMarkdown(html) {

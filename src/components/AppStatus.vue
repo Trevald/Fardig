@@ -3,14 +3,21 @@
         <ul class="no-list">
             <li>{{saveState}}</li>
         </ul>
+        <AppLogo />
     </div>
 </template>
 
 <script>
 
+    import AppLogo from "./AppLogo"
+
     export default {
 
         name: "AppStatus",
+
+        components: {
+            AppLogo
+        },
 
         props: {
             hasUnsavedChanges: {
@@ -41,6 +48,7 @@
 </script>
 
 <style scoped>
+
 
 ul {
     display: flex;

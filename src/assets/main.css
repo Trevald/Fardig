@@ -11,24 +11,47 @@
 }
 
 .app-header {
+    --font-size: calc(var(--unit) * 1.75);
+    --line-height: calc(var(--unit) * 2);
+    --line-height-percentage: calc(2 / 1.75);
+    --cap-height: 0.7;
+    --offset: calc(var(--font-size) * (var(--line-height-percentage) - var(--cap-height)) / 2);
+
+
     flex: 0 0 auto;
     box-shadow: rgba(255, 255, 255, 0.2) 0 -0.5px 0 0 inset;
+
     display: flex;
     align-items: stretch;
     justify-content: stretch;
+    padding-top: var(--offset);
 }
 
 .app-main {
     flex: 1 1 0;
     overflow: auto;
+    padding-top: calc(var(--unit) * 8);
 }
 
 .app-status {
     flex: 0 0 auto;
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+
     padding: calc(var(--unit) / 2) calc(var(--unit) / 1);
     background: rgba(50, 100, 250, 0.6);
     font-size: calc(var(--unit) * 1.5);
     color: rgba(255, 255, 255, 0.8);
+}
+
+.app-status .app-logo svg {
+    width: auto;
+    height: 10px;
+}
+
+.app-status .app-logo path {
+    fill: #FEFFF7;
 }
 
 
@@ -136,7 +159,7 @@ input.app-command-input:focus {
  .tabs {
      display: block;
      flex: 1 1 auto;
-     background: rgba(0,0,0,0.1);
+     
  }
 
 .tabs ul {
@@ -155,11 +178,12 @@ input.app-command-input:focus {
 
 .tabs button {
     display: block;
-    margin: 0 var(--unit);
-    padding: calc(var(--unit) * 1) 0;
+    margin: 0 calc(var(--unit) * 1.5) 0 calc(var(--unit) * 1.5);
+    padding: calc(var(--unit) * 1.5 + var(--offset)) 0 calc(var(--unit) * 1.5) 0;
     color: rgba(255, 255, 255, 0.6);
     font-variation-settings: "wght" 400;
-    font-size: calc(var(--unit) * 1.75);
+    font-size: var(--font-size);
+    line-height: var(--line-height);
     border-bottom: 2px solid transparent;
 } 
 
