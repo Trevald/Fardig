@@ -30,7 +30,7 @@ export default class DocumentHandler {
         return this.add({
             id: `temp-${Date.now()}`,
             name: "Untitled"
-        }, "My new file");
+        }, "<h1>My new file</h1>");
     }
 }
 
