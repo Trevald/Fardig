@@ -10,22 +10,6 @@
     width: 100%;
 }
 
-.app-header {
-    --font-size: calc(var(--unit) * 1.75);
-    --line-height: calc(var(--unit) * 2);
-    --line-height-percentage: calc(2 / 1.75);
-    --cap-height: 0.7;
-    --offset: calc(var(--font-size) * (var(--line-height-percentage) - var(--cap-height)) / 2);
-
-
-    flex: 0 0 auto;
-    box-shadow: rgba(255, 255, 255, 0.2) 0 -0.5px 0 0 inset;
-
-    display: flex;
-    align-items: stretch;
-    justify-content: stretch;
-    padding-top: var(--offset);
-}
 
 .app-main {
     flex: 1 1 0;
@@ -160,13 +144,32 @@ input.app-command-input:focus {
 }
 
 /*
- * Tabs
+ * App Header
  */
 
+ .app-header {
+    --font-size: calc(var(--unit) * 1.75);
+    --line-height: calc(var(--unit) * 2);
+    --line-height-percentage: calc(2 / 1.75);
+    --cap-height: 0.70;
+    --offset: calc(var(--font-size) * (var(--line-height-percentage) - var(--cap-height)) / 2);
+
+
+    flex: 0 0 auto;
+    /* box-shadow: rgba(0,0,0, 0.75) 0 -0.5px 0 0 inset; */
+    background-color: rgba(0,0,0,0.2);
+
+    display: flex;
+    align-items: stretch;
+    justify-content: stretch;
+    height: calc(var(--unit) * 5)
+    /*padding-top: var(--offset);*/
+}
+
+
  .tabs {
-     display: block;
+     display: flex;
      flex: 1 1 auto;
-     
  }
 
 .tabs ul {
@@ -179,26 +182,50 @@ input.app-command-input:focus {
 }
 
 .tabs li {
-    display: block;
+    display: flex;
     flex: 0 0 auto;
+    margin: 0 1px;
 } 
-
+ 
 .tabs button {
     display: block;
-    margin: 0 calc(var(--unit) * 1.5) 0 calc(var(--unit) * 1.5);
-    padding: calc(var(--unit) * 1.5 + var(--offset)) 0 calc(var(--unit) * 1.5) 0;
+    margin: 0;
+    /*padding: calc(var(--unit) * 1 + var(--offset)) calc(var(--unit) * 2) calc(var(--unit) * 1);*/
+    padding: 0 calc(var(--unit) * 2);
     color: rgba(255, 255, 255, 0.6);
     font-variation-settings: "wght" 400;
     font-size: var(--font-size);
     line-height: var(--line-height);
-    border-bottom: 2px solid transparent;
+    border-bottom: 1px solid transparent;
 } 
 
-.tabs button.is-active {
-    background: rgba(0,0,0,0);
+
+
+/*
+.tabs li:not(:first-child):not(.is-active) {
+    box-shadow: rgba(0, 0, 0, 0.25) 0.5px 0 0 0 inset;
+}
+
+.tabs li:last-child:not(.is-active) {
+    box-shadow: rgba(0, 0, 0, 0.25) 0.5px 0 0 0 inset, rgba(0, 0, 0, 0.25) -0.5px 0 0 0 inset;
+}
+
+.tabs li.is-active + li {
+    box-shadow: none !important;
+}
+*/
+
+
+.tabs li.is-active button {
+    background: var(--main-bg);
     color: var(--main-fg);
-    border-color: #6BE548;
+    /* border-color: #6BE548; */
 } 
+
+.tabs li:not(.is-active) button:hover {
+    background: rgba(0,0,0,0.1);
+    color: var(--main-fg);
+}
 
 .tabs button:focus:active {
     outline: none;

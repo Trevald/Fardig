@@ -1,13 +1,13 @@
 <template>
-    <div id="app" v-hotkey="keymap">
+    <div id="app" v-hotkey.prevent="keymap">
         <header class="app-header">
             <a v-if="dropboxAuthLink" :href="dropboxAuthLink">Login with Dropbox</a>
             <!--<button @click="upload" style="transform: scale(0.5)">Save</button>
             <input type="checkbox" v-model="shouldShowGrid">-->
             <nav class="tabs">
                 <ul>
-                <li v-for="file in openFiles" :key="file.id">
-                    <button class="no-style" type="button" @click="activeFile = file" :class="{'is-active': activeFile.id === file.id}">{{file.title}}</button>
+                <li v-for="file in openFiles" :key="file.id" :class="{'is-active': activeFile.id === file.id}">
+                    <button class="no-style" type="button" @click="activeFile = file">{{file.title}}</button>
                 </li>
             </ul>
             </nav>
@@ -95,6 +95,12 @@ export default {
                 },
                 "ctrl+p": () => {
                     this.showCommand = !this.showCommand;
+                },
+                "ctrl+q": () => {
+                    this.switchActiveFile(-1)
+                },                
+                "ctrl+w": () => {
+                    this.switchActiveFile(1)
                 }
             }
         }
@@ -120,6 +126,25 @@ export default {
           }
           this.showCommand = false;
           this.savePreferences();
+      },
+
+        switchActiveFile(indexModifier) {
+            const openFilesArray = [...this.openFiles]
+            const activeFileIndexInOpenFiles = openFilesArray.findIndex(file => file.id === this.activeFile.id);
+            if (activeFileIndexInOpenFiles === -1) { return; }
+
+            let newActiveFileIndex = activeFileIndexInOpenFiles + indexModifier;
+            if (newActiveFileIndex <= -1) {
+                newActiveFileIndex = openFilesArray.length -1 
+            } else if(newActiveFileIndex >= openFilesArray.length) {
+                newActiveFileIndex = 0
+            } 
+
+            console.log(newActiveFileIndex);
+
+            this.activeFile = openFilesArray[newActiveFileIndex]
+
+            return false
       },
 
       upload() {

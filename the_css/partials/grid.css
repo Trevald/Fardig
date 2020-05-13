@@ -45,7 +45,7 @@
             linear-gradient(to bottom, 
             hsla(55, 60%, 89%, 0) 1px, 
             transparent 1px);
-    background-position: -0.5px 0;
+    background-position: -0.5px -1px;
     background-size: 
         calc(var(--unit-fluid) * 2) calc(var(--unit) * 1),
         calc(var(--unit-fluid) * 2) calc(var(--unit) * 1),
