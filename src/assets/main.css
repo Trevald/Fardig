@@ -170,6 +170,7 @@ input.app-command-input:focus {
  .tabs {
      display: flex;
      flex: 1 1 auto;
+     justify-content: space-between;
  }
 
 .tabs ul {
@@ -229,4 +230,9 @@ input.app-command-input:focus {
 
 .tabs button:focus:active {
     outline: none;
+}
+
+.tabs .todos-link {
+    flex: 0 0 auto;
+    justify-self: flex-end;
 }

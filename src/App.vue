@@ -1,5 +1,5 @@
 <template>
-    <div id="app" v-hotkey.prevent="keymap">
+    <div id="app" v-hotkey="keymap">
         <header class="app-header">
             <a v-if="dropboxAuthLink" :href="dropboxAuthLink">Login with Dropbox</a>
             <!--<button @click="upload" style="transform: scale(0.5)">Save</button>
@@ -8,6 +8,11 @@
                 <ul>
                 <li v-for="file in openFiles" :key="file.id" :class="{'is-active': activeFile.id === file.id}">
                     <button class="no-style" type="button" @click="activeFile = file">{{file.title}}</button>
+                </li>
+            </ul>
+            <ul>
+                <li class="todos-link">
+                    <button class="no-style" type="button">ToDos</button>
                 </li>
             </ul>
             </nav>
