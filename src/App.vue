@@ -17,11 +17,11 @@
             </ul>
             </nav>
         </header>
-        <main class="app-main" >
-            <div class="container" :class="{'show-baseline-grid': shouldShowGrid}">
-                <ul class="no-list">
-                    <li v-for="file in openFiles" :key="file.id">
-                        <AppDocument v-show="activeFile.id === file.id" :file="file" :active-file="activeFile" />
+        <main class="app-main">
+            <div class="container" :class="{'show-baseline-grid': shouldShowGrid, 'view': true}">
+                <ul class="no-list view">
+                    <li v-for="file in openFiles" :key="file.id" class="view" v-show="activeFile.id === file.id">
+                        <AppDocument  :file="file" :active-file="activeFile" />
                     </li>
                 </ul>
             </div>

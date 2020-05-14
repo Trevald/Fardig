@@ -2,6 +2,11 @@
 
 /* Main layout */
 
+.view {
+    display: flex;
+    flex: 1 1 auto;
+}
+
 #app {
     display: flex;
     flex: 1 1 auto;
@@ -13,8 +18,14 @@
 
 .app-main {
     flex: 1 1 0;
+    display: flex;
     overflow: auto;
     padding-top: calc(var(--unit) * 8);
+}
+
+.app-editor {
+    display: flex;
+    flex: 1 1 auto;
 }
 
 .app-status {
