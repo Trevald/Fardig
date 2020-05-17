@@ -57,7 +57,7 @@ export const MentionTagsMixin = {
         mentionTagsRenderPopup(node) {
             if (this.mentionTagsPopup) { return }
             // ref: https://atomiks.github.io/tippyjs/v6/all-props/
-            this.mentionTagsPopup = tippy('body', {
+            this.mentionTagsPopup = tippy('#app', {
                 getReferenceClientRect: node.getBoundingClientRect,
                 appendTo: () => document.body,
                 interactive: true,
@@ -74,9 +74,9 @@ export const MentionTagsMixin = {
         },
 
         mentionTagsDestroyPopup() {
-            if (this.popup) {
-            this.popup[0].destroy()
-            this.popup = null
+            if (this.mentionTagsPopup) {
+            this.mentionTagsPopup[0].destroy()
+            this.mentionTagsPopup = null
             }
         },        
 

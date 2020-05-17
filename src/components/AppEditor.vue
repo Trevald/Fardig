@@ -99,52 +99,6 @@ export default {
 
 <style>
 
-.mention {
-  background: rgba(black, 0.1);
-  color: rgba(black, 0.6);
-  font-size: 0.8rem;
-  font-weight: bold;
-  border-radius: 5px;
-  padding: 0.2rem 0.5rem;
-  white-space: nowrap;
-}
-.mention-suggestion {
-  color: rgba(black, 0.6);
-}
-.suggestion-list {
-  padding: 0.2rem;
-  border: 2px solid rgba(black, 0.1);
-  font-size: 0.8rem;
-  font-weight: bold;
-}
-  .suggestion-list__no-results {
-    padding: 0.2rem 0.5rem;
-  }
-  .suggestion-list__item {
-    border-radius: 5px;
-    padding: 0.2rem 0.5rem;
-    margin-bottom: 0.2rem;
-    cursor: pointer;
-  }
-.suggestion-list__item:last-child {
-      margin-bottom: 0;
-    }
-    .suggestion-list__item.is-selected,
-    .suggestion-list__item:hover {
-      background-color: rgba(white, 0.2);
-    }
-    .suggestion-list__item.is-empty {
-      opacity: 0.5;
-    }
-  
 
-.tippy-box[data-theme~=dark] {
-  background-color: black;
-  padding: 0;
-  font-size: 1rem;
-  text-align: inherit;
-  color: white;
-  border-radius: 5px;
-}
 
 </style>

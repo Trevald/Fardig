@@ -1,21 +1,20 @@
 <template>
-    <div>
-        <AppEditor v-show="activeFile.id === file.id" v-if="file.contents" :html="html" @change="htmlChanged" />
+    <div v-show="activeFile.id === file.id" v-if="file.contents">
+        <AppDocumentText v-if="fileType === 'todo'" :file="file" />
+        <AppDocumentText v-else :file="file" />
     </div>
 </template>
 
 <script>
 
-import MarkdownService from "./../services/MarkdownService";
-
-import AppEditor from './AppEditor.vue'
+import AppDocumentText from "./AppDocumentText"
 
 export default {
 
     name: "AppDocument",
 
     components: {
-        AppEditor
+        AppDocumentText
     },
 
     props: {
@@ -25,24 +24,12 @@ export default {
 
     data() {
         return {
-            markdownService: new MarkdownService(),
+            fileType: undefined
         }
     },
 
-    computed: {
-        html() {
-            return this.file.contents ? this.markdownService.toHTML(this.file.contents) : undefined;
-        }
-    },
-
-    methods: {
-        htmlChanged(html) {
-          const markdown = this.markdownService.fromHTML(html);
-          const fileLastChanged = Date.now();
-
-          this.file.contents = markdown;
-          this.file.lastChanged = fileLastChanged;
-        }
+    mounted() {
+        this.fileType = "text/markdown"
     }
 
 }

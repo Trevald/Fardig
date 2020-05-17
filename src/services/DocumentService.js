@@ -39,13 +39,16 @@ export default class DocumentHandler {
 
 class Document {
     constructor(data, contents) {
-        this.id = data?.id;
-        this._name = data?.name;
-        this.rev = data?.rev;
-        this.unsavedChanges = data?.unsavedChanges;
-        this.isUploading = data?.isUploading;
-        this.lastChanged = data.lastChanged ? data.lastChanged : 0;
-        this.lastUpdated = data.lastUpdated ? data.lastUpdated : 0;
+        this.id = data?.id
+        this._name = data?.name
+        this.rev = data?.rev
+        this.unsavedChanges = data?.unsavedChanges
+        this.isUploading = data?.isUploading
+        this.lastChanged = data.lastChanged ? data.lastChanged : 0
+        this.lastUpdated = data.lastUpdated ? data.lastUpdated : 0
+        
+        this.hasTodos = data?.hasTodos
+        this.tags = data?.tags
 
         this.contents = contents;
     }
@@ -56,6 +59,10 @@ class Document {
 
     get path() {
         return `/${this.name}`;
+    }
+
+    get hasTags() {
+        return this.tags !== undefined && this.tags.length > 0
     }
 
     get commitModeAdd() {
@@ -86,6 +93,7 @@ class Document {
     getCommitInfo() {
         this.isUploading = true;
         this.lastUpdate = this.lastChanged;
+
         return  {
             contents: this.blob,
             autorename: false,

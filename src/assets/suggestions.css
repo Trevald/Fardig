@@ -1,0 +1,50 @@
+.mention {
+
+    background: rgba(211, 194, 75, 0.1);
+    border-radius: 2px;
+    color: #D3C24B;
+    font-family: var(--font-monospace);
+    font-variation-settings: "wght" 500;
+    font-size: calc(var(--unit) * 2);
+    
+    padding: calc(var(--unit) * 0.5) calc(var(--unit) * 1);
+    white-space: nowrap;
+  }
+  .mention-tag {
+    color: rgba(0,0,0, 0.6);
+  }
+  .suggestion-list {
+    padding: 0.2rem;
+    border: 2px solid rgba(0,0,0, 0.1);
+    font-size: 0.8rem;
+    font-weight: bold;
+  }
+    .suggestion-list__no-results {
+      padding: 0.2rem 0.5rem;
+    }
+    .suggestion-list__item {
+      border-radius: 5px;
+      padding: 0.2rem 0.5rem;
+      margin-bottom: 0.2rem;
+      cursor: pointer;
+    }
+  .suggestion-list__item:last-child {
+        margin-bottom: 0;
+      }
+      .suggestion-list__item.is-selected,
+      .suggestion-list__item:hover {
+        background-color: rgba(255, 255, 255, 0.2);
+      }
+      .suggestion-list__item.is-empty {
+        opacity: 0.5;
+      }
+    
+  
+  .tippy-box[data-theme~=dark] {
+    background-color: black;
+    padding: 0;
+    font-size: 1rem;
+    text-align: inherit;
+    color: white;
+    border-radius: 5px;
+  }

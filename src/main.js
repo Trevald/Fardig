@@ -5,6 +5,7 @@ import VueHotkey from 'v-hotkey'
 Vue.use(VueHotkey)
 
 import "./assets/main.css"
+import "./assets/suggestions.css"
 
 Vue.config.productionTip = false
 

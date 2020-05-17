@@ -6,20 +6,24 @@
             <input type="checkbox" v-model="shouldShowGrid">-->
             <nav class="tabs">
                 <ul>
-                <li v-for="file in openFiles" :key="file.id" :class="{'is-active': activeFile.id === file.id}">
-                    <button class="no-style" type="button" @click="activeFile = file">{{file.title}}</button>
+                <li v-for="file in openFiles" :key="file.id" :class="{'is-active': activeFile.id === file.id && activeView === 'editor'}">
+                    <button class="no-style" type="button" @click="setActiveView('editor', file)">{{file.title}}</button>
                 </li>
             </ul>
             <ul>
-                <li class="todos-link">
-                    <button class="no-style" type="button">ToDos</button>
+                <li class="todos-link" :class="{'is-active': activeView === 'todo'}">
+                    <button class="no-style" type="button" @click="setActiveView('todo')">ToDos</button>
                 </li>
             </ul>
             </nav>
         </header>
         <main class="app-main">
             <div class="container" :class="{'show-baseline-grid': shouldShowGrid, 'view': true}">
-                <ul class="no-list view">
+                <ul class="no-list view" v-if="activeView === 'todo'">
+                    <li>My ToDos</li>
+                </ul>
+
+                <ul class="no-list view" v-else>
                     <li v-for="file in openFiles" :key="file.id" class="view" v-show="activeFile.id === file.id">
                         <AppDocument  :file="file" :active-file="activeFile" />
                     </li>
@@ -64,7 +68,8 @@ export default {
             newFile: undefined,
             shouldShowGrid: false,
             showCommand: false,
-            openFiles: new Set()
+            openFiles: new Set(),
+            activeView: "editor"
         }
     },
 
@@ -146,9 +151,7 @@ export default {
             } 
 
             console.log(newActiveFileIndex);
-
             this.activeFile = openFilesArray[newActiveFileIndex]
-
             return false
       },
 
@@ -192,9 +195,7 @@ export default {
             if(this.userService.activeFile === file.id) {
                 this.activeFile = this.documentService.get(file.id);
                 this.openFiles.add(this.activeFile);
-                console.log("Is active", file.id);
             } else if(this.userService.openFiles.has(file.id)) {
-                console.log("Is open", file.id);
                 this.openFiles.add(this.documentService.get(file.id));
             }
         })
@@ -202,6 +203,8 @@ export default {
         if (this.activeFile === undefined) {
             this.activeFile = this.documentService.getFirst();
         }
+
+
     },
 
     savePreferences() {
@@ -209,6 +212,13 @@ export default {
             activeFile: this.activeFile,
             openFiles: this.openFiles
         });
+    },
+
+    setActiveView(view, file) {
+        this.activeView = view;
+        if (file) {
+            this.activeFile = file;
+        }
     }
   },
 
