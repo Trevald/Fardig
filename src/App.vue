@@ -20,7 +20,7 @@
         <main class="app-main">
             <div class="container" :class="{'show-baseline-grid': shouldShowGrid, 'view': true}">
                 <ul class="no-list view" v-if="activeView === 'todo'">
-                    <li>My ToDos</li>
+                    <li><AppMyTodosVue /></li>
                 </ul>
 
                 <ul class="no-list view" v-else>
@@ -42,11 +42,11 @@
 import AppCommand from "./components/AppCommand"
 import AppDocument from "./components/AppDocument"
 import AppStatus from './components/AppStatus.vue'
-
 import DropboxApi from "./cloud/dropbox"
 
 import DocumentService from "./services/DocumentService"
 import UserService from "./services/UserService"
+import AppMyTodosVue from './components/AppMyTodos.vue'
 
 export default {
     name: 'App',
@@ -54,6 +54,7 @@ export default {
     components: {
         AppCommand,
         AppDocument,
+        AppMyTodosVue,
         AppStatus
     },
 

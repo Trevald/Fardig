@@ -235,9 +235,15 @@ input.app-command-input:focus {
     /* border-color: #6BE548; */
 } 
 
+.tabs li button:focus {
+    outline: none;
+}
+
+.tabs li:not(.is-active) button:focus,
 .tabs li:not(.is-active) button:hover {
     background: rgba(0,0,0,0.1);
     color: var(--main-fg);
+    
 }
 
 .tabs button:focus:active {
