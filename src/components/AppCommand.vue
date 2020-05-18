@@ -64,9 +64,11 @@ export default {
 
         doActiveOption() {
             const option = this.options[this.activeItem];
+            if (option === undefined) { return false; }
+
             if (option.command !== undefined) {
                 this.$emit("command", {command: option.command})
-            } else {
+            } else if(option.id !== undefined) {
                 this.$emit("command", {
                     command: "OPEN",
                     id: option.id

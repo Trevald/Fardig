@@ -22,7 +22,8 @@
     "tiptap-extensions": "^1.29.1",
     "turndown": "^6.0.0",
     "v-hotkey": "^0.8.0",
-    "vue": "^2.6.11"
+    "vue": "^2.6.11",
+    "vuex": "^3.4.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.3.0",

@@ -38,9 +38,11 @@ export default {
         htmlChanged(html) {
           const markdown = this.markdownService.fromHTML(html);
           const fileLastChanged = Date.now();
-
-          this.file.contents = markdown;
-          this.file.lastChanged = fileLastChanged;
+            this.$store.commit("updateDocument", {
+                id: this.file.id,
+                contents: markdown,
+                lastChanged: fileLastChanged
+            })
         }
     }
 

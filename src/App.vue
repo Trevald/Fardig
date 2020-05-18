@@ -6,7 +6,7 @@
             <input type="checkbox" v-model="shouldShowGrid">-->
             <nav class="tabs">
                 <ul>
-                <li v-for="file in openFiles" :key="file.id" :class="{'is-active': activeFile.id === file.id && activeView === 'editor'}">
+                <li v-for="file in openDocuments" :key="file.id" :class="{'is-active': activeDocument.id === file.id && activeView === 'editor'}">
                     <button class="no-style" type="button" @click="setActiveView('editor', file)">{{file.title}}</button>
                 </li>
             </ul>
@@ -24,15 +24,15 @@
                 </ul>
 
                 <ul class="no-list view" v-else>
-                    <li v-for="file in openFiles" :key="file.id" class="view" v-show="activeFile.id === file.id">
-                        <AppDocument  :file="file" :active-file="activeFile" />
+                    <li v-for="file in openDocuments" :key="file.id" class="view" v-show="activeDocument.id === file.id">
+                        <AppDocument :file="file" />
                     </li>
                 </ul>
             </div>
         </main>
         <AppStatus class="app-status" :isSaving="isUploading" :hasUnsavedChanges="hasUnsavedChanges" />
         <transition name="fade">
-            <AppCommand v-if="documentService && showCommand" :documents="documentService.documents" @command="doCommand" />
+            <AppCommand v-if="showCommand" :documents="documents" @command="doCommand" />
         </transition>
     </div>
 </template>
@@ -44,7 +44,6 @@ import AppDocument from "./components/AppDocument"
 import AppStatus from './components/AppStatus.vue'
 import DropboxApi from "./cloud/dropbox"
 
-import DocumentService from "./services/DocumentService"
 import UserService from "./services/UserService"
 import AppMyTodosVue from './components/AppMyTodos.vue'
 
@@ -60,8 +59,6 @@ export default {
 
     data() {
         return {
-            activeFile: undefined,
-            documentService: new DocumentService(),
             userService: new UserService(),
             dropboxAuthLink: undefined,
             cloudStorage: undefined,
@@ -69,27 +66,38 @@ export default {
             newFile: undefined,
             shouldShowGrid: false,
             showCommand: false,
-            openFiles: new Set(),
             activeView: "editor"
         }
     },
 
     computed: {
 
+        activeDocument() {
+            return this.$store.getters.activeDocument
+        },
+
+        openDocuments() {
+            return this.$store.getters.openDocuments
+        },        
+
+        documents() {
+            return this.$store.getters.allDocuments
+        },
+
         isUploading() {
-            return this.activeFile?.isUploading;
+            return this.activeDocument?.isUploading;
         },
 
         lastChanged() {
-            return this.activeFile?.lastChanged;
+            return this.activeDocument?.lastChanged;
         },
 
         lastUpdated() {
-            return this.activeFile?.lastUpdated;
+            return this.activeDocument?.lastUpdated;
         },
 
         fileContents() {
-            return this.activeFile?.contents;
+            return this.activeDocument?.contents;
         },
 
         hasUnsavedChanges() {
@@ -108,10 +116,10 @@ export default {
                     this.showCommand = !this.showCommand;
                 },
                 "ctrl+q": () => {
-                    this.switchActiveFile(-1)
+                    this.switchactiveDocument(-1)
                 },                
                 "ctrl+w": () => {
-                    this.switchActiveFile(1)
+                    this.switchactiveDocument(1)
                 }
             }
         }
@@ -125,44 +133,54 @@ export default {
                   // this.showCommand = false;
                   break
             case "NEW_FILE":
-                this.activeFile = this.documentService.createNew()
-                this.openFiles.add(this.activeFile)
+                this.$store.commit("newDocument")
                 break
             case "OPEN":
-                this.activeFile = this.documentService.get(event.id)
-                this.openFiles.add(this.activeFile)
+                this.$store.commit("setActiveDocument", {id: event.id })
                 break
             default:
-                    break
+                break
           }
           this.showCommand = false;
           this.savePreferences();
       },
 
-        switchActiveFile(indexModifier) {
-            const openFilesArray = [...this.openFiles]
-            const activeFileIndexInOpenFiles = openFilesArray.findIndex(file => file.id === this.activeFile.id);
-            if (activeFileIndexInOpenFiles === -1) { return; }
+        switchactiveDocument(indexModifier) {
+            const openDocumentsArray = [...this.openDocuments]
+            const activeDocumentIndexInopenDocuments = openDocumentsArray.findIndex(file => file.id === this.activeDocument.id);
+            if (activeDocumentIndexInopenDocuments === -1) { return; }
 
-            let newActiveFileIndex = activeFileIndexInOpenFiles + indexModifier;
-            if (newActiveFileIndex <= -1) {
-                newActiveFileIndex = openFilesArray.length -1 
-            } else if(newActiveFileIndex >= openFilesArray.length) {
-                newActiveFileIndex = 0
+            let newactiveDocumentIndex = activeDocumentIndexInopenDocuments + indexModifier;
+            if (newactiveDocumentIndex <= -1) {
+                newactiveDocumentIndex = openDocumentsArray.length -1 
+            } else if(newactiveDocumentIndex >= openDocumentsArray.length) {
+                newactiveDocumentIndex = 0
             } 
+            this.$store.commit("setActiveDocument", {id: openDocumentsArray[newactiveDocumentIndex].id })
 
-            console.log(newActiveFileIndex);
-            this.activeFile = openFilesArray[newActiveFileIndex]
             return false
       },
 
-      upload() {
-          const fileToUpload = this.activeFile;
-          const filesCommitInfo = fileToUpload.getCommitInfo();
-          fileToUpload.lastUpdated = fileToUpload.lastChanged;
+    upload() {
+        const fileToUpload = this.activeDocument
+        const filesCommitInfo = {
+                contents: fileToUpload.blob,
+                autorename: false,
+                mode: fileToUpload.getCommitMode(),
+                path: fileToUpload.path
+        }
+
+        this.$store.commit("updateDocument", {
+            id: fileToUpload.id,
+            isUploading: true,
+            lastUpdated: fileToUpload.lastChanged
+        })        
 
           this.cloudStorage.storeContents(filesCommitInfo).then(() => {
-              fileToUpload.isUploading = false;
+              this.$store.commit("updateDocument", {
+                  id: fileToUpload.id,
+                  isUploading: false
+              })
           });
       },
 
@@ -180,7 +198,9 @@ export default {
                 let loadedFiles = [];
                 files.forEach(file => {
                     this.cloudStorage.getContents(file.path_lower).then( fileContent => {
-                        this.documentService.add(file, fileContent);
+                        const data = file;
+                            data.contents = fileContent;
+                        this.$store.commit("addDocument", data)
                         loadedFiles.push(file.id)
                         if (loadedFiles.length === files.length) {
                             this.allFilesLoaded()
@@ -192,33 +212,30 @@ export default {
     },
 
     allFilesLoaded() {
-        this.documentService.documents.forEach(file => {
+        this.documents.forEach(file => {
             if(this.userService.activeFile === file.id) {
-                this.activeFile = this.documentService.get(file.id);
-                this.openFiles.add(this.activeFile);
+                this.$store.commit("setActiveDocument", {id: file.id})
             } else if(this.userService.openFiles.has(file.id)) {
-                this.openFiles.add(this.documentService.get(file.id));
+                this.$store.commit("openDocument", {id: file.id})
             }
         })
 
-        if (this.activeFile === undefined) {
-            this.activeFile = this.documentService.getFirst();
+        if (this.activeDocument === undefined) {
+            this.$store.commit("setActiveDocument", {id: this.$store.getters.firstDocument.id})
         }
-
-
     },
 
     savePreferences() {
         this.userService.updatePrefs({
-            activeFile: this.activeFile,
-            openFiles: this.openFiles
+            activeFile: this.activeDocument,
+            openFiles: this.openDocuments
         });
     },
 
     setActiveView(view, file) {
         this.activeView = view;
         if (file) {
-            this.activeFile = file;
+            this.$store.commit("setActiveDocument", {id: file.id})
         }
     }
   },

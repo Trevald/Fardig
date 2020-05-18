@@ -1,5 +1,5 @@
 <template>
-    <div v-show="activeFile.id === file.id" v-if="file.contents">
+    <div v-show="isActiveFile" v-if="file.contents">
         <AppDocumentText v-if="fileType === 'todo'" :file="file" />
         <AppDocumentText v-else :file="file" />
     </div>
@@ -18,13 +18,18 @@ export default {
     },
 
     props: {
-        activeFile: Object,
         file: Object,
     },
 
     data() {
         return {
             fileType: undefined
+        }
+    },
+
+    computed: {
+        isActiveFile() {
+            return this.$store.getters.activeDocument.id === this.file?.id;
         }
     },
 
