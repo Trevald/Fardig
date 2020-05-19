@@ -70,6 +70,6 @@ export default class Document {
 	}
 
 	hasTodos() {
-		return this.json.includes((node) => node.type === "app_todo")
+		return this.json.some((node) => node.type === "app_todo")
 	}
 }

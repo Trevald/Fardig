@@ -1,77 +1,85 @@
 import Vue from "vue"
 import Document from "./Document"
 
+import { documentHasTodos } from "./../utils/document"
+
 const storeDocuments = {
-    state: () => {
-        return {
-            documents: [],
-            activeDocumentId: undefined,
-            openDocumentsIds: [],
-        }
-    },
+	state: () => {
+		return {
+			documents: [],
+			activeDocumentId: undefined,
+			openDocumentsIds: [],
+		}
+	},
 
-    getters: {
-        allDocuments: (state) => {
-            return state.documents
-        },
+	getters: {
+		allDocuments: (state) => {
+			return state.documents
+		},
 
-        firstDocument: (state) => {
-            return state.documents[0]
-        },
+		documentsWithTodos: (state) => {
+			return state.documents.filter((doc) => documentHasTodos(doc))
+		},
 
-        getDocumentById: (state) => (id) => {
-            return state.documents.find((document) => document.id === id)
-        },
+		firstDocument: (state) => {
+			return state.documents[0]
+		},
 
-        openDocuments: (state) => {
-            return state.documents.filter((document) => {
-                return state.openDocumentsIds.includes(document.id)
-            })
-        },
+		getDocumentById: (state) => (id) => {
+			return state.documents.find((document) => document.id === id)
+		},
 
-        activeDocument: (state) => {
-            return state.documents.find((document) => document.id === state.activeDocumentId)
-        },
-    },
+		openDocuments: (state) => {
+			return state.documents.filter((document) => {
+				return state.openDocumentsIds.includes(document.id)
+			})
+		},
 
-    mutations: {
-        addDocument(state, payload) {
-            const document = new Document(payload)
-            state.documents.push(document)
-        },
+		activeDocument: (state) => {
+			return state.documents.find(
+				(document) => document.id === state.activeDocumentId
+			)
+		},
+	},
 
-        newDocument() {
-            const newDocument = {
-                id: `temp-${Date.now()}`,
-                contents: "<h1>My new file</h1>",
-            }
-            this.commit("addDocument", newDocument)
-            this.commit("setActiveDocument", newDocument)
-        },
+	mutations: {
+		addDocument(state, payload) {
+			const document = new Document(payload)
+			state.documents.push(document)
+		},
 
-        setActiveDocument(state, payload) {
-            this.commit("openDocument", payload)
-            state.activeDocumentId = payload.id
-        },
+		newDocument() {
+			const newDocument = {
+				id: `temp-${Date.now()}`,
+				contents: "<h1>My new file</h1>",
+			}
+			this.commit("addDocument", newDocument)
+			this.commit("setActiveDocument", newDocument)
+		},
 
-        openDocument(state, payload) {
-            const id = payload.id
-            if (!state.openDocumentsIds.includes(id)) {
-                state.openDocumentsIds.push(payload.id)
-            }
-        },
+		setActiveDocument(state, payload) {
+			this.commit("openDocument", payload)
+			state.activeDocumentId = payload.id
+		},
 
-        updateDocument(state, payload) {
-            const document = this.getters.getDocumentById(payload.id)
-            for (let prop in payload) {
-                if (Object.prototype.hasOwnProperty.call(payload, prop)) {
-                    Vue.set(document, prop, payload[prop])
-                }
-            }
-        },
-    },
+		openDocument(state, payload) {
+			const id = payload.id
+			if (!state.openDocumentsIds.includes(id)) {
+				state.openDocumentsIds.push(payload.id)
+			}
+		},
 
-    actions: {},
+		updateDocument(state, payload) {
+			const document = this.getters.getDocumentById(payload.id)
+			for (let prop in payload) {
+				if (Object.prototype.hasOwnProperty.call(payload, prop)) {
+					Vue.set(document, prop, payload[prop])
+				}
+			}
+		},
+	},
+
+	actions: {},
 }
 
 export default storeDocuments

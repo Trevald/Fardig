@@ -1,7 +1,9 @@
 <template>
 	<div id="app" v-hotkey="keymap">
 		<header class="app-header">
-			<a v-if="dropboxAuthLink" :href="dropboxAuthLink">Login with Dropbox</a>
+			<a v-if="dropboxAuthLink" :href="dropboxAuthLink"
+				>Login with Dropbox</a
+			>
 
 			<nav class="tabs">
 				<ul>
@@ -12,21 +14,29 @@
 							'is-active':
 								activeDocument.id === file.id &&
 								activeView === 'editor',
-						}">
+						}"
+					>
 						<button
 							class="no-style"
 							type="button"
-							@click="setActiveView('editor', file)">
+							@click="setActiveView('editor', file)"
+						>
 							{{ file.title }}
 						</button>
 					</li>
 				</ul>
 				<ul>
-					<li class="todos-link" :class="{ 'is-active': activeView === 'todo' }">
+					<li
+						class="todos-link"
+						:class="{ 'is-active': activeView === 'todo' }"
+					>
 						<button
 							class="no-style"
 							type="button"
-							@click="setActiveView('todo')">ToDos</button>
+							@click="setActiveView('todo')"
+						>
+							ToDos
+						</button>
 					</li>
 				</ul>
 			</nav>
@@ -35,7 +45,8 @@
 		<main class="app-main">
 			<div
 				class="container"
-				:class="{ 'show-baseline-grid': shouldShowGrid, view: true }">
+				:class="{ 'show-baseline-grid': shouldShowGrid, view: true }"
+			>
 				<ul class="no-list view" v-if="activeView === 'todo'">
 					<li><AppMyTodosVue /></li>
 				</ul>
@@ -45,7 +56,8 @@
 						v-for="file in openDocuments"
 						:key="file.id"
 						class="view"
-						v-show="activeDocument.id === file.id">
+						v-show="activeDocument.id === file.id"
+					>
 						<AppDocument :file="file" />
 					</li>
 				</ul>
@@ -55,12 +67,14 @@
 		<AppStatus
 			class="app-status"
 			:isSaving="isUploading"
-			:hasUnsavedChanges="hasUnsavedChanges" />
+			:hasUnsavedChanges="hasUnsavedChanges"
+		/>
 		<transition name="fade">
 			<AppCommand
 				v-if="showCommand"
 				:documents="documents"
-				@command="doCommand" />
+				@command="doCommand"
+			/>
 		</transition>
 	</div>
 </template>
@@ -73,6 +87,15 @@
 
 	import UserService from "./services/UserService"
 	import AppMyTodosVue from "./components/AppMyTodos.vue"
+
+	import markdownit from "markdown-it"
+	const taskLists = require("markdown-it-task-lists")
+
+	// import taskLists from "markdown-it-task-lists"
+	import { MarkdownParser } from "prosemirror-markdown"
+	import { schema } from "./utils/schema"
+
+	import { documentGetCommitMode } from "./utils/document"
 
 	export default {
 		name: "App",
@@ -203,7 +226,7 @@
 				const filesCommitInfo = {
 					contents: fileToUpload.blob,
 					autorename: false,
-					mode: fileToUpload.getCommitMode(),
+					mode: documentGetCommitMode(fileToUpload),
 					path: fileToUpload.path,
 				}
 
@@ -233,14 +256,87 @@
 				if (!this.cloudStorage.isAuthenticated()) {
 					this.dropboxAuthLink = this.cloudStorage.getAuthUrl()
 				} else {
+					const mdParser = markdownit().use(taskLists)
+					const markdownParser = new MarkdownParser(
+						schema,
+						markdownit("commonmark", { html: false }).use(
+							taskLists,
+							{ enabled: true }
+						),
+						{
+							blockquote: { block: "blockquote" },
+							paragraph: { block: "paragraph" },
+							list_item: { block: "list_item" },
+							bullet_list: { block: "bullet_list" },
+							ordered_list: {
+								block: "ordered_list",
+								getAttrs: (tok) => ({
+									order: +tok.attrGet("start") || 1,
+								}),
+							},
+							heading: {
+								block: "heading",
+								getAttrs: (tok) => ({
+									level: +tok.tag.slice(1),
+								}),
+							},
+							code_block: { block: "code_block" },
+							fence: {
+								block: "code_block",
+								getAttrs: (tok) => ({ params: tok.info || "" }),
+							},
+							hr: { node: "horizontal_rule" },
+							image: {
+								node: "image",
+								getAttrs: (tok) => ({
+									src: tok.attrGet("src"),
+									title: tok.attrGet("title") || null,
+									alt:
+										(tok.children[0] &&
+											tok.children[0].content) ||
+										null,
+								}),
+							},
+							hardbreak: { node: "hard_break" },
+
+							em: { mark: "em" },
+							strong: { mark: "strong" },
+							link: {
+								mark: "link",
+								getAttrs: (tok) => ({
+									href: tok.attrGet("href"),
+									title: tok.attrGet("title") || null,
+								}),
+							},
+							code_inline: { mark: "code" },
+							html_inline: {
+								mark: "b",
+							},
+						}
+					)
+					console.log("schema", schema)
 					this.cloudStorage.getEntries().then((files) => {
 						let loadedFiles = []
 						files.forEach((file) => {
 							this.cloudStorage
 								.getContents(file.path_lower)
 								.then((fileContent) => {
+									console.log(
+										"markdown-it",
+										mdParser.render(fileContent)
+									)
 									const data = file
 									data.contents = fileContent
+									data.json = JSON.parse(
+										JSON.stringify(
+											markdownParser.parse(fileContent)
+										)
+									)
+									console.log(
+										"json",
+										file.path_lower,
+										data.json.content
+									)
 									this.$store.commit("addDocument", data)
 									loadedFiles.push(file.id)
 									if (loadedFiles.length === files.length) {

@@ -56,6 +56,7 @@
 
 		props: {
 			html: String,
+			json: Object,
 		},
 
 		mixins: [MentionTagsMixin],
@@ -67,7 +68,8 @@
 		},
 
 		mounted() {
-			const content = this.html
+			// const content = this.html
+			console.log("editor", this.json)
 
 			this.editor = new Editor({
 				extensions: [
@@ -84,7 +86,8 @@
 					new Italic(),
 					new Mention(MENTION_TAGS_OPTIONS(this)),
 				],
-				content: content,
+				content: this.json,
+				// content: this.html,
 
 				onUpdate: ({ getHTML, getJSON }) => {
 					const html = getHTML()

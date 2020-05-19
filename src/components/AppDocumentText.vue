@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<AppEditor :html="html" @change="contentChanged" />
+		<AppEditor :html="html" :json="json" @change="contentChanged" />
 	</div>
 </template>
 
@@ -32,12 +32,17 @@
 					? this.markdownService.toHTML(this.file.contents)
 					: undefined
 			},
+
+			json() {
+				return this.file.json
+			},
 		},
 
 		methods: {
 			contentChanged(data) {
 				const html = data.html
 				const json = data.json
+				console.log("json", json)
 				const markdown = this.markdownService.fromHTML(html)
 				const fileLastChanged = Date.now()
 				this.$store.commit("updateDocument", {

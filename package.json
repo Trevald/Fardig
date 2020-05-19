@@ -1,56 +1,61 @@
 {
-  "name": "fardig",
-  "description": "Get Fardig!",
-  "version": "0.1.0",
-  "private": true,
-  "author": "@trevald",
-  "license": "ISC",
-  "bin": {
-    "fardig": "./bin/cli.js"
-  },
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
-  },
-  "dependencies": {
-    "core-js": "^3.6.4",
-    "dropbox": "^4.0.30",
-    "marked": "^1.0.0",
-    "tippy.js": "^6.2.3",
-    "tiptap": "^1.27.1",
-    "tiptap-extensions": "^1.29.1",
-    "turndown": "^6.0.0",
-    "v-hotkey": "^0.8.0",
-    "vue": "^2.6.11",
-    "vuex": "^3.4.0"
-  },
-  "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.3.0",
-    "@vue/cli-plugin-eslint": "~4.3.0",
-    "@vue/cli-service": "~4.3.0",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^6.8.0",
-    "eslint-plugin-vue": "^6.2.2",
-    "vue-template-compiler": "^2.6.11"
-  },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {}
-  },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+	"name": "fardig",
+	"description": "Get Fardig!",
+	"version": "0.1.0",
+	"private": true,
+	"author": "@trevald",
+	"license": "ISC",
+	"bin": {
+		"fardig": "./bin/cli.js"
+	},
+	"scripts": {
+		"serve": "vue-cli-service serve",
+		"build": "vue-cli-service build",
+		"lint": "vue-cli-service lint"
+	},
+	"dependencies": {
+		"core-js": "^3.6.4",
+		"dropbox": "^4.0.30",
+		"markdown-it-task-lists": "^2.1.1",
+		"marked": "^1.0.0",
+		"prosemirror-markdown": "^1.4.5",
+		"tippy.js": "^6.2.3",
+		"tiptap": "^1.27.1",
+		"tiptap-extensions": "^1.29.1",
+		"turndown": "^6.0.0",
+		"v-hotkey": "^0.8.0",
+		"vue": "^2.6.11",
+		"vuex": "^3.4.0"
+	},
+	"devDependencies": {
+		"@vue/cli-plugin-babel": "~4.3.0",
+		"@vue/cli-plugin-eslint": "~4.3.0",
+		"@vue/cli-service": "~4.3.0",
+		"babel-eslint": "^10.1.0",
+		"eslint": "^6.8.0",
+		"eslint-plugin-vue": "^6.2.2",
+		"vue-template-compiler": "^2.6.11"
+	},
+	"resolutions": {
+		"prosemirror-model": "1.8.2"
+	},
+	"eslintConfig": {
+		"root": true,
+		"env": {
+			"node": true
+		},
+		"extends": [
+			"plugin:vue/essential",
+			"eslint:recommended"
+		],
+		"parserOptions": {
+			"parser": "babel-eslint"
+		},
+		"rules": {}
+	},
+	"browserslist": [
+		"> 1%",
+		"last 2 versions",
+		"not dead"
+	]
 }
