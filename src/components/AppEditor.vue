@@ -69,7 +69,6 @@
 
 		mounted() {
 			// const content = this.html
-			console.log("editor", this.json)
 
 			this.editor = new Editor({
 				extensions: [

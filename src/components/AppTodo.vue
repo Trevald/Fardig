@@ -33,6 +33,7 @@
 		},
 
 		mounted() {
+			console.log(this.node.attrs.state)
 			this.checked = this.node.attrs.state === "done"
 		},
 	}

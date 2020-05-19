@@ -137,6 +137,36 @@ export const schema = new Schema({
 			},
 		},
 
+		app_todo: {
+			content: "text*",
+			group: "block",
+			isText: true,
+			attrs: {
+				state: { default: "not started" },
+			},
+			parseDOM: [
+				{
+					priority: 51,
+					tag: `[data-type="app_todo"]`,
+					getAttrs: (dom) => ({
+						state: dom.getAttribute("data-state"),
+					}),
+				},
+			],
+
+			toDOM: (node) => {
+				const attrs = node.attrs
+				return [
+					"div",
+					{
+						"data-type": "app_todo",
+						"data-state": attrs.state,
+					},
+					0,
+				]
+			},
+		},
+
 		text: {
 			group: "inline",
 		},

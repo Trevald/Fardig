@@ -89,7 +89,7 @@
 	import AppMyTodosVue from "./components/AppMyTodos.vue"
 
 	import markdownit from "markdown-it"
-	const taskLists = require("markdown-it-task-lists")
+	const taskLists = require("./utils/markdown-it-task-item")
 
 	// import taskLists from "markdown-it-task-lists"
 	import { MarkdownParser } from "prosemirror-markdown"
@@ -256,12 +256,11 @@
 				if (!this.cloudStorage.isAuthenticated()) {
 					this.dropboxAuthLink = this.cloudStorage.getAuthUrl()
 				} else {
-					const mdParser = markdownit().use(taskLists)
+					// const mdParser = markdownit().use(taskLists)
 					const markdownParser = new MarkdownParser(
 						schema,
 						markdownit("commonmark", { html: false }).use(
-							taskLists,
-							{ enabled: true }
+							taskLists
 						),
 						{
 							blockquote: { block: "blockquote" },
@@ -298,6 +297,13 @@
 								}),
 							},
 							hardbreak: { node: "hard_break" },
+							app_todo: {
+								block: "app_todo",
+								getAttrs: (tok) => ({
+									type: tok.attrGet("type"),
+									state: tok.attrGet("state"),
+								}),
+							},
 
 							em: { mark: "em" },
 							strong: { mark: "strong" },
@@ -309,22 +315,24 @@
 								}),
 							},
 							code_inline: { mark: "code" },
-							html_inline: {
-								mark: "b",
-							},
 						}
 					)
-					console.log("schema", schema)
+
+					/*
+
+	<ul class="contains-task-list">
+	<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> Done</li>
+	<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> Not done</li>
+	</ul>
+
+	                    */
+
 					this.cloudStorage.getEntries().then((files) => {
 						let loadedFiles = []
 						files.forEach((file) => {
 							this.cloudStorage
 								.getContents(file.path_lower)
 								.then((fileContent) => {
-									console.log(
-										"markdown-it",
-										mdParser.render(fileContent)
-									)
 									const data = file
 									data.contents = fileContent
 									data.json = JSON.parse(
@@ -335,7 +343,7 @@
 									console.log(
 										"json",
 										file.path_lower,
-										data.json.content
+										data.json
 									)
 									this.$store.commit("addDocument", data)
 									loadedFiles.push(file.id)
