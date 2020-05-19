@@ -2,6 +2,7 @@ import { Node } from "tiptap"
 import { textblockTypeInputRule, toggleBlockType } from "tiptap-commands"
 
 import AppTodo from "./AppTodo"
+import { todoSchema } from "./../prosemirror/todo-schema"
 
 export default class AppTodoNode extends Node {
 	get name() {
@@ -9,48 +10,7 @@ export default class AppTodoNode extends Node {
 	}
 
 	get schema() {
-		return {
-			// here you have to specify all values that can be stored in this node
-			attrs: {
-				text: { default: null },
-				state: { default: "not started" },
-				datetime: { default: null },
-				tags: { default: [] },
-				notification: { default: null },
-			},
-
-			marks: "",
-			content: "text*",
-			group: "block",
-			selectable: true,
-			defining: true,
-			draggable: false,
-			isText: true,
-			text: {},
-
-			parseDOM: [
-				{
-					priority: 51,
-					tag: `[data-type="${this.name}"]`,
-					getAttrs: (dom) => ({
-						state: dom.getAttribute("data-state"),
-					}),
-				},
-			],
-
-			toDOM: (node) => {
-				const attrs = node.attrs
-
-				return [
-					"div",
-					{
-						"data-type": this.name,
-						"data-state": attrs.state,
-					},
-					0,
-				]
-			},
-		}
+		return todoSchema("app_todo")
 	}
 
 	// this command will be called from menus to add a todo

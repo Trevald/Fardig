@@ -1,14 +1,14 @@
 <template>
-	<div class="todo">
+	<p class="todo">
 		<span class="todo-value" contenteditable="false">
 			<input type="checkbox" @click="onChange" :checked="checked" />
 		</span>
-		<p
+		<span
 			class="todo-content"
 			ref="content"
 			:contenteditable="view.editable.toString()"
-		></p>
-	</div>
+		></span>
+	</p>
 </template>
 
 <script>
