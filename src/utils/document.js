@@ -3,7 +3,7 @@ export function documentGetBlob(doc) {
 }
 
 export function documentGetPath(doc) {
-	return `/${doc.name}`
+	return `/${documentGetName(doc)}`
 }
 
 export function documentGetCommitModeAdd() {
@@ -25,13 +25,8 @@ export function documentGetName(doc) {
 	if (textLines.length <= 0) {
 		return "Untitled.txt"
 	}
-	let firstTextLine = textLines[0]
-		.replace("#", "")
-		.replace(/(<([^>]+)>)/gi, "")
-	firstTextLine =
-		firstTextLine.length > 32
-			? firstTextLine.substring(0, 32)
-			: firstTextLine
+	let firstTextLine = textLines[0].replace("#", "").replace(/(<([^>]+)>)/gi, "")
+	firstTextLine = firstTextLine.length > 32 ? firstTextLine.substring(0, 32) : firstTextLine
 
 	return `${firstTextLine}.txt`
 }
@@ -41,7 +36,7 @@ export function documentGetTitle(doc) {
 }
 
 export function documentGetCommitMode(doc) {
-	return doc.rev === undefined ? doc.commitModeAdd : doc.commitModeUpdate
+	return doc.rev === undefined ? documentGetCommitModeAdd(doc) : documentCommitModeUpdate(doc)
 }
 
 export function documentHasTodos(doc) {

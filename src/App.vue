@@ -70,9 +70,9 @@
 	import UserService from "./services/UserService"
 	import AppMyTodosVue from "./components/AppMyTodos.vue"
 
-	import { documentGetCommitMode } from "./utils/document"
+	import { documentGetCommitMode, documentGetPath } from "./utils/document"
 
-	import { markdownParser, markdownRenderer } from "./prosemirror/markdown-parser"
+	import { markdownParser } from "./prosemirror/markdown-parser"
 	import { markdownSerializer } from "./prosemirror/markdown-serializer"
 	import { EditorState } from "prosemirror-state"
 	import { Node } from "prosemirror-model"
@@ -201,13 +201,20 @@
 
 			upload() {
 				const fileToUpload = this.activeDocument
+				const fileToUploadState = EditorState.create({
+					doc: Node.fromJSON(schema, fileToUpload.json),
+				})
+				const fileToUploadSerializedState = markdownSerializer.serialize(
+					fileToUploadState.doc
+				)
 
 				const filesCommitInfo = {
-					contents: fileToUpload.blob,
+					contents: new Blob([fileToUploadSerializedState], { type: "text/plain" }),
 					autorename: false,
 					mode: documentGetCommitMode(fileToUpload),
-					path: fileToUpload.path,
+					path: documentGetPath(fileToUpload),
 				}
+				console.log("filesCommitInfo", filesCommitInfo, fileToUpload)
 
 				this.$store.commit("updateDocument", {
 					id: fileToUpload.id,
@@ -215,29 +222,12 @@
 					lastUpdated: fileToUpload.lastChanged,
 				})
 
-				const pureJson = fileToUpload.json
-
-				const state = EditorState.create({
-					doc: Node.fromJSON(schema, pureJson),
-				})
-				console.log("serie 1", state)
-				const serialized = markdownSerializer.serialize(state.doc)
-
-				console.log("serie 2", filesCommitInfo, serialized)
-
-				filesCommitInfo.contents = serialized
-
 				this.cloudStorage.storeContents(filesCommitInfo).then(() => {
 					this.$store.commit("updateDocument", {
 						id: fileToUpload.id,
 						isUploading: false,
 					})
 				})
-			},
-
-			toggleGrid() {
-				this.shouldShowGrid = !this.shouldShowGrid
-				document.querySelector("html").classList.toggle("toggle-grid", this.shouldShowGrid)
 			},
 
 			login() {
@@ -251,11 +241,6 @@
 							this.cloudStorage.getContents(file.path_lower).then((fileContent) => {
 								const data = file
 								data.contents = fileContent
-								console.log(
-									"json 1",
-									file.path_lower,
-									markdownRenderer.render(fileContent)
-								)
 								data.json = JSON.parse(
 									JSON.stringify(markdownParser.parse(fileContent))
 								)

@@ -31,11 +31,11 @@ module.exports = function(md) {
 
 		return true
 	})
-
+	/*
 	md.core.ruler.push("app_todo2", function(state) {
 		console.log("tokens", state.tokens)
 	})
-
+*/
 	console.log("md", md)
 }
 
@@ -52,7 +52,7 @@ function isInline(token) {
 	return token.type === "inline"
 }
 function isParagraph(token) {
-	return token.type === "paragraph_open"
+	return token.type === "paragraph_open" || token.type === "app_todo_open"
 }
 
 function isListItem(token) {

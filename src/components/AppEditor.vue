@@ -55,7 +55,6 @@
 		},
 
 		props: {
-			html: String,
 			json: Object,
 		},
 
@@ -68,10 +67,6 @@
 		},
 
 		mounted() {
-			// const content = this.html
-
-			console.log("editor", this.json)
-
 			this.editor = new Editor({
 				extensions: [
 					new AppTodoNode(),
@@ -88,16 +83,11 @@
 					new Mention(MENTION_TAGS_OPTIONS(this)),
 				],
 				content: this.json,
-				// content: this.html,
 
-				onUpdate: ({ getHTML, getJSON }) => {
-					const html = getHTML()
+				onUpdate: ({ getJSON }) => {
 					const json = getJSON()
 
-					console.log("state", this.editor.view.state.doc)
-
 					this.$emit("change", {
-						html,
 						json,
 					})
 				},
