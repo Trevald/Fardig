@@ -17,7 +17,7 @@
 							type="button"
 							@click="setActiveView('editor', file)"
 						>
-							{{ file.title }}
+							{{ getTitle(file) }}
 						</button>
 					</li>
 				</ul>
@@ -70,13 +70,11 @@
 	import UserService from "./services/UserService"
 	import AppMyTodosVue from "./components/AppMyTodos.vue"
 
-	import { documentGetCommitMode, documentGetPath } from "./utils/document"
-
-	import { markdownParser } from "./prosemirror/markdown-parser"
-	import { markdownSerializer } from "./prosemirror/markdown-serializer"
-	import { EditorState } from "prosemirror-state"
-	import { Node } from "prosemirror-model"
-	import { schema } from "./utils/schema"
+	import {
+		documentGetCommitInfo,
+		documentGetTitle,
+		documentGetJsonFromMarkdown,
+	} from "./utils/document"
 
 	export default {
 		name: "App",
@@ -156,8 +154,12 @@
 		},
 
 		methods: {
+			getTitle(doc) {
+				console.log("doc", doc)
+				return documentGetTitle(doc)
+			},
+
 			doCommand(event) {
-				console.log("doCommand", event.command)
 				switch (event.command) {
 					case "CLOSE_ME":
 						// this.showCommand = false;
@@ -201,20 +203,8 @@
 
 			upload() {
 				const fileToUpload = this.activeDocument
-				const fileToUploadState = EditorState.create({
-					doc: Node.fromJSON(schema, fileToUpload.json),
-				})
-				const fileToUploadSerializedState = markdownSerializer.serialize(
-					fileToUploadState.doc
-				)
-
-				const filesCommitInfo = {
-					contents: new Blob([fileToUploadSerializedState], { type: "text/plain" }),
-					autorename: false,
-					mode: documentGetCommitMode(fileToUpload),
-					path: documentGetPath(fileToUpload),
-				}
-				console.log("filesCommitInfo", filesCommitInfo, fileToUpload)
+				const filesCommitInfo = documentGetCommitInfo(fileToUpload)
+				console.log("filesCommitInfo", filesCommitInfo)
 
 				this.$store.commit("updateDocument", {
 					id: fileToUpload.id,
@@ -239,13 +229,9 @@
 						let loadedFiles = []
 						files.forEach((file) => {
 							this.cloudStorage.getContents(file.path_lower).then((fileContent) => {
-								const data = file
-								data.contents = fileContent
-								data.json = JSON.parse(
-									JSON.stringify(markdownParser.parse(fileContent))
-								)
-
-								this.$store.commit("addDocument", data)
+								file.json = documentGetJsonFromMarkdown(fileContent)
+								console.log("json", file)
+								this.$store.commit("addDocument", file)
 								loadedFiles.push(file.id)
 								if (loadedFiles.length === files.length) {
 									this.allFilesLoaded()

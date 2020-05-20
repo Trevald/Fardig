@@ -1,42 +1,42 @@
 <template>
-    <div v-show="isActiveFile" v-if="file.contents">
-        <AppDocumentText v-if="fileType === 'todo'" :file="file" />
-        <AppDocumentText v-else :file="file" />
-    </div>
+	<div v-show="isActiveFile" v-if="hasContent">
+		<AppDocumentText v-if="fileType === 'todo'" :file="file" />
+		<AppDocumentText v-else :file="file" />
+	</div>
 </template>
 
 <script>
+	import AppDocumentText from "./AppDocumentText"
 
-import AppDocumentText from "./AppDocumentText"
+	export default {
+		name: "AppDocument",
 
-export default {
+		components: {
+			AppDocumentText,
+		},
 
-    name: "AppDocument",
+		props: {
+			file: Object,
+		},
 
-    components: {
-        AppDocumentText
-    },
+		data() {
+			return {
+				fileType: undefined,
+			}
+		},
 
-    props: {
-        file: Object,
-    },
+		computed: {
+			hasContent() {
+				return this.file.json
+			},
 
-    data() {
-        return {
-            fileType: undefined
-        }
-    },
+			isActiveFile() {
+				return this.$store.getters.activeDocument.id === this.file?.id
+			},
+		},
 
-    computed: {
-        isActiveFile() {
-            return this.$store.getters.activeDocument.id === this.file?.id;
-        }
-    },
-
-    mounted() {
-        this.fileType = "text/markdown"
-    }
-
-}
-
+		mounted() {
+			this.fileType = "text/markdown"
+		},
+	}
 </script>

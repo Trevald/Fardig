@@ -1,3 +1,12 @@
+import { EditorState } from "prosemirror-state"
+import { Node } from "prosemirror-model"
+
+import { contains } from "prosemirror-utils"
+
+import { markdownParser } from "./../prosemirror/markdown-parser"
+import { markdownSerializer } from "./../prosemirror/markdown-serializer"
+import { schemaAll } from "./../schema"
+
 export function documentGetBlob(doc) {
 	return new Blob([doc.contents], { type: "text/plain" })
 }
@@ -32,7 +41,8 @@ export function documentGetName(doc) {
 }
 
 export function documentGetTitle(doc) {
-	return doc.name.endsWith(".txt") ? doc.name.replace(".txt", "") : doc.name
+	const name = documentGetName(doc)
+	return name.endsWith(".txt") ? name.replace(".txt", "") : name
 }
 
 export function documentGetCommitMode(doc) {
@@ -40,5 +50,24 @@ export function documentGetCommitMode(doc) {
 }
 
 export function documentHasTodos(doc) {
-	return doc.json.some((node) => node.type === "app_todo")
+	return contains(doc, schemaAll.nodes.app_node)
+}
+
+export function documentGetCommitInfo(doc) {
+	const docState = EditorState.create({
+		doc: Node.fromJSON(schemaAll, doc.json),
+	})
+
+	const docStateSerialized = markdownSerializer.serialize(docState.doc)
+
+	return {
+		contents: new Blob([docStateSerialized], { type: "text/plain" }),
+		autorename: false,
+		mode: documentGetCommitMode(doc),
+		path: documentGetPath(doc),
+	}
+}
+
+export function documentGetJsonFromMarkdown(markdown) {
+	return JSON.parse(JSON.stringify(markdownParser.parse(markdown)))
 }

@@ -1,7 +1,9 @@
 import { Schema } from "prosemirror-model"
-import { todoSchema } from "./../prosemirror/todo-schema"
+import { schemaTodo } from "./schema-todo"
 
 // ::Schema Document schema for the data model used by CommonMark.
+
+// Could this be imported from prosemirror-schema-basic (https://github.com/ProseMirror/prosemirror-schema-basic)
 
 const nodes = {
 	doc: {
@@ -232,6 +234,6 @@ const marks = {
 	},
 }
 
-nodes.app_todo = todoSchema("app_todo")
+nodes.app_todo = schemaTodo
 
-export const schema = new Schema({ nodes, marks })
+export const schemaAll = new Schema({ nodes, marks })

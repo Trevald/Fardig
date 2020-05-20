@@ -2,7 +2,7 @@ import { Node } from "tiptap"
 import { textblockTypeInputRule, toggleBlockType } from "tiptap-commands"
 
 import AppTodo from "./AppTodo"
-import { todoSchema } from "./../prosemirror/todo-schema"
+import { schemaTodo } from "./../schema"
 
 export default class AppTodoNode extends Node {
 	get name() {
@@ -10,7 +10,7 @@ export default class AppTodoNode extends Node {
 	}
 
 	get schema() {
-		return todoSchema("app_todo")
+		return schemaTodo
 	}
 
 	// this command will be called from menus to add a todo

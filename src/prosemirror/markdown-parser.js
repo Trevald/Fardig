@@ -2,14 +2,14 @@ import markdownit from "markdown-it"
 const taskLists = require("./../utils/markdown-it-task-item")
 
 import { MarkdownParser } from "prosemirror-markdown"
-import { schema } from "./../utils/schema"
+import { schemaAll } from "./../schema"
 
 export const markdownRenderer = markdownit("commonmark", { html: false, breaks: false }).use(
 	taskLists
 )
 
 export const markdownParser = new MarkdownParser(
-	schema,
+	schemaAll,
 	markdownit("commonmark", { html: false, breaks: false }).use(taskLists),
 	{
 		blockquote: { block: "blockquote" },

@@ -36,9 +36,7 @@ const storeDocuments = {
 		},
 
 		activeDocument: (state) => {
-			return state.documents.find(
-				(document) => document.id === state.activeDocumentId
-			)
+			return state.documents.find((document) => document.id === state.activeDocumentId)
 		},
 	},
 
