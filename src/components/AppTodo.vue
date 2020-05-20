@@ -3,11 +3,7 @@
 		<span class="todo-value" contenteditable="false">
 			<input type="checkbox" @click="onChange" :checked="checked" />
 		</span>
-		<span
-			class="todo-content"
-			ref="content"
-			:contenteditable="view.editable.toString()"
-		></span>
+		<span class="todo-content" ref="content" :contenteditable="view.editable.toString()"></span>
 	</p>
 </template>
 
@@ -33,7 +29,6 @@
 		},
 
 		mounted() {
-			console.log(this.node.attrs.state)
 			this.checked = this.node.attrs.state === "done"
 		},
 	}

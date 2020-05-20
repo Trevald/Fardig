@@ -8,48 +8,55 @@ module.exports = function(md) {
 		var tokens = state.tokens
 
 		for (var i = 0; i < tokens.length; i++) {
-			if (isTodoItem(tokens, i)) {
-				tokens[i - 1] = new state.Token("app_todo_open", "div", 0)
-				tokens[i - 1].block = true
-				tokens[i - 1].attrs = [
-					["type", "app_todo"],
-					[
-						"state",
-						tokens[i].content.charAt(1).toLowerCase() === "x"
-							? "done"
-							: "not started",
-					],
-				]
-				tokens[i + 1] = new state.Token("app_todo_close", "div", 0)
+			if (!isTodoItem(tokens, i)) {
+				continue
 			}
+
+			const content = tokens[i].content + ""
+			const done = content.charAt(1).toLowerCase() + "" === "x"
+
+			tokens[i - 2].attrs = [["class", "todo-list"]]
+
+			tokens[i - 1].type = "app_todo_open" // = new state.Token("app_todo_open", "p", 0)
+			tokens[i - 1].nesting = 1
+			tokens[i + 1].nesting = -1
+
+			tokens[i - 1].attrs = [
+				["type", "app_todo"],
+				["state", done ? "done" : "not started"],
+			]
+			tokens[i].children[0].content = content.slice(4)
+			tokens[i + 1].type = "app_todo_close" // = new state.Token("app_todo_close", "p", 0)
 		}
-		// console.log("tokens", tokens)
+
 		return true
 	})
+
+	md.core.ruler.push("app_todo2", function(state) {
+		console.log("tokens", state.tokens)
+	})
+
+	console.log("md", md)
 }
 
 function isTodoItem(tokens, index) {
 	return (
 		isInline(tokens[index]) &&
 		isParagraph(tokens[index - 1]) &&
+		isListItem(tokens[index - 2]) &&
 		startsWithTodoMarkdown(tokens[index])
 	)
 }
-
-/*
-function todoify(token, TokenConstructor) {
-	token.children.unshift(new TokenConstructor("paragraph_open", "div", 0))
-	// token.children[1].content = token.children[1].content.slice(3)
-	// token.content = token.content.slice(3)
-	token.children.push(new TokenConstructor("paragraph_close", "div", 0))
-}
-*/
 
 function isInline(token) {
 	return token.type === "inline"
 }
 function isParagraph(token) {
 	return token.type === "paragraph_open"
+}
+
+function isListItem(token) {
+	return token.type === "list_item_open"
 }
 
 function startsWithTodoMarkdown(token) {

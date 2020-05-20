@@ -86,9 +86,7 @@ const nodes = {
 				tag: "ol",
 				getAttrs(dom) {
 					return {
-						order: dom.hasAttribute("start")
-							? +dom.getAttribute("start")
-							: 1,
+						order: dom.hasAttribute("start") ? +dom.getAttribute("start") : 1,
 						tight: dom.hasAttribute("data-tight"),
 					}
 				},
@@ -109,7 +107,9 @@ const nodes = {
 	bullet_list: {
 		content: "list_item+",
 		group: "block",
-		attrs: { tight: { default: false } },
+		attrs: {
+			tight: { default: false },
+		},
 		parseDOM: [
 			{
 				tag: "ul",
@@ -194,8 +194,7 @@ const marks = {
 			{ tag: "strong" },
 			{
 				style: "font-weight",
-				getAttrs: (value) =>
-					/^(bold(er)?|[5-9]\d{2,})$/.test(value) && null,
+				getAttrs: (value) => /^(bold(er)?|[5-9]\d{2,})$/.test(value) && null,
 			},
 		],
 		toDOM() {

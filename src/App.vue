@@ -1,9 +1,7 @@
 <template>
 	<div id="app" v-hotkey="keymap">
 		<header class="app-header">
-			<a v-if="dropboxAuthLink" :href="dropboxAuthLink"
-				>Login with Dropbox</a
-			>
+			<a v-if="dropboxAuthLink" :href="dropboxAuthLink">Login with Dropbox</a>
 
 			<nav class="tabs">
 				<ul>
@@ -11,9 +9,7 @@
 						v-for="file in openDocuments"
 						:key="file.id"
 						:class="{
-							'is-active':
-								activeDocument.id === file.id &&
-								activeView === 'editor',
+							'is-active': activeDocument.id === file.id && activeView === 'editor',
 						}"
 					>
 						<button
@@ -26,15 +22,8 @@
 					</li>
 				</ul>
 				<ul>
-					<li
-						class="todos-link"
-						:class="{ 'is-active': activeView === 'todo' }"
-					>
-						<button
-							class="no-style"
-							type="button"
-							@click="setActiveView('todo')"
-						>
+					<li class="todos-link" :class="{ 'is-active': activeView === 'todo' }">
+						<button class="no-style" type="button" @click="setActiveView('todo')">
 							ToDos
 						</button>
 					</li>
@@ -43,10 +32,7 @@
 		</header>
 
 		<main class="app-main">
-			<div
-				class="container"
-				:class="{ 'show-baseline-grid': shouldShowGrid, view: true }"
-			>
+			<div class="container" :class="{ 'show-baseline-grid': shouldShowGrid, view: true }">
 				<ul class="no-list view" v-if="activeView === 'todo'">
 					<li><AppMyTodosVue /></li>
 				</ul>
@@ -70,11 +56,7 @@
 			:hasUnsavedChanges="hasUnsavedChanges"
 		/>
 		<transition name="fade">
-			<AppCommand
-				v-if="showCommand"
-				:documents="documents"
-				@command="doCommand"
-			/>
+			<AppCommand v-if="showCommand" :documents="documents" @command="doCommand" />
 		</transition>
 	</div>
 </template>
@@ -88,14 +70,13 @@
 	import UserService from "./services/UserService"
 	import AppMyTodosVue from "./components/AppMyTodos.vue"
 
-	import markdownit from "markdown-it"
-	const taskLists = require("./utils/markdown-it-task-item")
-
-	// import taskLists from "markdown-it-task-lists"
-	import { MarkdownParser } from "prosemirror-markdown"
-	import { schema } from "./utils/schema"
-
 	import { documentGetCommitMode } from "./utils/document"
+
+	import { markdownParser, markdownRenderer } from "./prosemirror/markdown-parser"
+	import { markdownSerializer } from "./prosemirror/markdown-serializer"
+	import { EditorState } from "prosemirror-state"
+	import { Node } from "prosemirror-model"
+	import { schema } from "./utils/schema"
 
 	export default {
 		name: "App",
@@ -205,13 +186,10 @@
 					return
 				}
 
-				let newactiveDocumentIndex =
-					activeDocumentIndexInopenDocuments + indexModifier
+				let newactiveDocumentIndex = activeDocumentIndexInopenDocuments + indexModifier
 				if (newactiveDocumentIndex <= -1) {
 					newactiveDocumentIndex = openDocumentsArray.length - 1
-				} else if (
-					newactiveDocumentIndex >= openDocumentsArray.length
-				) {
+				} else if (newactiveDocumentIndex >= openDocumentsArray.length) {
 					newactiveDocumentIndex = 0
 				}
 				this.$store.commit("setActiveDocument", {
@@ -223,6 +201,7 @@
 
 			upload() {
 				const fileToUpload = this.activeDocument
+
 				const filesCommitInfo = {
 					contents: fileToUpload.blob,
 					autorename: false,
@@ -236,6 +215,18 @@
 					lastUpdated: fileToUpload.lastChanged,
 				})
 
+				const pureJson = fileToUpload.json
+
+				const state = EditorState.create({
+					doc: Node.fromJSON(schema, pureJson),
+				})
+				console.log("serie 1", state)
+				const serialized = markdownSerializer.serialize(state.doc)
+
+				console.log("serie 2", filesCommitInfo, serialized)
+
+				filesCommitInfo.contents = serialized
+
 				this.cloudStorage.storeContents(filesCommitInfo).then(() => {
 					this.$store.commit("updateDocument", {
 						id: fileToUpload.id,
@@ -246,9 +237,7 @@
 
 			toggleGrid() {
 				this.shouldShowGrid = !this.shouldShowGrid
-				document
-					.querySelector("html")
-					.classList.toggle("toggle-grid", this.shouldShowGrid)
+				document.querySelector("html").classList.toggle("toggle-grid", this.shouldShowGrid)
 			},
 
 			login() {
@@ -256,101 +245,27 @@
 				if (!this.cloudStorage.isAuthenticated()) {
 					this.dropboxAuthLink = this.cloudStorage.getAuthUrl()
 				} else {
-					// const mdParser = markdownit().use(taskLists)
-					const markdownParser = new MarkdownParser(
-						schema,
-						markdownit("commonmark", { html: false }).use(
-							taskLists
-						),
-						{
-							blockquote: { block: "blockquote" },
-							paragraph: { block: "paragraph" },
-							list_item: { block: "list_item" },
-							bullet_list: { block: "bullet_list" },
-							ordered_list: {
-								block: "ordered_list",
-								getAttrs: (tok) => ({
-									order: +tok.attrGet("start") || 1,
-								}),
-							},
-							heading: {
-								block: "heading",
-								getAttrs: (tok) => ({
-									level: +tok.tag.slice(1),
-								}),
-							},
-							code_block: { block: "code_block" },
-							fence: {
-								block: "code_block",
-								getAttrs: (tok) => ({ params: tok.info || "" }),
-							},
-							hr: { node: "horizontal_rule" },
-							image: {
-								node: "image",
-								getAttrs: (tok) => ({
-									src: tok.attrGet("src"),
-									title: tok.attrGet("title") || null,
-									alt:
-										(tok.children[0] &&
-											tok.children[0].content) ||
-										null,
-								}),
-							},
-							hardbreak: { node: "hard_break" },
-							app_todo: {
-								block: "app_todo",
-								getAttrs: (tok) => ({
-									type: tok.attrGet("type"),
-									state: tok.attrGet("state"),
-								}),
-							},
-
-							em: { mark: "em" },
-							strong: { mark: "strong" },
-							link: {
-								mark: "link",
-								getAttrs: (tok) => ({
-									href: tok.attrGet("href"),
-									title: tok.attrGet("title") || null,
-								}),
-							},
-							code_inline: { mark: "code" },
-						}
-					)
-
-					/*
-
-	<ul class="contains-task-list">
-	<li class="task-list-item enabled"><input class="task-list-item-checkbox" checked=""type="checkbox"> Done</li>
-	<li class="task-list-item enabled"><input class="task-list-item-checkbox"type="checkbox"> Not done</li>
-	</ul>
-
-	                    */
-
 					this.cloudStorage.getEntries().then((files) => {
 						let loadedFiles = []
 						files.forEach((file) => {
-							this.cloudStorage
-								.getContents(file.path_lower)
-								.then((fileContent) => {
-									const data = file
-									data.contents = fileContent
-									data.json = JSON.parse(
-										JSON.stringify(
-											markdownParser.parse(fileContent)
-										)
-									)
-									console.log(
-										"json",
-										file.path_lower,
-										data.json
-									)
-									this.$store.commit("addDocument", data)
-									loadedFiles.push(file.id)
-									if (loadedFiles.length === files.length) {
-										this.allFilesLoaded()
-									}
-								})
+							this.cloudStorage.getContents(file.path_lower).then((fileContent) => {
+								const data = file
+								data.contents = fileContent
+								console.log(
+									"json 1",
+									file.path_lower,
+									markdownRenderer.render(fileContent)
+								)
+								data.json = JSON.parse(
+									JSON.stringify(markdownParser.parse(fileContent))
+								)
+
+								this.$store.commit("addDocument", data)
+								loadedFiles.push(file.id)
+								if (loadedFiles.length === files.length) {
+									this.allFilesLoaded()
+								}
+							})
 						})
 					})
 				}

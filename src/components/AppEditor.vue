@@ -70,6 +70,8 @@
 		mounted() {
 			// const content = this.html
 
+			console.log("editor", this.json)
+
 			this.editor = new Editor({
 				extensions: [
 					new AppTodoNode(),
@@ -91,6 +93,8 @@
 				onUpdate: ({ getHTML, getJSON }) => {
 					const html = getHTML()
 					const json = getJSON()
+
+					console.log("state", this.editor.view.state.doc)
 
 					this.$emit("change", {
 						html,

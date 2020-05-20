@@ -10,14 +10,8 @@ export function todoSchema(name) {
 			notification: { default: null },
 		},
 
-		marks: "",
-		content: "text*",
+		content: "inline*",
 		group: "block",
-		selectable: true,
-		defining: true,
-		draggable: false,
-		isText: true,
-		text: {},
 
 		parseDOM: [
 			{
@@ -33,7 +27,7 @@ export function todoSchema(name) {
 			const attrs = node.attrs
 
 			return [
-				"div",
+				"p",
 				{
 					"data-type": name,
 					"data-state": attrs.state,

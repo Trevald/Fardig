@@ -42,7 +42,7 @@
 			contentChanged(data) {
 				const html = data.html
 				const json = data.json
-				console.log("json", json)
+
 				const markdown = this.markdownService.fromHTML(html)
 				const fileLastChanged = Date.now()
 				this.$store.commit("updateDocument", {
