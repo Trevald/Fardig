@@ -18,7 +18,9 @@ const storeDocuments = {
 		},
 
 		documentsWithTodos: (state) => {
-			return state.documents.filter((doc) => documentHasTodos(doc))
+			const res = state.documents.filter((doc) => documentHasTodos(doc) === true)
+			console.log("res", res)
+			return res
 		},
 
 		firstDocument: (state) => {

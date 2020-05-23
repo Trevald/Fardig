@@ -31,12 +31,6 @@ module.exports = function(md) {
 
 		return true
 	})
-	/*
-	md.core.ruler.push("app_todo2", function(state) {
-		console.log("tokens", state.tokens)
-	})
-*/
-	console.log("md", md)
 }
 
 function isTodoItem(tokens, index) {

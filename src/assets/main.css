@@ -1,218 +1,214 @@
 @import "./../../the_css/the_css.css";
 
-
 /* Main layout */
 
 .view {
-    display: flex;
-    flex: 1 1 auto;
+	display: flex;
+	flex: 1 1 auto;
+}
+
+.view-col {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
 }
 
 #app {
-    display: flex;
-    flex: 1 1 auto;
-    flex-direction: column;
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
 
-    width: 100%;
+	width: 100%;
 }
 
-
 .app-main {
-    flex: 1 1 0;
-    display: flex;
-    overflow: auto;
-    padding-top: calc(var(--unit) * 8);
+	flex: 1 1 0;
+	display: flex;
+	overflow: auto;
+	padding-top: calc(var(--unit) * 8);
 }
 
 .app-editor {
-    display: flex;
-    flex: 1 1 auto;
+	display: flex;
+	flex: 1 1 auto;
 }
 
 .app-status {
-    flex: 0 0 auto;
-    display: flex; 
-    justify-content: space-between;
-    align-items: center;
+	flex: 0 0 auto;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
 
-    padding: calc(var(--unit) / 2) calc(var(--unit) / 1);
-    background: rgba(50, 100, 250, 0.6);
-    font-size: calc(var(--unit) * 1.5);
-    color: rgba(255, 255, 255, 0.8);
+	padding: calc(var(--unit) / 2) calc(var(--unit) / 1);
+	background: rgba(50, 100, 250, 0.6);
+	font-size: calc(var(--unit) * 1.5);
+	color: rgba(255, 255, 255, 0.8);
 }
 
 .app-status .app-logo svg {
-    width: auto;
-    height: 10px;
+	width: auto;
+	height: 10px;
 }
 
 .app-status .app-logo path {
-    fill: #FEFFF7;
+	fill: #fefff7;
 }
 
-
-
 .app-header .logo {
-    flex: 0 0 auto;
-    width: 120px;
-    height: auto;
-    margin: 0 0 calc(var(--unit) / 2) 0;
+	flex: 0 0 auto;
+	width: 120px;
+	height: auto;
+	margin: 0 0 calc(var(--unit) / 2) 0;
 }
 
 .app-header .logo path {
-    fill: var(--main-fg);
+	fill: var(--main-fg);
 }
 
 .ProseMirror:focus {
-    outline: none;
+	outline: none;
 }
 
 .todo {
-    --font-size: calc(var(--unit) * 2.25);
-    --line-height: calc(var(--unit) * 4); /* 1.28 */
-    --line-height-percentage: calc(4 / 2.25);
-    --cap-height: 0.7;
-    --offset: calc(var(--font-size) * (var(--line-height-percentage) - var(--cap-height)) / 2);
+	--font-size: calc(var(--unit) * 2.25);
+	--line-height: calc(var(--unit) * 4); /* 1.28 */
+	--line-height-percentage: calc(4 / 2.25);
+	--cap-height: 0.7;
+	--offset: calc(var(--font-size) * (var(--line-height-percentage) - var(--cap-height)) / 2);
 
-    position: relative;
-    padding: var(--unit) 0 calc((var(--unit) / 1) - var(--offset)) 0;
-    min-height: calc(var(--unit) * 6);
+	position: relative;
+	padding: var(--unit) 0 calc((var(--unit) / 1) - var(--offset)) 0;
+	min-height: calc(var(--unit) * 6);
 
-    font-size: var(--font-size);
-    line-height: var(--line-height);
+	font-size: var(--font-size);
+	line-height: var(--line-height);
 }
 
 .todo-value {
-    position: absolute;
-    top: calc(var(--unit) + var(--offset) - var(--unit) / 2);
-    left: calc(var(--unit-fluid) * -8);
+	position: absolute;
+	top: calc(var(--unit) + var(--offset) - var(--unit) / 2);
+	left: calc(var(--unit-fluid) * -8);
 }
 
 .todo-content {
-    margin-bottom: 0;
+	margin-bottom: 0;
 }
-
 
 /*
  * Command
  */
 
 .app-command {
-    position: fixed;
-    top: var(--unit);
-    left: 50%;
-    transform: translateX(-50%);
-    min-width: calc(var(--unit) * 85);
-    max-width: 95vw;
+	position: fixed;
+	top: var(--unit);
+	left: 50%;
+	transform: translateX(-50%);
+	min-width: calc(var(--unit) * 85);
+	max-width: 95vw;
 
-    background: #36363A;
-    border-radius: 2px;
+	background: #36363a;
+	border-radius: 2px;
 
-    color: #E6F1A2;
-    box-shadow: rgba(0,0,0,0.25) 0 15px 35px;
-} 
+	color: #e6f1a2;
+	box-shadow: rgba(0, 0, 0, 0.25) 0 15px 35px;
+}
 
 input.app-command-input {
-    display: block;
-    box-shadow: none;
-    border: none;
-    background: transparent;
-    font-family: var(--font-monospace);
-    font-size: calc(var(--unit) * 2.25);
-    color: #E6F1A2;
-    padding: calc(var(--unit) * 2); 
+	display: block;
+	box-shadow: none;
+	border: none;
+	background: transparent;
+	font-family: var(--font-monospace);
+	font-size: calc(var(--unit) * 2.25);
+	color: #e6f1a2;
+	padding: calc(var(--unit) * 2);
 }
 
 input.app-command-input:focus {
-    outline: none;
+	outline: none;
 }
 
 .app-command-results {
-    padding: 0;
-    list-style: none;
+	padding: 0;
+	list-style: none;
 }
 
 .app-command-results > li {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 .app-command-results > li > button {
-    padding: calc(var(--unit) * 2.5) calc(var(--unit) * 4);
-    font-size: calc(var(--unit) * 2);
-    font-family: var(--font-monospace);
-    display: block;
-    width: 100%;
+	padding: calc(var(--unit) * 2.5) calc(var(--unit) * 4);
+	font-size: calc(var(--unit) * 2);
+	font-family: var(--font-monospace);
+	display: block;
+	width: 100%;
 }
 
 .app-command-results > li > button.is-active {
-    color: white;
-    background: rgba(134, 157, 210, 0.1);
+	color: white;
+	background: rgba(134, 157, 210, 0.1);
 }
 
 .app-command-results > li:last-child > button {
-    border-bottom-left-radius: 2px;
-    border-bottom-right-radius: 2px;
+	border-bottom-left-radius: 2px;
+	border-bottom-right-radius: 2px;
 }
 
 /*
  * App Header
  */
 
- .app-header {
-    --font-size: calc(var(--unit) * 1.75);
-    --line-height: calc(var(--unit) * 2);
-    --line-height-percentage: calc(2 / 1.75);
-    --cap-height: 0.70;
-    --offset: calc(var(--font-size) * (var(--line-height-percentage) - var(--cap-height)) / 2);
+.app-header {
+	--font-size: calc(var(--unit) * 1.75);
+	--line-height: calc(var(--unit) * 2);
+	--line-height-percentage: calc(2 / 1.75);
+	--cap-height: 0.7;
+	--offset: calc(var(--font-size) * (var(--line-height-percentage) - var(--cap-height)) / 2);
 
+	flex: 0 0 auto;
+	/* box-shadow: rgba(0,0,0, 0.75) 0 -0.5px 0 0 inset; */
+	background-color: rgba(0, 0, 0, 0.2);
 
-    flex: 0 0 auto;
-    /* box-shadow: rgba(0,0,0, 0.75) 0 -0.5px 0 0 inset; */
-    background-color: rgba(0,0,0,0.2);
-
-    display: flex;
-    align-items: stretch;
-    justify-content: stretch;
-    height: calc(var(--unit) * 5)
-    /*padding-top: var(--offset);*/
+	display: flex;
+	align-items: stretch;
+	justify-content: stretch;
+	height: calc(var(--unit) * 5);
+	/*padding-top: var(--offset);*/
 }
 
-
- .tabs {
-     display: flex;
-     flex: 1 1 auto;
-     justify-content: space-between;
- }
+.tabs {
+	display: flex;
+	flex: 1 1 auto;
+	justify-content: space-between;
+}
 
 .tabs ul {
-    margin: 0;
-    padding: 0;
-    list-style: none;
-    display: flex;
-    justify-content: flex-start;
-    
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: flex;
+	justify-content: flex-start;
 }
 
 .tabs li {
-    display: flex;
-    flex: 0 0 auto;
-    margin: 0 1px;
-} 
- 
+	display: flex;
+	flex: 0 0 auto;
+	margin: 0 1px;
+}
+
 .tabs button {
-    display: block;
-    margin: 0;
-    /*padding: calc(var(--unit) * 1 + var(--offset)) calc(var(--unit) * 2) calc(var(--unit) * 1);*/
-    padding: 0 calc(var(--unit) * 2);
-    color: rgba(255, 255, 255, 0.6);
-    font-variation-settings: "wght" 400;
-    font-size: var(--font-size);
-    line-height: var(--line-height);
-    border-bottom: 1px solid transparent;
-} 
-
-
+	display: block;
+	margin: 0;
+	/*padding: calc(var(--unit) * 1 + var(--offset)) calc(var(--unit) * 2) calc(var(--unit) * 1);*/
+	padding: 0 calc(var(--unit) * 2);
+	color: rgba(255, 255, 255, 0.6);
+	font-variation-settings: "wght" 400;
+	font-size: var(--font-size);
+	line-height: var(--line-height);
+	border-bottom: 1px solid transparent;
+}
 
 /*
 .tabs li:not(:first-child):not(.is-active) {
@@ -228,29 +224,27 @@ input.app-command-input:focus {
 }
 */
 
-
 .tabs li.is-active button {
-    background: var(--main-bg);
-    color: var(--main-fg);
-    /* border-color: #6BE548; */
-} 
+	background: var(--main-bg);
+	color: var(--main-fg);
+	/* border-color: #6BE548; */
+}
 
 .tabs li button:focus {
-    outline: none;
+	outline: none;
 }
 
 .tabs li:not(.is-active) button:focus,
 .tabs li:not(.is-active) button:hover {
-    background: rgba(0,0,0,0.1);
-    color: var(--main-fg);
-    
+	background: rgba(0, 0, 0, 0.1);
+	color: var(--main-fg);
 }
 
 .tabs button:focus:active {
-    outline: none;
+	outline: none;
 }
 
 .tabs .todos-link {
-    flex: 0 0 auto;
-    justify-self: flex-end;
+	flex: 0 0 auto;
+	justify-self: flex-end;
 }

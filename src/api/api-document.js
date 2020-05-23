@@ -19,7 +19,6 @@ export function documentUpload(doc) {
 		mode: documentGetCommitMode(fileToUpload),
 		path: documentGetPath(fileToUpload),
 	}
-	console.log("filesCommitInfo", filesCommitInfo, fileToUpload)
 
 	this.$store.commit("updateDocument", {
 		id: fileToUpload.id,

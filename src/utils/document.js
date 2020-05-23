@@ -1,8 +1,6 @@
 import { EditorState } from "prosemirror-state"
 import { Node } from "prosemirror-model"
 
-import { contains } from "prosemirror-utils"
-
 import { markdownParser } from "./../prosemirror/markdown-parser"
 import { markdownSerializer } from "./../prosemirror/markdown-serializer"
 import { schemaAll } from "./../schema"
@@ -49,8 +47,32 @@ export function documentGetCommitMode(doc) {
 	return doc.rev === undefined ? documentGetCommitModeAdd(doc) : documentCommitModeUpdate(doc)
 }
 
+export function documentGetTodos(doc) {
+	const node = Node.fromJSON(schemaAll, doc.json)
+	const todos = []
+
+	node.descendants((descendant) => {
+		if (descendant.type.name === "app_todo") {
+			todos.push(descendant)
+		}
+	})
+
+	console.log("todos", todos)
+
+	return todos
+}
+
 export function documentHasTodos(doc) {
-	return contains(doc, schemaAll.nodes.app_node)
+	const node = Node.fromJSON(schemaAll, doc.json)
+	let result = false
+	node.descendants((descendant) => {
+		if (result === true) {
+			return false
+		}
+		result = descendant.type.name === "app_todo"
+	})
+
+	return result
 }
 
 export function documentGetCommitInfo(doc) {
