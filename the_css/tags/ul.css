@@ -1,14 +1,14 @@
 nav > ul,
 nav > ol,
-.no-list {
-    margin: 0;
-    padding: 0;
-    list-style: none;
+.no-style {
+	margin: 0;
+	padding: 0;
+	list-style: none;
 }
 
 nav > ul > li,
 nav > ol > li,
-.no-list > li {
-    margin: 0;
-    padding: 0;
+.no-style > li {
+	margin: 0;
+	padding: 0;
 }

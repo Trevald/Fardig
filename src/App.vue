@@ -50,11 +50,11 @@
         :class="{ 'show-baseline-grid': shouldShowGrid, view: true }"
       >
         <ul
-          class="no-list view"
+          class="no-style view"
           v-if="activeView === 'todo'"
         >
           <li>
-            <AppMyTodosVue />
+            <AppMyTodos />
           </li>
         </ul>
 
@@ -96,7 +96,7 @@ import AppStatus from "./components/AppStatus.vue";
 import DropboxApi from "./cloud/dropbox";
 
 import UserService from "./services/UserService";
-import AppMyTodosVue from "./components/AppMyTodos.vue";
+import AppMyTodos from "./components/AppMyTodos";
 
 import {
   documentGetCommitInfo,
@@ -110,7 +110,7 @@ export default {
   components: {
     AppCommand,
     AppDocument,
-    AppMyTodosVue,
+    AppMyTodos,
     AppStatus
   },
 
