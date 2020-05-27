@@ -14,9 +14,6 @@ module.exports = function(md) {
 
 			const content = tokens[i].content + ""
 			const done = content.charAt(1).toLowerCase() + "" === "x"
-
-			// tokens[i - 2].attrs = [["class", "todo-list"]]
-			console.log("ruler", tokens[i - 1], content, i)
 			tokens[i - 1].type = "todo_item_open" // = new state.Token("app_todo_open", "p", 0)
 
 			tokens[i - 1].attrs = [
@@ -27,7 +24,6 @@ module.exports = function(md) {
 			tokens[i + 1].type = "todo_item_close" // = new state.Token("app_todo_close", "p", 0)
 			tokens.splice(i + 2, 1)
 			tokens.splice(i - 2, 1)
-			console.log("tokens", tokens)
 
 			if (!parentListIsTodo(tokens, i)) {
 				const parentIndexes = getParentList(tokens, i)
