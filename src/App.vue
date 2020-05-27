@@ -255,14 +255,20 @@ export default {
         this.cloudStorage.getEntries().then(files => {
           let loadedFiles = [];
           files.forEach(file => {
+            if (!file.name.includes("Tråkigt")) {
+              return;
+            }
             this.cloudStorage.getContents(file.path_lower).then(fileContent => {
               file.json = documentGetJsonFromMarkdown(fileContent);
+
+              console.log(file.name, file.json);
 
               this.$store.commit("addDocument", file);
               loadedFiles.push(file.id);
               if (loadedFiles.length === files.length) {
                 this.allFilesLoaded();
               }
+              this.allFilesLoaded();
             });
           });
         });
@@ -283,7 +289,6 @@ export default {
           id: this.$store.getters.firstDocument.id
         });
       }
-      console.log("loaded", this.userService.activeView);
 
       if (this.userService.activeView !== undefined) {
         this.activeView = this.userService.activeView;
@@ -300,8 +305,8 @@ export default {
 
     setActiveView(view, file) {
       this.activeView = view;
-      console.log(view);
       this.savePreferences();
+
       if (file) {
         this.$store.commit("setActiveDocument", { id: file.id });
       }

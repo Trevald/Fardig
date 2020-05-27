@@ -1,5 +1,9 @@
 import { Schema } from "prosemirror-model"
-import { schemaTodo } from "./schema-todo"
+import {
+
+  TodoList
+} from "tiptap-extensions";
+import TodoItem from "./TodoItemNode"
 
 // ::Schema Document schema for the data model used by CommonMark.
 
@@ -234,6 +238,7 @@ const marks = {
 	},
 }
 
-nodes.app_todo = schemaTodo
+nodes.todo_list = new TodoList().schema
+nodes.todo_item = new TodoItem().schema
 
-export const schemaAll = new Schema({ nodes, marks })
+export const schema = new Schema({ nodes, marks })

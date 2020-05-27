@@ -1,18 +1,19 @@
 import markdownit from "markdown-it"
-const taskLists = require("./../utils/markdown-it-task-item")
+const taskLists = require("./markdown-it-todo-item")
 
 import { MarkdownParser } from "prosemirror-markdown"
-import { schemaAll } from "./../schema"
+import { schema } from "./schema"
 
+/*
 export const markdownRenderer = markdownit("commonmark", { html: false, breaks: false }).use(
 	taskLists
 )
+*/
 
 export const markdownParser = new MarkdownParser(
-	schemaAll,
+	schema,
 	markdownit("commonmark", { html: false, breaks: false }).use(taskLists),
 	{
-		blockquote: { block: "blockquote" },
 		paragraph: { block: "paragraph" },
 		list_item: { block: "list_item" },
 		bullet_list: { block: "bullet_list" },
@@ -43,9 +44,18 @@ export const markdownParser = new MarkdownParser(
 			}),
 		},
 		hardbreak: { node: "hard_break" },
-		app_todo: {
-			block: "app_todo",
-			node: "app_todo",
+
+		todo_list: {
+			block: "todo_list",
+			node: "todo_list",
+			getAttrs: (tok) => ({
+				type: tok.attrGet("type"),
+				state: tok.attrGet("state"),
+			}),
+		},
+		todo_item: {
+			block: "todo_item",
+			node: "todo_item",
 			getAttrs: (tok) => ({
 				type: tok.attrGet("type"),
 				state: tok.attrGet("state"),

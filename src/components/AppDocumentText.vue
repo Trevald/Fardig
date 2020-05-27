@@ -1,48 +1,51 @@
 <template>
-	<div>
-		<AppEditor :json="json" @change="contentChanged" />
-	</div>
+  <div>
+    <AppEditor
+      :json="json"
+      @change="contentChanged"
+    />
+  </div>
 </template>
 
 <script>
-	import MarkdownService from "./../services/MarkdownService"
+import MarkdownService from "./../services/MarkdownService";
 
-	import AppEditor from "./AppEditor.vue"
+import AppEditor from "./AppEditor.vue";
 
-	export default {
-		name: "AppDocument",
+export default {
+  name: "AppDocument",
 
-		components: {
-			AppEditor,
-		},
+  components: {
+    AppEditor
+  },
 
-		props: {
-			file: Object,
-		},
+  props: {
+    file: Object
+  },
 
-		data() {
-			return {
-				markdownService: new MarkdownService(),
-			}
-		},
+  data() {
+    return {
+      markdownService: new MarkdownService()
+    };
+  },
 
-		computed: {
-			json() {
-				return this.file.json
-			},
-		},
+  computed: {
+    json() {
+      return this.file.json;
+    }
+  },
 
-		methods: {
-			contentChanged(data) {
-				const json = data.json
+  methods: {
+    contentChanged(data) {
+      const json = data.json;
 
-				const fileLastChanged = Date.now()
-				this.$store.commit("updateDocument", {
-					id: this.file.id,
-					json: json,
-					lastChanged: fileLastChanged,
-				})
-			},
-		},
-	}
+      const fileLastChanged = Date.now();
+      this.$store.commit("updateDocument", {
+        id: this.file.id,
+        json: json,
+        lastChanged: fileLastChanged
+      });
+    }
+  }
+};
 </script>

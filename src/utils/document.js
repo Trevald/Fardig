@@ -3,7 +3,7 @@ import { Node } from "prosemirror-model"
 
 import { markdownParser } from "./../prosemirror/markdown-parser"
 import { markdownSerializer } from "./../prosemirror/markdown-serializer"
-import { schemaAll } from "./../schema"
+import { schema } from "./../prosemirror/schema"
 
 export function documentGetBlob(doc) {
 	return new Blob([doc.contents], { type: "text/plain" })
@@ -48,11 +48,11 @@ export function documentGetCommitMode(doc) {
 }
 
 export function documentGetTodos(doc) {
-	const node = Node.fromJSON(schemaAll, doc.json)
+	const node = Node.fromJSON(schema, doc.json)
 	const todos = []
 
 	node.descendants((descendant) => {
-		if (descendant.type.name === "app_todo") {
+		if (descendant.type.name === "todo_item") {
 			todos.push(descendant)
 		}
 	})
@@ -63,13 +63,13 @@ export function documentGetTodos(doc) {
 }
 
 export function documentHasTodos(doc) {
-	const node = Node.fromJSON(schemaAll, doc.json)
+	const node = Node.fromJSON(schema, doc.json)
 	let result = false
 	node.descendants((descendant) => {
 		if (result === true) {
 			return false
 		}
-		result = descendant.type.name === "app_todo"
+		result = descendant.type.name === "todo_item"
 	})
 
 	return result
@@ -77,7 +77,7 @@ export function documentHasTodos(doc) {
 
 export function documentGetCommitInfo(doc) {
 	const docState = EditorState.create({
-		doc: Node.fromJSON(schemaAll, doc.json),
+		doc: Node.fromJSON(schema, doc.json),
 	})
 
 	const docStateSerialized = markdownSerializer.serialize(docState.doc)
@@ -91,5 +91,6 @@ export function documentGetCommitInfo(doc) {
 }
 
 export function documentGetJsonFromMarkdown(markdown) {
+	console.log("documentGetJsonFromMarkdown")
 	return JSON.parse(JSON.stringify(markdownParser.parse(markdown)))
 }

@@ -36,7 +36,6 @@ export default {
   },
 
   mounted() {
-    console.log(this.todo);
     this.checked = this.todo.attrs.state === "done";
   }
 };
