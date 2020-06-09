@@ -14,6 +14,7 @@ export const markdownParser = new MarkdownParser(
 	schema,
 	markdownit("commonmark", { html: false, breaks: false }).use(taskLists),
 	{
+		blockquote: { block: "blockquote" },
 		paragraph: { block: "paragraph" },
 		list_item: { block: "list_item" },
 		bullet_list: { block: "bullet_list" },

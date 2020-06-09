@@ -49,28 +49,28 @@
         class="container"
         :class="{ 'show-baseline-grid': shouldShowGrid, view: true }"
       >
-        <ul
-          class="no-style view"
+        <div
+          class="view"
           v-if="activeView === 'todo'"
         >
-          <li>
+          <article>
             <AppMyTodos />
-          </li>
-        </ul>
+          </article>
+        </div>
 
-        <ul
-          class="no-list view"
+        <div
+          class="view"
           v-else
         >
-          <li
+          <article
             v-for="file in openDocuments"
             :key="file.id"
             class="view"
             v-show="activeDocument.id === file.id"
           >
             <AppDocument :file="file" />
-          </li>
-        </ul>
+          </article>
+        </div>
       </div>
     </main>
 
@@ -256,7 +256,7 @@ export default {
           let loadedFiles = [];
           files.forEach(file => {
             if (!file.name.includes("Tråkigt")) {
-              return;
+              // return;
             }
             this.cloudStorage.getContents(file.path_lower).then(fileContent => {
               file.json = documentGetJsonFromMarkdown(fileContent);
@@ -268,7 +268,6 @@ export default {
               if (loadedFiles.length === files.length) {
                 this.allFilesLoaded();
               }
-              this.allFilesLoaded();
             });
           });
         });
