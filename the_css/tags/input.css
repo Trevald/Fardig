@@ -1,61 +1,59 @@
 input:not([type]),
 input[type="text"] {
-    margin: 0;
-    padding: var(--unit) var(--unit-half);
-    min-height: calc(var(--unit) * 3);
-    
+	margin: 0;
+	padding: var(--unit) var(--unit-half);
+	min-height: calc(var(--unit) * 3);
 
-    color: var(--main-fg);
-    font-size: var(--unit);
-    line-height: 1;
+	color: var(--main-fg);
+	font-size: var(--unit);
+	line-height: 1;
 
-    background-color: var(--input-bg-idle);
-    border: var(--input-border-idle);
-    box-shadow: none;
+	background-color: var(--input-bg-idle);
+	border: var(--input-border-idle);
+	box-shadow: none;
 }
 
 /*
  * Checkbox
  */
 input[type="checkbox"] {
-    position: relative;
-    appearance: none;
-    width: calc(var(--unit) * 3);
-    height: calc(var(--unit) * 3);
-    border-radius: 2px;
-    background-color: rgba(0, 0, 0, 0.25 );
-    border: 1px solid rgba(244, 241, 211, 0.32);
-    margin: var(--unit) var(--unit-fluid);
-    transition: all .3s ease;
+	position: relative;
+	appearance: none;
+	width: calc(var(--unit) * 3);
+	height: calc(var(--unit) * 3);
+	border-radius: 1px;
+	background-color: rgba(0, 0, 0, 0.25);
+	border-width: 1px;
+	border-style: solid;
+	border-color: hsla(var(--_color-inactive), var(--opacity-sm));
+	margin: var(--unit) var(--unit-fluid);
+	transition: all 0.3s ease;
 
-    background-repeat: no-repeat;
-    background-size: 11px 12px, 100%;
-    background-position: 55% 55%, 0 0;    
+	background-repeat: no-repeat;
+	background-size: 11px 12px, 100%;
+	background-position: 55% 55%, 0 0;
 }
 
 input[type="checkbox"]::before {
-    content: "";
-    position: absolute;
-    top: calc(var(--unit) * -1);
-    right: calc(var(--unit-fluid) * -1);
-    bottom: calc(var(--unit) * -1);
-    left: calc(var(--unit-fluid) * -1);
-
-    
+	content: "";
+	position: absolute;
+	top: calc(var(--unit) * -1);
+	right: calc(var(--unit-fluid) * -1);
+	bottom: calc(var(--unit) * -1);
+	left: calc(var(--unit-fluid) * -1);
 }
 
 input[type="checkbox"]:checked {
-    background-image: 
-        url('data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2011%209%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M10.7488%201.31929L9.19926%200.0548096L4.53726%205.76783L1.60001%203.5L0.377747%205.08305L4.86044%208.54412L5.04655%208.30307L5.04852%208.30467L10.7488%201.31929Z%22%20fill%3D%22%231E1515%22%2F%3E%3C%2Fsvg%3E');
-    background-color: #DFFD9E;
-    box-shadow: 0px 1px 1px rgba(255, 255, 255, 0.16), inset 0px 1px 1px rgba(0, 0, 0, 0.16);
-    border: none;
+	background-image: url("data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2011%209%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M10.7488%201.31929L9.19926%200.0548096L4.53726%205.76783L1.60001%203.5L0.377747%205.08305L4.86044%208.54412L5.04655%208.30307L5.04852%208.30467L10.7488%201.31929Z%22%20fill%3D%22%231E1515%22%2F%3E%3C%2Fsvg%3E");
+	background-color: var(--color-active);
+	box-shadow: 0px 1px 1px rgba(255, 255, 255, 0.16), inset 0px 1px 1px rgba(0, 0, 0, 0.16);
+	border: none;
 }
 
 input[type="checkbox"]:not(:checked):hover {
-    transform: scale(1.25);
+	transform: scale(1.25);
 }
 
 input[type="checkbox"]:checked:hover {
-    transform: scale(1.25);
+	transform: scale(1.25);
 }

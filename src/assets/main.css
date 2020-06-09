@@ -69,24 +69,33 @@
 	outline: none;
 }
 
-.todo {
+/* 
+ * Todo lists
+*/
+
+ul[data-type="todo_list"] > li::before {
+	content: none;
+}
+
+li[data-type="todo_item"] {
 	--font-size: calc(var(--unit) * 2.25);
 	--line-height: calc(var(--unit) * 4); /* 1.28 */
 	--line-height-percentage: calc(4 / 2.25);
 	--cap-height: 0.7;
 	--offset: calc(var(--font-size) * (var(--line-height-percentage) - var(--cap-height)) / 2);
 
-	position: relative;
-	padding: var(--unit) 0 calc((var(--unit) / 1) - var(--offset)) 0;
-	min-height: calc(var(--unit) * 6);
-
+	padding-top: var(--offset);
+	padding-bottom: calc(var(--unit) * 2 - var(--offset));
 	font-size: var(--font-size);
 	line-height: var(--line-height);
+	font-variation-settings: "wght" 250;
+
+	min-height: calc(var(--unit) * 6);
 }
 
-.todo-value {
+li[data-type="todo_item"] input[type="checkbox"] {
 	position: absolute;
-	top: calc(var(--unit) + var(--offset) - var(--unit) / 2);
+	top: 0.5em;
 	left: calc(var(--unit-fluid) * -8);
 }
 

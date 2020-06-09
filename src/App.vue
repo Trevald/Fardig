@@ -82,7 +82,6 @@
     <transition name="fade">
       <AppCommand
         v-if="showCommand"
-        :documents="documents"
         @command="doCommand"
       />
     </transition>

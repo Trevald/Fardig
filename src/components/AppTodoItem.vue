@@ -4,11 +4,7 @@
     :data-done="node.attrs.done.toString()"
     data-drag-handle
   >
-    <span
-      class="todo-checkbox"
-      contenteditable="false"
-      @click="onChange"
-    ></span>
+
     <input
       type="checkbox"
       @click="onChange"

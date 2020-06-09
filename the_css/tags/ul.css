@@ -1,3 +1,45 @@
+ol,
+ul {
+	margin: 0;
+	padding: 0;
+	list-style-position: outside;
+}
+
+ol,
+ul {
+	list-style: none;
+}
+
+ol > li,
+ul > li {
+	position: relative;
+}
+
+ol {
+	counter-reset: section;
+}
+
+ul > li::before {
+	position: absolute;
+	left: -2em;
+	top: 1em;
+	content: "•";
+	color: var(--color-any-1);
+}
+
+ol > li::before {
+	position: absolute;
+	left: -2em;
+	top: 1em;
+	counter-increment: section;
+	content: counter(section);
+	color: var(--color-any-1);
+}
+
+/*
+ * No bullets   
+ */
+
 nav > ul,
 nav > ol,
 .no-style {
@@ -11,4 +53,11 @@ nav > ol > li,
 .no-style > li {
 	margin: 0;
 	padding: 0;
+	position: static;
+}
+
+nav > ul > li::before,
+nav > ol > li::before,
+.no-style > li::before {
+	content: none;
 }

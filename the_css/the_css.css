@@ -18,9 +18,8 @@
  */
 
 :root {
-    --view-max-width: calc(var(--unit) * 90);
+	--view-max-width: calc(var(--unit) * 90);
 }
-
 
 @import "./partials/typography.css";
 @import "./partials/base.css";
@@ -28,14 +27,14 @@
 /*
  * Tags
  */
- @import "./tags/a.css";
- @import "./tags/button.css";   
-@import "./tags/input.css"; 
-@import "./tags/label.css"; 
-@import "./tags/p.css";  
+@import "./tags/a.css";
+@import "./tags/button.css";
+@import "./tags/input.css";
+@import "./tags/label.css";
+@import "./tags/p.css";
 @import "./tags/section.css";
-@import "./tags/ul.css"; 
-
+@import "./tags/ul.css";
+@import "./tags/li.css";
 
 /* 
  * Add-ons
