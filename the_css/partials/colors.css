@@ -1,9 +1,15 @@
 :root {
 	/*
-     * Base
+     * Private
      */
 
-	--color-default: hsl(69, 75%, 89%);
+	--_color-default: 69, 75%, 89%;
+
+	--_color-action-primary: 238, 77% 55%;
+
+	--_color-inactive: 68, 74%, 79%;
+
+	--color-default: hsl(var(--_color-default));
 	--color-emphasised: hsl(68, 74%, 79%);
 	--color-muted: #b8c468;
 
@@ -11,12 +17,11 @@
 	--color-worrying: #fdbb57;
 	--color-bad: #db784d;
 
-	--color-action-primary: #363de5;
+	--color-action-primary: hsl(--_color-action-primary);
 	--color-action-secondary: #363de5;
 	--color-action-neutral: #5ac8fa;
 	--color-action-muted: #e6f1a2;
 
-	--_color-inactive: 68, 74%, 79%;
 	--color-inactive: hsl(var(--_color-inactive));
 	--color-active: var(--color-good);
 	--color-disavled: #6d7155;

@@ -21,7 +21,7 @@ ol {
 
 ul > li::before {
 	position: absolute;
-	left: -2em;
+	left: calc(var(--unit) * -4);
 	top: 1em;
 	content: "•";
 	color: var(--color-any-1);
@@ -29,10 +29,10 @@ ul > li::before {
 
 ol > li::before {
 	position: absolute;
-	left: -2em;
+	left: calc(var(--unit) * -4);
 	top: 1em;
 	counter-increment: section;
-	content: counter(section);
+	content: counter(section) ".";
 	color: var(--color-any-1);
 }
 

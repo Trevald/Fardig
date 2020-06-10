@@ -1,104 +1,104 @@
 button.no-style {
-    appearance: none;
-    display: inline-block;
-    
-    margin: 0;
-    padding: 0;
-    min-height: unset;
-    min-width: unset;
+	appearance: none;
+	display: inline-block;
 
-    font-family: inherit;
-    font-size: calc(var(--unit) * 2.25);
-    font-weight: normal;
-    font-variation-settings: "wght" 400;
-    color: inherit;
-    text-align: left;
-    
-    border-radius: 0;
-    border: none;
-    background-image: none;
-    background-color: transparent;
+	margin: 0;
+	padding: 0;
+	min-height: unset;
+	min-width: unset;
 
-    transition: all .3s ease;
-    user-select: none;
+	font-family: inherit;
+	font-size: calc(var(--unit) * 2.25);
+	font-weight: normal;
+	font-variation-settings: "wght" 400;
+	color: inherit;
+	text-align: left;
+
+	border-radius: 0;
+	border: none;
+	background-image: none;
+	background-color: transparent;
+
+	transition: all 0.3s ease;
+	user-select: none;
 }
 
+.button,
 button:not(.no-style) {
-    margin: 0.5rem;
-    padding: 0.25rem 0.5rem;
-    min-height: 3rem;
-    min-width: 10rem;
+	position: relative;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	margin: var(--unit);
+	padding: var(--unit) calc(var(--unit) * 2);
+	min-height: 3rem;
+	min-width: 10rem;
 
-    font-size: calc(var(--unit) * 2.25);
-    font-variation-settings: "wght" 600;
-    
-    border-radius: 2px;
+	font-family: "Inter", sans-serif;
+	font-size: calc(var(--unit) * 2);
+	font-weight: normal;
+	font-variation-settings: "wght" 600;
+	line-height: 1;
+	text-decoration: none;
 
-    transition: all .3s ease;
-    backface-visibility: hidden;
-    will-change: transform;
-    transform-style: preserve-3d;
+	border-radius: 2px;
+	border: none;
+	background: none;
+
+	transition: all 0.3s ease;
+	backface-visibility: hidden;
+	will-change: transform;
+	transform-style: preserve-3d;
 }
 
+.button,
 button:not(.no-style) {
-    background: var(--interaction-neutral-idle);
-    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.16);
-    outline: 1px dashed transparent;
-    outline-offset: 0.5rem;
-    color: var(--main-bg);
+	background-color: hsl(var(--_color-action-primary));
+	box-shadow: var(--shadow-md);
+	outline: 1px dashed transparent;
+	outline-offset: 0.5rem;
+	color: var(--main-bg);
 }
 
+.button:hover,
 button:not(.no-style):hover {
-    background: var(--interaction-neutral-hover);
-     transform: scale(1.125) translateZ(0) perspective(1px);/*  50.4 */
-
+	box-shadow: var(--shadow-2xl);
+	transform: scale(1.125) translateZ(0) perspective(1px); /*  50.4 */
 }
 
+.button:active,
 button:not(.no-style):active {
-    background: var(--interaction-neutral-active);
-    transform: scale(1.05) translateY(0.125rem);
+	box-shadow: var(--shadow-sm);
+	transform: scale(1) translateY(0.125rem) translateZ(0) perspective(1px);
 }
 
+.button:focus:not(:active),
 button:not(.no-style):focus:not(:active) {
-    background: var(--interaction-neutral-focus);
-    outline-color: #869DD2;
+	outline-color: #869dd2;
 }
-
 
 /*
  * Primary
  */
 
+.button.primary,
 button[type="submit"]:not(.no-style),
 button.primary {
-    color: var(--main-fg);
-    background: var(--interaction-primary-idle);
+	color: var(--main-fg);
+	background-color: var(--interaction-primary-idle);
 }
 
+.button.primary:hover,
 button[type="submit"]:not(.no-style):hover,
 button.primary:hover {
-    background: var(--interaction-primary-hover);
-    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.48);
 }
 
+.button.primary:active,
 button[type="submit"]:not(.no-style):active,
 button.primary:active {
-    background: var(--interaction-primary-active);
-    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.16);
 }
 
+.button.primary:focus,
 button[type="submit"]:not(.no-style):focus,
 button.primary:focus {
-    background: var(--interaction-primary-focus);
 }
-/*
---interaction-primary-idle: hsla(238, 75%, 50%, 1);
---interaction-primary-hover: hsla(238, 75%, 55%, 1);
---interaction-primary-active: hsla(238, 75%, 45%, 1);
---interaction-primary-focus: hsla(238, 75%, 45%, 1);
-
---interaction-neutral-idle: hsla(68, 100%, 95%, 1);
---interaction-neutral-hover: hsla(238, 75%, 100%, 1);
---interaction-neutral-active: hsla(238, 75%, 90%, 1);
---interaction-neutral-focus: hsla(238, 75%, 90%, 1);     
-*/

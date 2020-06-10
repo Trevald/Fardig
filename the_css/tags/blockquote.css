@@ -1,0 +1,15 @@
+blockquote {
+	position: relative;
+	margin: 0;
+	padding: 0;
+}
+
+blockquote::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: calc(var(--unit) * -4 + 2px);
+	width: 2px;
+	background-color: hsla(var(--_color-default), var(--opacity-xs));
+}

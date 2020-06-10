@@ -1,5 +1,33 @@
 @import "./../../the_css/the_css.css";
 
+.app-login {
+	flex: 1 1 auto;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	padding-bottom: 8vh;
+}
+
+.app-login-content {
+	flex: 0 0 auto;
+	text-align: center;
+}
+
+.app-login .app-logo {
+	display: block;
+	margin: 0 auto calc(var(--unit) * 2) auto;
+}
+
+.app-login .app-logo svg {
+	width: 130px;
+	height: auto;
+}
+
+.app-login .app-logo path {
+	fill: #fefff7;
+}
+
 /* Main layout */
 
 .view {

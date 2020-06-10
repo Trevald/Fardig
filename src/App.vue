@@ -1,97 +1,115 @@
 <template>
-  <div
-    id="app"
-    v-hotkey="keymap"
-  >
-    <header class="app-header">
-      <a
-        v-if="dropboxAuthLink"
-        :href="dropboxAuthLink"
-      >Login with Dropbox</a>
-
-      <nav class="tabs">
-        <ul>
-          <li
-            v-for="file in openDocuments"
-            :key="file.id"
-            :class="{
-							'is-active': activeDocument.id === file.id && activeView === 'editor',
-						}"
-          >
-            <button
-              class="no-style"
-              type="button"
-              @click="setActiveView('editor', file)"
-            >
-              {{ getTitle(file) }}
-            </button>
-          </li>
-        </ul>
-        <ul>
-          <li
-            class="todos-link"
-            :class="{ 'is-active': activeView === 'todo' }"
-          >
-            <button
-              class="no-style"
-              type="button"
-              @click="setActiveView('todo')"
-            >
-              ToDos
-            </button>
-          </li>
-        </ul>
-      </nav>
-    </header>
-
-    <main class="app-main">
-      <div
-        class="container"
-        :class="{ 'show-baseline-grid': shouldShowGrid, view: true }"
-      >
-        <div
-          class="view"
-          v-if="activeView === 'todo'"
-        >
-          <article>
-            <AppMyTodos />
-          </article>
-        </div>
-
-        <div
-          class="view"
-          v-else
-        >
-          <article
-            v-for="file in openDocuments"
-            :key="file.id"
-            class="view"
-            v-show="activeDocument.id === file.id"
-          >
-            <AppDocument :file="file" />
-          </article>
-        </div>
+  <div id="app">
+    <div
+      v-if="loggedOut"
+      class="app-login"
+    >
+      <div class="app-login-content">
+        <AppLogo />
+        <a
+          class="button primary"
+          v-if="dropboxAuthLink"
+          :href="dropboxAuthLink"
+        >Login with Dropbox</a>
       </div>
-    </main>
+    </div>
+    <div
+      v-if="loggedIn"
+      class="view"
+      v-hotkey="keymap"
+    >
+      <header
+        class="app-header"
+        v-if="loggedIn"
+      >
+        <a
+          v-if="dropboxAuthLink"
+          :href="dropboxAuthLink"
+        >Login with Dropbox</a>
 
-    <AppStatus
-      class="app-status"
-      :isSaving="isUploading"
-      :hasUnsavedChanges="hasUnsavedChanges"
-    />
-    <transition name="fade">
-      <AppCommand
-        v-if="showCommand"
-        @command="doCommand"
+        <nav class="tabs">
+          <ul>
+            <li
+              v-for="file in openDocuments"
+              :key="file.id"
+              :class="{'is-active': activeDocument.id === file.id && activeView === 'editor'}"
+            >
+              <button
+                class="no-style"
+                type="button"
+                @click="setActiveView('editor', file)"
+              >
+                {{ getTitle(file) }}
+              </button>
+            </li>
+          </ul>
+          <ul>
+            <li
+              class="todos-link"
+              :class="{ 'is-active': activeView === 'todo' }"
+            >
+              <button
+                class="no-style"
+                type="button"
+                @click="setActiveView('todo')"
+              >
+                ToDos
+              </button>
+            </li>
+          </ul>
+        </nav>
+      </header>
+
+      <main class="app-main">
+        <div
+          class="container"
+          :class="{ 'show-baseline-grid': shouldShowGrid, view: true }"
+        >
+          <div
+            class="view"
+            v-if="activeView === 'todo'"
+          >
+            <article>
+              <AppMyTodos />
+            </article>
+          </div>
+
+          <div
+            class="view"
+            v-else
+          >
+            <article
+              v-for="file in openDocuments"
+              :key="file.id"
+              class="view"
+              v-show="activeDocument.id === file.id"
+            >
+              <AppDocument :file="file" />
+            </article>
+          </div>
+        </div>
+      </main>
+
+      <AppStatus
+        class="app-status"
+        :isSaving="isUploading"
+        :hasUnsavedChanges="hasUnsavedChanges"
       />
-    </transition>
+      <transition name="fade">
+        <AppCommand
+          v-if="showCommand"
+          @command="doCommand"
+        />
+      </transition>
+    </div>
   </div>
 </template>
 
 <script>
 import AppCommand from "./components/AppCommand";
 import AppDocument from "./components/AppDocument";
-import AppStatus from "./components/AppStatus.vue";
+import AppLogo from "./components/AppLogo";
+import AppStatus from "./components/AppStatus";
 import DropboxApi from "./cloud/dropbox";
 
 import UserService from "./services/UserService";
@@ -109,6 +127,7 @@ export default {
   components: {
     AppCommand,
     AppDocument,
+    AppLogo,
     AppMyTodos,
     AppStatus
   },
@@ -127,6 +146,14 @@ export default {
   },
 
   computed: {
+    loggedIn() {
+      return this.cloudStorage?.isAuthenticated();
+    },
+
+    loggedOut() {
+      return !this.loggedIn;
+    },
+
     activeDocument() {
       return this.$store.getters.activeDocument;
     },
@@ -254,9 +281,6 @@ export default {
         this.cloudStorage.getEntries().then(files => {
           let loadedFiles = [];
           files.forEach(file => {
-            if (!file.name.includes("Tråkigt")) {
-              // return;
-            }
             this.cloudStorage.getContents(file.path_lower).then(fileContent => {
               file.json = documentGetJsonFromMarkdown(fileContent);
 
