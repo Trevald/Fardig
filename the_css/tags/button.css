@@ -40,6 +40,7 @@ button:not(.no-style) {
 	font-variation-settings: "wght" 600;
 	line-height: 1;
 	text-decoration: none;
+	color: var(--color-default);
 
 	border-radius: 2px;
 	border: none;
@@ -62,13 +63,14 @@ button:not(.no-style) {
 
 .button:hover,
 button:not(.no-style):hover {
-	box-shadow: var(--shadow-2xl);
+	box-shadow: var(--shadow-lg);
 	transform: scale(1.125) translateZ(0) perspective(1px); /*  50.4 */
 }
 
 .button:active,
 button:not(.no-style):active {
-	box-shadow: var(--shadow-sm);
+	box-shadow: var(--shadow-sm), rgba(255, 255, 255, 0.1) 0 0 0 100rem inset;
+
 	transform: scale(1) translateY(0.125rem) translateZ(0) perspective(1px);
 }
 
