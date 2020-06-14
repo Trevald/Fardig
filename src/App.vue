@@ -332,6 +332,16 @@ export default {
       if (file) {
         this.$store.commit("setActiveDocument", { id: file.id });
       }
+    },
+
+    beforeUnload(event) {
+      if (this.hasUnsavedChanges || this.isUploading) {
+        // Cancel the event as stated by the standard.
+        event.preventDefault();
+
+        // Chrome requires returnValue to be set.
+        event.returnValue = "";
+      }
     }
   },
 
@@ -339,6 +349,8 @@ export default {
 
   mounted() {
     this.login();
+
+    window.addEventListener("beforeunload", this.beforeUnload);
   }
 };
 </script>
