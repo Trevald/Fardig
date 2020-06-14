@@ -1,14 +1,16 @@
 import Vue from "vue"
 import Document from "./Document"
 
+import { getPreferencesProp, updatePreferencesProp } from "./../utils/preferences"
+
 import { documentHasTodos } from "./../utils/document"
 
 const storeDocuments = {
 	state: () => {
 		return {
 			documents: [],
-			activeDocumentId: undefined,
-			openDocumentsIds: [],
+			activeDocumentId: getPreferencesProp("activeDocumentId"),
+			openDocumentsIds: getPreferencesProp("openDocumentIds", []),
 		}
 	},
 
@@ -40,6 +42,10 @@ const storeDocuments = {
 		activeDocument: (state) => {
 			return state.documents.find((document) => document.id === state.activeDocumentId)
 		},
+
+		activeDocumentId: (state) => {
+			return state.activeDocumentId
+		},
 	},
 
 	mutations: {
@@ -60,12 +66,16 @@ const storeDocuments = {
 		setActiveDocument(state, payload) {
 			this.commit("openDocument", payload)
 			state.activeDocumentId = payload.id
+
+			updatePreferencesProp("activeDocumentId", payload.id)
 		},
 
 		openDocument(state, payload) {
 			const id = payload.id
 			if (!state.openDocumentsIds.includes(id)) {
 				state.openDocumentsIds.push(payload.id)
+
+				updatePreferencesProp("openDocumentIds", state.openDocumentsIds)
 			}
 		},
 

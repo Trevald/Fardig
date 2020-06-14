@@ -4,61 +4,14 @@
       v-if="loggedOut"
       class="app-login"
     >
-      <div class="app-login-content">
-        <AppLogo />
-        <a
-          class="button primary"
-          v-if="dropboxAuthLink"
-          :href="dropboxAuthLink"
-        >Login with Dropbox</a>
-      </div>
+      <AppLogin :dropboxAuthLink="dropboxAuthLink" />
     </div>
     <div
       v-if="loggedIn"
       class="view-col"
       v-hotkey="keymap"
     >
-      <header
-        class="app-header"
-        v-if="loggedIn"
-      >
-        <a
-          v-if="dropboxAuthLink"
-          :href="dropboxAuthLink"
-        >Login with Dropbox</a>
-
-        <nav class="tabs">
-          <ul>
-            <li
-              v-for="file in openDocuments"
-              :key="file.id"
-              :class="{'is-active': activeDocument.id === file.id && activeView === 'editor'}"
-            >
-              <button
-                class="no-style"
-                type="button"
-                @click="setActiveView('editor', file)"
-              >
-                {{ getTitle(file) }}
-              </button>
-            </li>
-          </ul>
-          <ul>
-            <li
-              class="todos-link"
-              :class="{ 'is-active': activeView === 'todo' }"
-            >
-              <button
-                class="no-style"
-                type="button"
-                @click="setActiveView('todo')"
-              >
-                ToDos
-              </button>
-            </li>
-          </ul>
-        </nav>
-      </header>
+      <AppHeader v-if="loggedIn" />
 
       <main class="app-main">
         <div
@@ -82,7 +35,7 @@
               v-for="file in openDocuments"
               :key="file.id"
               class="view"
-              v-show="activeDocument.id === file.id"
+              v-show="activeDocumentId === file.id"
             >
               <AppDocument :file="file" />
             </article>
@@ -108,11 +61,11 @@
 <script>
 import AppCommand from "./components/AppCommand";
 import AppDocument from "./components/AppDocument";
-import AppLogo from "./components/AppLogo";
+import AppHeader from "./components/AppHeader";
+import AppLogin from "./components/AppLogin";
 import AppStatus from "./components/AppStatus";
 import DropboxApi from "./cloud/dropbox";
 
-import UserService from "./services/UserService";
 import AppMyTodos from "./components/AppMyTodos";
 
 import {
@@ -127,25 +80,32 @@ export default {
   components: {
     AppCommand,
     AppDocument,
-    AppLogo,
+    AppHeader,
+    AppLogin,
     AppMyTodos,
     AppStatus
   },
 
   data() {
     return {
-      userService: new UserService(),
       dropboxAuthLink: undefined,
       cloudStorage: undefined,
       fileMeta: undefined,
       newFile: undefined,
       shouldShowGrid: false,
-      showCommand: false,
-      activeView: "editor"
+      showCommand: false
     };
   },
 
   computed: {
+    activeDocumentId() {
+      return this.$store.getters.activeDocumentId;
+    },
+
+    activeView() {
+      return this.$store.getters.activeView;
+    },
+
     loggedIn() {
       return this.cloudStorage?.isAuthenticated();
     },
@@ -229,7 +189,6 @@ export default {
           break;
       }
       this.showCommand = false;
-      this.savePreferences();
     },
 
     switchactiveDocument(indexModifier) {
@@ -284,8 +243,6 @@ export default {
             this.cloudStorage.getContents(file.path_lower).then(fileContent => {
               file.json = documentGetJsonFromMarkdown(fileContent);
 
-              console.log(file.name, file.json);
-
               this.$store.commit("addDocument", file);
               loadedFiles.push(file.id);
               if (loadedFiles.length === files.length) {
@@ -299,9 +256,9 @@ export default {
 
     allFilesLoaded() {
       this.documents.forEach(file => {
-        if (this.userService.activeFile === file.id) {
+        if (this.activeDocumentId === file.id) {
           this.$store.commit("setActiveDocument", { id: file.id });
-        } else if (this.userService.openFiles.has(file.id)) {
+        } else if (this.openDocuments.includes(file.id)) {
           this.$store.commit("openDocument", { id: file.id });
         }
       });
@@ -311,23 +268,10 @@ export default {
           id: this.$store.getters.firstDocument.id
         });
       }
-
-      if (this.userService.activeView !== undefined) {
-        this.activeView = this.userService.activeView;
-      }
-    },
-
-    savePreferences() {
-      this.userService.updatePrefs({
-        activeFile: this.activeDocument,
-        activeView: this.activeView,
-        openFiles: this.openDocuments
-      });
     },
 
     setActiveView(view, file) {
-      this.activeView = view;
-      this.savePreferences();
+      this.$store.commit("setActiveView", { name: view });
 
       if (file) {
         this.$store.commit("setActiveDocument", { id: file.id });
@@ -344,8 +288,6 @@ export default {
       }
     }
   },
-
-  created() {},
 
   mounted() {
     this.login();

@@ -1,0 +1,23 @@
+progress {
+	appearance: none;
+
+	margin: var(-unit);
+	padding: 0;
+	height: var(--unit);
+	background: rgba(0, 0, 0, 0.2);
+	border-radius: calc(var(--unit) / 2);
+	overflow: hidden;
+}
+
+progress::-webkit-progress-inner-element {
+}
+
+progress::-webkit-progress-bar {
+}
+
+progress::-webkit-progress-value {
+	background: var(--color-disabled);
+}
+
+progress:indeterminate {
+}

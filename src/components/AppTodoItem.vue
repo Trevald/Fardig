@@ -61,7 +61,6 @@ export default {
   },
 
   mounted() {
-    console.log("status 2", this.node.attrs.status);
     this.checked = this.node.attrs.status === "done";
   }
 };

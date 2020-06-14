@@ -24,7 +24,7 @@
 
 	--color-inactive: hsl(var(--_color-inactive));
 	--color-active: var(--color-good);
-	--color-disavled: #6d7155;
+	--color-disabled: #6d7155;
 
 	--color-any-1: #f89fe5;
 	--color-any-2: #7d9b40;

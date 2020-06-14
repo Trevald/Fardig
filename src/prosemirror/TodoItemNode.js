@@ -34,7 +34,6 @@ export default class TodoItem extends Node {
 			group: "block",
 			toDOM: (node) => {
 				const { status } = node.attrs
-				console.log("status", status, node.attrs)
 				return [
 					"li",
 					{

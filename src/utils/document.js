@@ -91,6 +91,5 @@ export function documentGetCommitInfo(doc) {
 }
 
 export function documentGetJsonFromMarkdown(markdown) {
-	console.log("documentGetJsonFromMarkdown")
 	return JSON.parse(JSON.stringify(markdownParser.parse(markdown)))
 }

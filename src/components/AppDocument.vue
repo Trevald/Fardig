@@ -40,7 +40,7 @@ export default {
     },
 
     isActiveFile() {
-      return this.$store.getters.activeDocument.id === this.file?.id;
+      return this.$store.getters.activeDocumentId === this.file?.id;
     }
   },
 
