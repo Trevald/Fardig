@@ -25,21 +25,21 @@ export default class TodoItem extends Node {
 	get schema() {
 		return {
 			attrs: {
-				done: {
-					default: false,
+				status: {
+					default: "not started",
 				},
 			},
 			draggable: true,
 			content: "inline*", // this.options.nested ? "(paragraph|todo_list)+" : "paragraph+",
 			group: "block",
 			toDOM: (node) => {
-				const { done } = node.attrs
-
+				const { status } = node.attrs
+				console.log("status", status, node.attrs)
 				return [
 					"li",
 					{
 						"data-type": this.name,
-						"data-done": done.toString(),
+						"data-status": status,
 					},
 					["span", { class: "todo-checkbox", contenteditable: "false" }],
 					["div", { class: "todo-content" }, 0],
@@ -50,7 +50,10 @@ export default class TodoItem extends Node {
 					priority: 51,
 					tag: `[data-type="${this.name}"]`,
 					getAttrs: (dom) => ({
-						done: dom.getAttribute("data-done") === "true",
+						status:
+							dom.getAttribute("data-status") !== undefined
+								? dom.getAttribute("data-status")
+								: "not started",
 					}),
 				},
 			],

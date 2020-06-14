@@ -7,9 +7,9 @@ blockquote {
 blockquote::before {
 	content: "";
 	position: absolute;
-	top: 0;
+	top: var(--offset);
 	bottom: 0;
 	left: calc(var(--unit) * -4 + 2px);
-	width: 2px;
-	background-color: hsla(var(--_color-default), var(--opacity-xs));
+	width: calc(var(--unit) / 2);
+	background-color: var(--color-any-1);
 }

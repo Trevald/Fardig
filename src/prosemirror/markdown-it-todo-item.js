@@ -14,11 +14,12 @@ module.exports = function(md) {
 
 			const content = tokens[i].content + ""
 			const done = content.charAt(1).toLowerCase() + "" === "x"
+
 			tokens[i - 1].type = "todo_item_open" // = new state.Token("app_todo_open", "p", 0)
 
 			tokens[i - 1].attrs = [
-				["type", "todo_item"],
-				["state", done ? "done" : "not started"],
+				["data-type", "todo_item"],
+				["data-status", done ? "done" : "not started"],
 			]
 			tokens[i].children[0].content = content.slice(4)
 			tokens[i + 1].type = "todo_item_close" // = new state.Token("app_todo_close", "p", 0)

@@ -15,7 +15,7 @@
     </div>
     <div
       v-if="loggedIn"
-      class="view"
+      class="view-col"
       v-hotkey="keymap"
     >
       <header

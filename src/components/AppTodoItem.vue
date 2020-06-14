@@ -1,7 +1,7 @@
 <template>
   <li
     :data-type="node.type.name"
-    :data-done="node.attrs.done.toString()"
+    :data-status="node.attrs.status"
     data-drag-handle
   >
 
@@ -55,13 +55,14 @@ export default {
     onChange() {
       this.checked = !this.checked;
       this.updateAttrs({
-        state: this.checked === true ? "done" : "not started"
+        status: this.checked === true ? "done" : "not started"
       });
     }
   },
 
   mounted() {
-    this.checked = this.node.attrs.state === "done";
+    console.log("status 2", this.node.attrs.status);
+    this.checked = this.node.attrs.status === "done";
   }
 };
 </script>

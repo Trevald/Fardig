@@ -59,6 +59,7 @@
 .app-editor {
 	display: flex;
 	flex: 1 1 auto;
+	padding-bottom: calc(var(--unit) * 4);
 }
 
 .app-status {
@@ -112,6 +113,8 @@ li[data-type="todo_item"] {
 	--cap-height: 0.7;
 	--offset: calc(var(--font-size) * (var(--line-height-percentage) - var(--cap-height)) / 2);
 
+	position: relative;
+	list-style: none;
 	padding-top: var(--offset);
 	padding-bottom: calc(var(--unit) * 2 - var(--offset));
 	font-size: var(--font-size);
