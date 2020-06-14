@@ -5,7 +5,6 @@ ul {
 	list-style-position: outside;
 }
 
-ol,
 ul {
 	list-style: none;
 }
@@ -13,6 +12,14 @@ ul {
 ol > li,
 ul > li {
 	position: relative;
+}
+
+ul ul {
+	padding-left: calc(var(--unit) * 4);
+}
+
+ol ol {
+	padding-left: calc(var(--unit) * 4);
 }
 
 ol {
