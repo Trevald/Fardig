@@ -6,8 +6,14 @@
     >
       <AppLogin :dropboxAuthLink="dropboxAuthLink" />
     </div>
+    <AppProgress
+      v-if="loggedIn && !allFilesAreLoaded"
+      :value="numberOfFilesLoaded"
+      :max="totalNumberOfFiles"
+      class="app-progress"
+    />
     <div
-      v-if="loggedIn"
+      v-if="loggedIn && allFilesAreLoaded"
       class="view-col"
       v-hotkey="keymap"
     >
@@ -63,6 +69,7 @@ import AppCommand from "./components/AppCommand";
 import AppDocument from "./components/AppDocument";
 import AppHeader from "./components/AppHeader";
 import AppLogin from "./components/AppLogin";
+import AppProgress from "./components/AppProgress";
 import AppStatus from "./components/AppStatus";
 import DropboxApi from "./cloud/dropbox";
 
@@ -83,6 +90,7 @@ export default {
     AppHeader,
     AppLogin,
     AppMyTodos,
+    AppProgress,
     AppStatus
   },
 
@@ -93,11 +101,16 @@ export default {
       fileMeta: undefined,
       newFile: undefined,
       shouldShowGrid: false,
-      showCommand: false
+      showCommand: false,
+      totalNumberOfFiles: undefined,
+      numberOfFilesLoaded: 0
     };
   },
 
   computed: {
+    allFilesAreLoaded() {
+      return this.numberOfFilesLoaded === this.totalNumberOfFiles;
+    },
     activeDocumentId() {
       return this.$store.getters.activeDocumentId;
     },
@@ -239,12 +252,14 @@ export default {
       } else {
         this.cloudStorage.getEntries().then(files => {
           let loadedFiles = [];
+          this.totalNumberOfFiles = files.length;
           files.forEach(file => {
             this.cloudStorage.getContents(file.path_lower).then(fileContent => {
               file.json = documentGetJsonFromMarkdown(fileContent);
 
               this.$store.commit("addDocument", file);
               loadedFiles.push(file.id);
+              this.numberOfFilesLoaded++;
               if (loadedFiles.length === files.length) {
                 this.allFilesLoaded();
               }
@@ -304,5 +319,13 @@ export default {
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
+}
+
+.app-progress {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
 }
 </style>
