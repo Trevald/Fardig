@@ -15,16 +15,19 @@ module.exports = function(md) {
 			const content = tokens[i].content + ""
 			const done = content.charAt(1).toLowerCase() + "" === "x"
 
-			tokens[i - 1].type = "todo_item_open" // = new state.Token("app_todo_open", "p", 0)
+			tokens[i - 1].type = "paragraph_open"
+			tokens[i + 1].type = "paragraph_close"
 
-			tokens[i - 1].attrs = [
+			tokens[i - 2].type = "todo_item_open" // = new state.Token("app_todo_open", "p", 0)
+
+			tokens[i - 2].attrs = [
 				["data-type", "todo_item"],
 				["data-status", done ? "done" : "not started"],
 			]
 			tokens[i].children[0].content = content.slice(4)
-			tokens[i + 1].type = "todo_item_close" // = new state.Token("app_todo_close", "p", 0)
-			tokens.splice(i + 2, 1)
-			tokens.splice(i - 2, 1)
+			tokens[i + 2].type = "todo_item_close" // = new state.Token("app_todo_close", "p", 0)
+			// tokens.splice(i + 2, 1)
+			// tokens.splice(i - 2, 1)
 
 			if (!parentListIsTodo(tokens, i)) {
 				const parentIndexes = getParentList(tokens, i)

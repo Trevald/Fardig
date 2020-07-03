@@ -28,14 +28,32 @@ export function documentGetName(doc) {
 	if (doc._name && doc._name !== "") {
 		return doc._name
 	}
-	const textLines = doc.contents.split("\n")
-	if (textLines.length <= 0) {
+	let firstTextLine = documentGetFirstLine(doc)
+
+	if (firstTextLine === "") {
 		return "Untitled.txt"
 	}
-	let firstTextLine = textLines[0].replace("#", "").replace(/(<([^>]+)>)/gi, "")
+
+	// firstTextLine = textLines[0].replace("#", "").replace(/(<([^>]+)>)/gi, "")
 	firstTextLine = firstTextLine.length > 32 ? firstTextLine.substring(0, 32) : firstTextLine
 
 	return `${firstTextLine}.txt`
+}
+
+export function documentGetFirstLine(doc) {
+	if (doc.json === undefined) {
+		return ""
+	}
+	const node = Node.fromJSON(schema, doc.json)
+	let firstLine = ""
+
+	node.descendants((descendant) => {
+		if (descendant.text) {
+			firstLine = descendant.text
+		}
+	})
+
+	return firstLine
 }
 
 export function documentGetTitle(doc) {
@@ -56,8 +74,6 @@ export function documentGetTodos(doc) {
 			todos.push(descendant)
 		}
 	})
-
-	console.log("todos", todos)
 
 	return todos
 }

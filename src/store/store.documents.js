@@ -3,7 +3,7 @@ import Document from "./Document"
 
 import { getPreferencesProp, updatePreferencesProp } from "./../utils/preferences"
 
-import { documentHasTodos } from "./../utils/document"
+import { documentGetJsonFromMarkdown, documentHasTodos } from "./../utils/document"
 
 const storeDocuments = {
 	state: () => {
@@ -57,7 +57,8 @@ const storeDocuments = {
 		newDocument() {
 			const newDocument = {
 				id: `temp-${Date.now()}`,
-				contents: "<h1>My new file</h1>",
+				json: documentGetJsonFromMarkdown("# My new file\n"),
+				// contents: "<h1>My new file</h1>",
 			}
 			this.commit("addDocument", newDocument)
 			this.commit("setActiveDocument", newDocument)

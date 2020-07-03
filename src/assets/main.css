@@ -106,9 +106,11 @@ ul[data-type="todo_list"] > li::before {
 	content: none;
 }
 
+/*
 li[data-type="todo_item"] {
 	--font-size: calc(var(--unit) * 2.25);
-	--line-height: calc(var(--unit) * 4); /* 1.28 */
+    --line-height: calc(var(--unit) * 4); /* 1.28 */
+/*
 	--line-height-percentage: calc(4 / 2.25);
 	--cap-height: 0.7;
 	--offset: calc(var(--font-size) * (var(--line-height-percentage) - var(--cap-height)) / 2);
@@ -123,11 +125,12 @@ li[data-type="todo_item"] {
 
 	min-height: calc(var(--unit) * 6);
 }
+*/
 
 li[data-type="todo_item"] input[type="checkbox"] {
 	position: absolute;
-	top: 0.5em;
-	left: calc(var(--unit-fluid) * -8);
+	top: 0.45em;
+	left: calc(var(--unit-fluid) * -7);
 }
 
 .todo-content {

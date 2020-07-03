@@ -256,6 +256,7 @@ export default {
           files.forEach(file => {
             this.cloudStorage.getContents(file.path_lower).then(fileContent => {
               file.json = documentGetJsonFromMarkdown(fileContent);
+              console.log("fileContent", file);
 
               this.$store.commit("addDocument", file);
               loadedFiles.push(file.id);

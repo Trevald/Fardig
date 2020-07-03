@@ -32,24 +32,27 @@
 <script>
 import { Editor, EditorContent } from "tiptap";
 import {
-  Bold,
-  Code,
+  Blockquote,
   CodeBlock,
-  Link,
+  HardBreak,
   Heading,
-  Italic,
-  TodoList,
-  ListItem,
-  Mention,
   OrderedList,
   BulletList,
-  Blockquote
+  ListItem,
+  Bold,
+  Code,
+  Italic,
+  Link,
+  Strike,
+  History,
+  Mention
 } from "tiptap-extensions";
 
 import { MentionTagsMixin } from "./../mixins/MentionTagsMixin";
 import MENTION_TAGS_OPTIONS from "./../utils/mention_tags_options";
 
 import TodoItem from "./../prosemirror/TodoItemNode";
+import TodoList from "./../prosemirror/TodoListNode";
 
 export default {
   name: "AppEditor",
@@ -73,18 +76,21 @@ export default {
   mounted() {
     this.editor = new Editor({
       extensions: [
-        new OrderedList(),
         new Blockquote(),
-        new BulletList(),
-        new Code(),
         new CodeBlock(),
-        new Link(),
-        new ListItem(),
+        new HardBreak(),
         new Heading({ levels: [1, 2, 3, 4] }),
-        new Bold(),
-        new Italic(),
-        new TodoList(),
+        new BulletList(),
+        new OrderedList(),
+        new ListItem(),
         new TodoItem(),
+        new TodoList(),
+        new Bold(),
+        new Code(),
+        new Italic(),
+        new Link(),
+        new Strike(),
+        new History(),
         new Mention(MENTION_TAGS_OPTIONS(this))
       ],
       content: this.json,

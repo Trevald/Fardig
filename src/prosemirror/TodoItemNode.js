@@ -1,10 +1,5 @@
 import { Node } from "tiptap"
-import {
-	sinkListItem,
-	splitToDefaultListItem,
-	liftListItem,
-	toggleBlockType,
-} from "tiptap-commands"
+import { sinkListItem, splitToDefaultListItem, liftListItem } from "tiptap-commands"
 import AppTodo from "./../components/AppTodoItem"
 
 export default class TodoItem extends Node {
@@ -30,8 +25,7 @@ export default class TodoItem extends Node {
 				},
 			},
 			draggable: true,
-			content: "inline*", // this.options.nested ? "(paragraph|todo_list)+" : "paragraph+",
-			group: "block",
+			content: this.options.nested ? "(paragraph|todo_list)+" : "paragraph+", // "inline*", //
 			toDOM: (node) => {
 				const { status } = node.attrs
 				return [
@@ -59,12 +53,11 @@ export default class TodoItem extends Node {
 		}
 	}
 
-	keys({ type, schema, attrs }) {
+	keys({ type }) {
 		return {
 			Enter: splitToDefaultListItem(type),
 			Tab: this.options.nested ? sinkListItem(type) : () => {},
 			"Shift-Tab": liftListItem(type),
-			"Ctrl-t": toggleBlockType(type, schema.nodes.paragraph, attrs),
 		}
 	}
 }
