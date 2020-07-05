@@ -57,7 +57,7 @@ export default {
     },
 
     openDocuments() {
-      return this.$store.getters.openDocuments;
+      return this.$store.getters.openDocuments.slice(0, 3);
     }
   },
 

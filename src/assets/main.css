@@ -129,8 +129,14 @@ li[data-type="todo_item"] {
 
 li[data-type="todo_item"] input[type="checkbox"] {
 	position: absolute;
-	top: 0.45em;
+	top: 0.4em;
 	left: calc(var(--unit-fluid) * -7);
+}
+
+li[data-type="todo_item"] input[type="checkbox"]:focus {
+	outline: 1px dashed transparent;
+	outline-offset: 0.25rem;
+	outline-color: #869dd2;
 }
 
 .todo-content {

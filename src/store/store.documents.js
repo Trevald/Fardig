@@ -21,7 +21,6 @@ const storeDocuments = {
 
 		documentsWithTodos: (state) => {
 			const res = state.documents.filter((doc) => documentHasTodos(doc) === true)
-			console.log("res", res)
 			return res
 		},
 
@@ -75,6 +74,9 @@ const storeDocuments = {
 			const id = payload.id
 			if (!state.openDocumentsIds.includes(id)) {
 				state.openDocumentsIds.push(payload.id)
+				if (state.openDocumentsIds.length > 3) {
+					state.openDocumentsIds.splice(0, state.openDocumentsIds.length - 3)
+				}
 
 				updatePreferencesProp("openDocumentIds", state.openDocumentsIds)
 			}

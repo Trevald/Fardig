@@ -48,7 +48,7 @@ export function documentGetFirstLine(doc) {
 	let firstLine = ""
 
 	node.descendants((descendant) => {
-		if (descendant.text) {
+		if (descendant.text && firstLine === "") {
 			firstLine = descendant.text
 		}
 	})
@@ -100,7 +100,7 @@ export function documentGetCommitInfo(doc) {
 
 	return {
 		contents: new Blob([docStateSerialized], { type: "text/plain" }),
-		autorename: false,
+		autorename: true,
 		mode: documentGetCommitMode(doc),
 		path: documentGetPath(doc),
 	}

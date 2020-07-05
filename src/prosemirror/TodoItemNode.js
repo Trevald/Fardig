@@ -9,7 +9,7 @@ export default class TodoItem extends Node {
 
 	get defaultOptions() {
 		return {
-			nested: false,
+			nested: true,
 		}
 	}
 

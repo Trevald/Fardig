@@ -9,6 +9,7 @@
       type="checkbox"
       @click="onChange"
       :checked="checked"
+      tabindex="-1"
     />
     <div
       class="todo-content"

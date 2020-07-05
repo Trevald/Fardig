@@ -36,6 +36,10 @@ export default {
         {
           name: "+ New file",
           command: "NEW_FILE"
+        },
+        {
+          name: "Delete current file",
+          command: "DELETE_FILE"
         }
       ]
     };
