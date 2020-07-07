@@ -6,12 +6,12 @@ export default class DropboxApi {
 
 		if (this.isAuthenticated()) {
 			this.ACCESS_TOKEN = this.getAccessTokenFromUrl()
-			this.dbx = new Dropbox.Dropbox({ accessToken: this.ACCESS_TOKEN })
+			this.dbx = new Dropbox.Dropbox({ accessToken: this.ACCESS_TOKEN, fetch: fetch })
 		}
 	}
 
 	getAuthUrl() {
-		this.dbx = new Dropbox.Dropbox({ clientId: this.CLIENT_ID })
+		this.dbx = new Dropbox.Dropbox({ clientId: this.CLIENT_ID, fetch: fetch })
 		var authUrl =
 			process.env.NODE_ENV === "production"
 				? this.dbx.getAuthenticationUrl("https://fardig.io/auth")

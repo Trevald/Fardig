@@ -13,11 +13,15 @@ export function documentGetPath(doc) {
 	return `/${documentGetName(doc)}`
 }
 
-export function documentGetCommitModeAdd() {
+export function documentGetCommitMode(doc) {
+	return doc.rev === undefined ? documentGetCommitModeAdd(doc) : documentCommitModeUpdate(doc)
+}
+
+function documentGetCommitModeAdd() {
 	return "add"
 }
 
-export function documentCommitModeUpdate(doc) {
+function documentCommitModeUpdate(doc) {
 	return {
 		".tag": "update",
 		update: doc.rev,
@@ -59,10 +63,6 @@ export function documentGetFirstLine(doc) {
 export function documentGetTitle(doc) {
 	const name = documentGetName(doc)
 	return name.endsWith(".txt") ? name.replace(".txt", "") : name
-}
-
-export function documentGetCommitMode(doc) {
-	return doc.rev === undefined ? documentGetCommitModeAdd(doc) : documentCommitModeUpdate(doc)
 }
 
 export function documentGetTodos(doc) {

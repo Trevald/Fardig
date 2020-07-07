@@ -237,9 +237,10 @@ export default {
         lastUpdated: fileToUpload.lastChanged
       });
 
-      this.cloudStorage.storeContents(filesCommitInfo).then(() => {
+      this.cloudStorage.storeContents(filesCommitInfo).then(doc => {
         this.$store.commit("updateDocument", {
           id: fileToUpload.id,
+          rev: doc.rev,
           isUploading: false
         });
       });
