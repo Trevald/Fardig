@@ -42,7 +42,16 @@ export default class DropboxApi {
 		return this.dbx
 			.filesDownload({ path })
 			.then((response) => {
-				return response.fileBlob.text()
+				// return response.fileBlob.text()
+				var reader = new FileReader()
+
+				return new Promise((resolve) => {
+					reader.onload = function() {
+						console.log(reader.result)
+						resolve(reader.result)
+					}
+					reader.readAsText(response.fileBlob)
+				})
 			})
 			.catch(function(error) {
 				console.error(error)
