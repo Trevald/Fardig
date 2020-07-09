@@ -1,11 +1,5 @@
 <template>
   <div id="app">
-    <div
-      v-if="loggedOut"
-      class="app-login"
-    >
-      <AppLogin :dropboxAuthLink="dropboxAuthLink" />
-    </div>
     <AppProgress
       v-if="loggedIn && !allFilesAreLoaded"
       :value="numberOfFilesLoaded"
@@ -13,37 +7,16 @@
       class="app-progress"
     />
     <div
-      v-if="loggedIn && allFilesAreLoaded"
       class="view-col"
       v-hotkey="keymap"
     >
       <AppHeader v-if="loggedIn" />
 
       <main class="app-main">
-        <div
-          class="container"
-          :class="{ 'show-baseline-grid': shouldShowGrid, view: true }"
-        >
-          <div
-            class="view"
-            v-if="activeView === 'todo'"
-          >
+        <div class="container">
+          <div class="view">
             <article>
-              <AppMyTodos />
-            </article>
-          </div>
-
-          <div
-            class="view"
-            v-else
-          >
-            <article
-              v-for="file in openDocuments"
-              :key="file.id"
-              class="view"
-              v-show="activeDocumentId === file.id"
-            >
-              <AppDocument :file="file" />
+              <router-view></router-view>
             </article>
           </div>
         </div>
@@ -66,14 +39,10 @@
 
 <script>
 import AppCommand from "./components/AppCommand";
-import AppDocument from "./components/AppDocument";
 import AppHeader from "./components/AppHeader";
-import AppLogin from "./components/AppLogin";
 import AppProgress from "./components/AppProgress";
 import AppStatus from "./components/AppStatus";
 import DropboxApi from "./cloud/dropbox";
-
-import AppMyTodos from "./components/AppMyTodos";
 
 import {
   documentGetCommitInfo,
@@ -86,10 +55,7 @@ export default {
 
   components: {
     AppCommand,
-    AppDocument,
     AppHeader,
-    AppLogin,
-    AppMyTodos,
     AppProgress,
     AppStatus
   },
@@ -100,7 +66,6 @@ export default {
       cloudStorage: undefined,
       fileMeta: undefined,
       newFile: undefined,
-      shouldShowGrid: false,
       showCommand: false,
       totalNumberOfFiles: undefined,
       numberOfFilesLoaded: 0
@@ -111,6 +76,10 @@ export default {
     allFilesAreLoaded() {
       return this.numberOfFilesLoaded === this.totalNumberOfFiles;
     },
+    accessToken() {
+      return this.$store.getters.accessToken;
+    },
+
     activeDocumentId() {
       return this.$store.getters.activeDocumentId;
     },
@@ -120,11 +89,7 @@ export default {
     },
 
     loggedIn() {
-      return this.cloudStorage?.isAuthenticated();
-    },
-
-    loggedOut() {
-      return !this.loggedIn;
+      return this.$store.getters.isAuthenticated;
     },
 
     activeDocument() {
@@ -247,7 +212,7 @@ export default {
     },
 
     login() {
-      this.cloudStorage = new DropboxApi();
+      this.cloudStorage = new DropboxApi(this.accessToken);
       if (!this.cloudStorage.isAuthenticated()) {
         this.dropboxAuthLink = this.cloudStorage.getAuthUrl();
       } else {

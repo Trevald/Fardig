@@ -1,13 +1,19 @@
 import Dropbox from "dropbox"
 
 export default class DropboxApi {
-	constructor() {
+	constructor(accessToken) {
+		this.ACCESS_TOKEN = accessToken
 		this.CLIENT_ID = "e3rslpuechz78qp"
 
-		if (this.isAuthenticated()) {
+		if (this.ACCESS_TOKEN === undefined) {
 			this.ACCESS_TOKEN = this.getAccessTokenFromUrl()
+		} else {
 			this.dbx = new Dropbox.Dropbox({ accessToken: this.ACCESS_TOKEN, fetch: fetch })
 		}
+	}
+
+	get accessToken() {
+		return this.ACCESS_TOKEN
 	}
 
 	getAuthUrl() {
@@ -24,7 +30,7 @@ export default class DropboxApi {
 	}
 
 	isAuthenticated() {
-		return !!this.getAccessTokenFromUrl()
+		return this.accessToken !== undefined
 	}
 
 	getEntries() {
@@ -47,7 +53,6 @@ export default class DropboxApi {
 
 				return new Promise((resolve) => {
 					reader.onload = function() {
-						console.log(reader.result)
 						resolve(reader.result)
 					}
 					reader.readAsText(response.fileBlob)

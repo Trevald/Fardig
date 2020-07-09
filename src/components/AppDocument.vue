@@ -1,14 +1,7 @@
 <template>
-  <div
-    v-show="isActiveFile"
-    v-if="hasContent"
-  >
+  <div>
     <AppDocumentText
-      v-if="fileType === 'todo'"
-      :file="file"
-    />
-    <AppDocumentText
-      v-else
+      v-if="file"
       :file="file"
     />
   </div>
@@ -24,10 +17,6 @@ export default {
     AppDocumentText
   },
 
-  props: {
-    file: Object
-  },
-
   data() {
     return {
       fileType: undefined
@@ -35,12 +24,15 @@ export default {
   },
 
   computed: {
-    hasContent() {
-      return this.file.json;
+    documentId() {
+      return this.$route.params.documentId;
     },
 
-    isActiveFile() {
-      return this.$store.getters.activeDocumentId === this.file?.id;
+    file() {
+      console.log(this.documentId);
+      return this.documentId !== undefined
+        ? this.$store.getters.getDocumentById(this.documentId)
+        : this.$store.activeDocumentId;
     }
   },
 
