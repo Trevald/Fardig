@@ -3,6 +3,7 @@
     <AppDocumentText
       v-if="file"
       :file="file"
+      :key="this.documentId"
     />
   </div>
 </template>
@@ -16,6 +17,16 @@ export default {
   components: {
     AppDocumentText
   },
+  /*
+  watch: {
+    $route(to, from) {
+      if (to.params.documentId !== from.params.documentId) {
+        console.log("watch");
+        this.documentId = to.params.documentId;
+      }
+    }
+  },
+  */
 
   data() {
     return {
@@ -27,17 +38,14 @@ export default {
     documentId() {
       return this.$route.params.documentId;
     },
-
     file() {
-      console.log(this.documentId);
-      return this.documentId !== undefined
-        ? this.$store.getters.getDocumentById(this.documentId)
-        : this.$store.activeDocumentId;
+      return this.$store.getters.getDocumentById(this.documentId);
     }
   },
 
   mounted() {
     this.fileType = "text/markdown";
+    this.documentId = this.$route.params.documentId;
   }
 };
 </script>

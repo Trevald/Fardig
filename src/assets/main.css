@@ -247,8 +247,9 @@ input.app-command-input:focus {
 	margin: 0 1px;
 }
 
-.tabs button {
-	display: block;
+.tabs a {
+	display: flex;
+	align-items: center;
 	margin: 0;
 	/*padding: calc(var(--unit) * 1 + var(--offset)) calc(var(--unit) * 2) calc(var(--unit) * 1);*/
 	padding: 0 calc(var(--unit) * 2);
@@ -257,6 +258,7 @@ input.app-command-input:focus {
 	font-size: var(--font-size);
 	line-height: var(--line-height);
 	border-bottom: 1px solid transparent;
+	text-decoration: none;
 }
 
 /*
@@ -273,23 +275,23 @@ input.app-command-input:focus {
 }
 */
 
-.tabs li.is-active button {
+.tabs li a.router-link-exact-active {
 	background: var(--main-bg);
 	color: var(--main-fg);
 	/* border-color: #6BE548; */
 }
 
-.tabs li button:focus {
+.tabs li a:focus {
 	outline: none;
 }
 
-.tabs li:not(.is-active) button:focus,
-.tabs li:not(.is-active) button:hover {
+.tabs li a:not(.router-link-exact-active):focus,
+.tabs li a:not(.router-link-exact-active):hover {
 	background: rgba(0, 0, 0, 0.1);
 	color: var(--main-fg);
 }
 
-.tabs button:focus:active {
+.tabs li a:focus:active {
 	outline: none;
 }
 

@@ -9,29 +9,17 @@
         <li
           v-for="file in openDocuments"
           :key="file.id"
-          :class="{'is-active': activeDocumentId === file.id && activeView === 'editor'}"
         >
-          <button
-            class="no-style"
-            type="button"
-            @click="setActiveView('editor', file)"
-          >
+          <router-link :to="{ name: 'Document', params: { documentId: file.id }}">
             {{ getTitle(file) }}
-          </button>
+          </router-link>
         </li>
       </ul>
       <ul>
-        <li
-          class="todos-link"
-          :class="{ 'is-active': activeView === 'todo' }"
-        >
-          <button
-            class="no-style"
-            type="button"
-            @click="setActiveView('todo')"
-          >
-            ToDos
-          </button>
+        <li class="todos-link">
+          <router-link :to="{ name: 'Todos' }">
+            Todos
+          </router-link>
         </li>
       </ul>
     </nav>

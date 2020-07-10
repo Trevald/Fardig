@@ -134,12 +134,6 @@ export default {
         },
         "ctrl+p": () => {
           this.showCommand = !this.showCommand;
-        },
-        "ctrl+q": () => {
-          this.switchactiveDocument(-1);
-        },
-        "ctrl+w": () => {
-          this.switchactiveDocument(1);
         }
       };
     }
@@ -167,29 +161,6 @@ export default {
           break;
       }
       this.showCommand = false;
-    },
-
-    switchactiveDocument(indexModifier) {
-      const openDocumentsArray = [...this.openDocuments];
-      const activeDocumentIndexInopenDocuments = openDocumentsArray.findIndex(
-        file => file.id === this.activeDocument.id
-      );
-      if (activeDocumentIndexInopenDocuments === -1) {
-        return;
-      }
-
-      let newactiveDocumentIndex =
-        activeDocumentIndexInopenDocuments + indexModifier;
-      if (newactiveDocumentIndex <= -1) {
-        newactiveDocumentIndex = openDocumentsArray.length - 1;
-      } else if (newactiveDocumentIndex >= openDocumentsArray.length) {
-        newactiveDocumentIndex = 0;
-      }
-      this.$store.commit("setActiveDocument", {
-        id: openDocumentsArray[newactiveDocumentIndex].id
-      });
-
-      return false;
     },
 
     upload() {

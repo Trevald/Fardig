@@ -8,8 +8,6 @@
 </template>
 
 <script>
-import MarkdownService from "./../services/MarkdownService";
-
 import AppEditor from "./AppEditor.vue";
 
 export default {
@@ -21,12 +19,6 @@ export default {
 
   props: {
     file: Object
-  },
-
-  data() {
-    return {
-      markdownService: new MarkdownService()
-    };
   },
 
   computed: {
