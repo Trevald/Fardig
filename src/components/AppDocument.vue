@@ -17,22 +17,6 @@ export default {
   components: {
     AppDocumentText
   },
-  /*
-  watch: {
-    $route(to, from) {
-      if (to.params.documentId !== from.params.documentId) {
-        console.log("watch");
-        this.documentId = to.params.documentId;
-      }
-    }
-  },
-  */
-
-  data() {
-    return {
-      fileType: undefined
-    };
-  },
 
   computed: {
     documentId() {
@@ -44,7 +28,6 @@ export default {
   },
 
   mounted() {
-    this.fileType = "text/markdown";
     this.documentId = this.$route.params.documentId;
   }
 };
