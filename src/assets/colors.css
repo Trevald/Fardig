@@ -1,0 +1,21 @@
+:root {
+	/* Base */
+	--color-background: var(--main-bg);
+	--color-foreground: var(--main-fg);
+	--color-background-dark: rgba(0, 0, 0, 0.3);
+
+	/* Navigation */
+	--color-tabs-inactive: rgba(255, 255, 255, 0.6);
+	--color-tabs-active: var(--color-foreground);
+
+	/* Inputs */
+	--color-todo-checkbox-background-idle: var(--color-background-dark);
+	--color-todo-checkbox-background-checked: var(--color-active);
+	--color-todo-checkbox-border: hsla(var(--_color-inactive), var(--opacity-sm));
+
+	/* Command */
+	--color-command-background: #36363a;
+	--color-command-foreground: #e6f1a2;
+	--color-commmand-active-foreground: white;
+	--color-commmand-active-backgorund: rgba(134, 157, 210, 0.1);
+}
