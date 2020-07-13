@@ -45,7 +45,7 @@ const routes = [
 	{
 		name: "Index",
 		path: "/",
-		component: AppDocument,
+		redirect: { name: "Login" },
 	},
 	{
 		name: "Auth",
@@ -60,14 +60,16 @@ const routes = [
 ]
 
 const router = new VueRouter({ mode: "history", routes })
-/*
-const isAuthenticated = store.getters.accessToken
 
 router.beforeEach((to, from, next) => {
-	if (to.name !== "Login" && to.name !== "Auth" && !isAuthenticated) next({ name: "Login" })
-	else next()
+	console.log("beforeEach", to.name, from.name, store.getters.accessToken)
+	if (to.name !== "Login" && to.name !== "Auth" && !store.getters.accessToken) {
+		next({ name: "Login" })
+	} else {
+		next()
+	}
 })
-*/
+
 new Vue({
 	router,
 	store,

@@ -1,268 +1,262 @@
 <template>
-  <div id="app">
-    <AppProgress
-      v-if="loggedIn && !allFilesAreLoaded"
-      :value="numberOfFilesLoaded"
-      :max="totalNumberOfFiles"
-      class="app-progress"
-    />
-    <div
-      class="view-col"
-      v-hotkey="keymap"
-    >
-      <AppHeader v-if="loggedIn" />
+	<div id="app">
+		<AppProgress
+			v-if="loggedIn && !allFilesAreLoaded"
+			:value="numberOfFilesLoaded"
+			:max="totalNumberOfFiles"
+			class="app-progress"
+		/>
+		<div class="view-col" v-hotkey="keymap">
+			<AppHeader v-if="loggedIn" />
 
-      <main class="app-main">
-        <div class="container">
-          <div class="view">
-            <article>
-              <router-view></router-view>
-            </article>
-          </div>
-        </div>
-      </main>
+			<main class="app-main">
+				<div class="container" style="display: flex">
+					<div class="view">
+						<router-view></router-view>
+					</div>
+				</div>
+			</main>
 
-      <AppStatus
-        class="app-status"
-        :isSaving="isUploading"
-        :hasUnsavedChanges="hasUnsavedChanges"
-      />
-      <transition name="fade">
-        <AppCommand
-          v-if="showCommand"
-          @command="doCommand"
-        />
-      </transition>
-    </div>
-  </div>
+			<AppStatus
+				class="app-status"
+				:isSaving="isUploading"
+				:hasUnsavedChanges="hasUnsavedChanges"
+			/>
+			<transition name="fade">
+				<AppCommand v-if="showCommand" @command="doCommand" />
+			</transition>
+		</div>
+	</div>
 </template>
 
 <script>
-import AppCommand from "./components/AppCommand";
-import AppHeader from "./components/AppHeader";
-import AppProgress from "./components/AppProgress";
-import AppStatus from "./components/AppStatus";
-import DropboxApi from "./cloud/dropbox";
+	import AppCommand from "./components/AppCommand"
+	import AppHeader from "./components/AppHeader"
+	import AppProgress from "./components/AppProgress"
+	import AppStatus from "./components/AppStatus"
+	import DropboxApi from "./cloud/dropbox"
 
-import {
-  documentGetCommitInfo,
-  documentGetTitle,
-  documentGetJsonFromMarkdown
-} from "./utils/document";
+	import {
+		documentGetCommitInfo,
+		documentGetTitle,
+		documentGetJsonFromMarkdown,
+	} from "./utils/document"
 
-export default {
-  name: "App",
+	export default {
+		name: "App",
 
-  components: {
-    AppCommand,
-    AppHeader,
-    AppProgress,
-    AppStatus
-  },
+		components: {
+			AppCommand,
+			AppHeader,
+			AppProgress,
+			AppStatus,
+		},
 
-  data() {
-    return {
-      dropboxAuthLink: undefined,
-      cloudStorage: undefined,
-      fileMeta: undefined,
-      newFile: undefined,
-      showCommand: false,
-      totalNumberOfFiles: undefined,
-      numberOfFilesLoaded: 0
-    };
-  },
+		data() {
+			return {
+				dropboxAuthLink: undefined,
+				cloudStorage: undefined,
+				fileMeta: undefined,
+				newFile: undefined,
+				showCommand: false,
+				totalNumberOfFiles: undefined,
+				numberOfFilesLoaded: 0,
+			}
+		},
 
-  computed: {
-    allFilesAreLoaded() {
-      return this.numberOfFilesLoaded === this.totalNumberOfFiles;
-    },
-    accessToken() {
-      return this.$store.getters.accessToken;
-    },
+		computed: {
+			allFilesAreLoaded() {
+				return this.numberOfFilesLoaded === this.totalNumberOfFiles
+			},
+			accessToken() {
+				return this.$store.getters.accessToken
+			},
 
-    activeDocumentId() {
-      return this.$store.getters.activeDocumentId;
-    },
+			activeDocumentId() {
+				return this.$store.getters.activeDocumentId
+			},
 
-    activeView() {
-      return this.$store.getters.activeView;
-    },
+			activeView() {
+				return this.$store.getters.activeView
+			},
 
-    loggedIn() {
-      return this.$store.getters.isAuthenticated;
-    },
+			loggedIn() {
+				return this.$store.getters.isAuthenticated
+			},
 
-    activeDocument() {
-      return this.$store.getters.activeDocument;
-    },
+			activeDocument() {
+				return this.$store.getters.activeDocument
+			},
 
-    openDocuments() {
-      return this.$store.getters.openDocuments;
-    },
+			openDocuments() {
+				return this.$store.getters.openDocuments
+			},
 
-    documents() {
-      return this.$store.getters.allDocuments;
-    },
+			documents() {
+				return this.$store.getters.allDocuments
+			},
 
-    isUploading() {
-      return this.activeDocument?.isUploading;
-    },
+			isUploading() {
+				return this.activeDocument?.isUploading
+			},
 
-    lastChanged() {
-      return this.activeDocument?.lastChanged;
-    },
+			lastChanged() {
+				return this.activeDocument?.lastChanged
+			},
 
-    lastUpdated() {
-      return this.activeDocument?.lastUpdated;
-    },
+			lastUpdated() {
+				return this.activeDocument?.lastUpdated
+			},
 
-    fileContents() {
-      return this.activeDocument?.contents;
-    },
+			fileContents() {
+				return this.activeDocument?.contents
+			},
 
-    hasUnsavedChanges() {
-      return this.lastUpdated < this.lastChanged;
-    },
+			hasUnsavedChanges() {
+				return this.lastUpdated < this.lastChanged
+			},
 
-    keymap() {
-      return {
-        "ctrl+s": () => {
-          this.upload();
-        },
-        "ctrl+space": () => {
-          this.showCommand = !this.showCommand;
-        },
-        "ctrl+p": () => {
-          this.showCommand = !this.showCommand;
-        }
-      };
-    }
-  },
+			keymap() {
+				return {
+					"ctrl+s": () => {
+						this.upload()
+					},
+					"ctrl+space": () => {
+						this.showCommand = !this.showCommand
+					},
+					"ctrl+p": () => {
+						this.showCommand = !this.showCommand
+					},
+				}
+			},
+		},
 
-  methods: {
-    getTitle(doc) {
-      return documentGetTitle(doc);
-    },
+		methods: {
+			getTitle(doc) {
+				return documentGetTitle(doc)
+			},
 
-    doCommand(event) {
-      switch (event.command) {
-        case "CLOSE_ME":
-          // this.showCommand = false;
-          break;
-        case "NEW_FILE":
-          this.$store.commit("newDocument");
-          break;
-        case "OPEN":
-          this.$store.commit("setActiveDocument", {
-            id: event.id
-          });
-          break;
-        default:
-          break;
-      }
-      this.showCommand = false;
-    },
+			doCommand(event) {
+				switch (event.command) {
+					case "CLOSE_ME":
+						// this.showCommand = false;
+						break
+					case "NEW_FILE":
+						this.$store.commit("newDocument")
+						break
+					case "OPEN":
+						this.$store.commit("setActiveDocument", {
+							id: event.id,
+						})
+						break
+					default:
+						break
+				}
+				this.showCommand = false
+			},
 
-    upload() {
-      const fileToUpload = this.activeDocument;
-      const filesCommitInfo = documentGetCommitInfo(fileToUpload);
+			upload() {
+				const fileToUpload = this.activeDocument
+				const filesCommitInfo = documentGetCommitInfo(fileToUpload)
 
-      this.$store.commit("updateDocument", {
-        id: fileToUpload.id,
-        isUploading: true,
-        lastUpdated: fileToUpload.lastChanged
-      });
+				this.$store.commit("updateDocument", {
+					id: fileToUpload.id,
+					isUploading: true,
+					lastUpdated: fileToUpload.lastChanged,
+				})
 
-      this.cloudStorage.storeContents(filesCommitInfo).then(doc => {
-        this.$store.commit("updateDocument", {
-          id: fileToUpload.id,
-          rev: doc.rev,
-          isUploading: false
-        });
-      });
-    },
+				this.cloudStorage.storeContents(filesCommitInfo).then((doc) => {
+					this.$store.commit("updateDocument", {
+						id: fileToUpload.id,
+						rev: doc.rev,
+						isUploading: false,
+					})
+				})
+			},
 
-    login() {
-      this.cloudStorage = new DropboxApi(this.accessToken);
-      if (!this.cloudStorage.isAuthenticated()) {
-        this.dropboxAuthLink = this.cloudStorage.getAuthUrl();
-      } else {
-        this.cloudStorage.getEntries().then(files => {
-          let loadedFiles = [];
-          this.totalNumberOfFiles = files.length;
-          files.forEach(file => {
-            this.cloudStorage.getContents(file.path_lower).then(fileContent => {
-              file.json = documentGetJsonFromMarkdown(fileContent);
+			login() {
+				this.cloudStorage = new DropboxApi(this.accessToken)
+				if (!this.cloudStorage.isAuthenticated()) {
+					this.dropboxAuthLink = this.cloudStorage.getAuthUrl()
+				} else {
+					this.cloudStorage.getEntries().then((files) => {
+						files = files.filter((file) => file[".tag"] === "file")
+						let loadedFiles = []
+						console.log(files)
+						this.totalNumberOfFiles = files.length
+						files.forEach((file) => {
+							this.cloudStorage.getContents(file.path_lower).then((fileContent) => {
+								file.json = documentGetJsonFromMarkdown(fileContent)
 
-              this.$store.commit("addDocument", file);
-              loadedFiles.push(file.id);
-              this.numberOfFilesLoaded++;
-              if (loadedFiles.length === files.length) {
-                this.allFilesLoaded();
-              }
-            });
-          });
-        });
-      }
-    },
+								this.$store.commit("addDocument", file)
+								loadedFiles.push(file.id)
+								this.numberOfFilesLoaded++
+								if (loadedFiles.length === files.length) {
+									this.allFilesLoaded()
+								}
+							})
+						})
+					})
+				}
+			},
 
-    allFilesLoaded() {
-      this.documents.forEach(file => {
-        if (this.activeDocumentId === file.id) {
-          this.$store.commit("setActiveDocument", { id: file.id });
-        } else if (this.openDocuments.includes(file.id)) {
-          this.$store.commit("openDocument", { id: file.id });
-        }
-      });
+			allFilesLoaded() {
+				this.documents.forEach((file) => {
+					if (this.activeDocumentId === file.id) {
+						this.$store.commit("setActiveDocument", { id: file.id })
+					} else if (this.openDocuments.includes(file.id)) {
+						this.$store.commit("openDocument", { id: file.id })
+					}
+				})
 
-      if (this.activeDocument === undefined) {
-        this.$store.commit("setActiveDocument", {
-          id: this.$store.getters.firstDocument.id
-        });
-      }
-    },
+				if (this.activeDocument === undefined) {
+					this.$store.commit("setActiveDocument", {
+						id: this.$store.getters.firstDocument.id,
+					})
+				}
+			},
 
-    setActiveView(view, file) {
-      this.$store.commit("setActiveView", { name: view });
+			setActiveView(view, file) {
+				this.$store.commit("setActiveView", { name: view })
 
-      if (file) {
-        this.$store.commit("setActiveDocument", { id: file.id });
-      }
-    },
+				if (file) {
+					this.$store.commit("setActiveDocument", { id: file.id })
+				}
+			},
 
-    beforeUnload(event) {
-      if (this.hasUnsavedChanges || this.isUploading) {
-        // Cancel the event as stated by the standard.
-        event.preventDefault();
+			beforeUnload(event) {
+				if (this.hasUnsavedChanges || this.isUploading) {
+					// Cancel the event as stated by the standard.
+					event.preventDefault()
 
-        // Chrome requires returnValue to be set.
-        event.returnValue = "";
-      }
-    }
-  },
+					// Chrome requires returnValue to be set.
+					event.returnValue = ""
+				}
+			},
+		},
 
-  mounted() {
-    this.login();
+		mounted() {
+			this.login()
 
-    window.addEventListener("beforeunload", this.beforeUnload);
-  }
-};
+			window.addEventListener("beforeunload", this.beforeUnload)
+		},
+	}
 </script>
 
 <style scoped>
-.fade-enter-active,
-.fade-leave-active {
-  transition: opacity 0.2s;
-}
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-  opacity: 0;
-}
+	.fade-enter-active,
+	.fade-leave-active {
+		transition: opacity 0.2s;
+	}
+	.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+		opacity: 0;
+	}
 
-.app-progress {
-  position: fixed;
-  top: 50%;
-  left: 50%;
+	.app-progress {
+		position: fixed;
+		top: 50%;
+		left: 50%;
 
-  transform: translate(-50%, -50%);
-}
+		transform: translate(-50%, -50%);
+	}
 </style>
