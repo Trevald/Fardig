@@ -1,65 +1,58 @@
 <template>
-  <header class="app-header">
-
-    <nav
-      class="tabs"
-      v-if="openDocuments"
-    >
-      <ul>
-        <li
-          v-for="file in openDocuments"
-          :key="file.id"
-        >
-          <router-link :to="{ name: 'Document', params: { documentId: file.id }}">
-            {{ getTitle(file) }}
-          </router-link>
-        </li>
-      </ul>
-      <ul>
-        <li class="todos-link">
-          <router-link :to="{ name: 'Todos' }">
-            Todos
-          </router-link>
-        </li>
-      </ul>
-    </nav>
-  </header>
+	<header class="app-header">
+		<nav class="tabs" v-if="openDocuments">
+			<ul>
+				<li v-for="(file, index) in openDocuments" :key="index">
+					<router-link :to="{ name: 'Document', params: { documentId: file.id } }">
+						{{ getTitle(file) }}
+					</router-link>
+				</li>
+			</ul>
+			<ul>
+				<li class="todos-link">
+					<router-link :to="{ name: 'Todos' }">
+						Todos
+					</router-link>
+				</li>
+			</ul>
+		</nav>
+	</header>
 </template>
 
 <script>
-import { documentGetTitle } from "./../utils/document";
+	import { documentGetTitle } from "./../utils/document"
 
-export default {
-  name: "AppHeader",
+	export default {
+		name: "AppHeader",
 
-  computed: {
-    activeDocumentId() {
-      return this.activeDocument ? this.activeDocument.id : undefined;
-    },
-    activeDocument() {
-      return this.$store.getters.activeDocument;
-    },
+		computed: {
+			activeDocumentId() {
+				return this.activeDocument ? this.activeDocument.id : undefined
+			},
+			activeDocument() {
+				return this.$store.getters.activeDocument
+			},
 
-    activeView() {
-      return this.$store.getters.activeView;
-    },
+			activeView() {
+				return this.$store.getters.activeView
+			},
 
-    openDocuments() {
-      return this.$store.getters.openDocuments.slice(0, 3);
-    }
-  },
+			openDocuments() {
+				return this.$store.getters.openDocuments
+			},
+		},
 
-  methods: {
-    getTitle(title) {
-      return documentGetTitle(title);
-    },
-    setActiveView(view, file) {
-      this.$store.commit("setActiveView", { name: view });
+		methods: {
+			getTitle(title) {
+				return documentGetTitle(title)
+			},
+			setActiveView(view, file) {
+				this.$store.commit("setActiveView", { name: view })
 
-      if (file) {
-        this.$store.commit("setActiveDocument", { id: file.id });
-      }
-    }
-  }
-};
+				if (file) {
+					this.$store.commit("setActiveDocument", { id: file.id })
+				}
+			},
+		},
+	}
 </script>

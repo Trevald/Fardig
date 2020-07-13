@@ -72,8 +72,8 @@
 				return this.$store.getters.accessToken
 			},
 
-			activeDocumentId() {
-				return this.$store.getters.activeDocumentId
+			documentId() {
+				return this.$route.params.documentId
 			},
 
 			activeView() {
@@ -85,7 +85,7 @@
 			},
 
 			activeDocument() {
-				return this.$store.getters.activeDocument
+				return this.$store.getters.getDocumentById(this.documentId)
 			},
 
 			openDocuments() {
@@ -182,7 +182,7 @@
 					this.cloudStorage.getEntries().then((files) => {
 						files = files.filter((file) => file[".tag"] === "file")
 						let loadedFiles = []
-						console.log(files)
+
 						this.totalNumberOfFiles = files.length
 						files.forEach((file) => {
 							this.cloudStorage.getContents(file.path_lower).then((fileContent) => {
@@ -202,7 +202,7 @@
 
 			allFilesLoaded() {
 				this.documents.forEach((file) => {
-					if (this.activeDocumentId === file.id) {
+					if (this.documentId === file.id) {
 						this.$store.commit("setActiveDocument", { id: file.id })
 					} else if (this.openDocuments.includes(file.id)) {
 						this.$store.commit("openDocument", { id: file.id })

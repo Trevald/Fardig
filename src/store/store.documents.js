@@ -32,9 +32,10 @@ const storeDocuments = {
 			return state.documents.find((document) => document.id === id)
 		},
 
-		openDocuments: (state) => {
-			return state.documents.filter((document) => {
-				return state.openDocumentsIds.includes(document.id)
+		openDocuments: (state, getters) => {
+			// Make sure we sort by index of openDocumentIds
+			return state.openDocumentsIds.map((id) => {
+				return getters.getDocumentById(id)
 			})
 		},
 
@@ -72,10 +73,11 @@ const storeDocuments = {
 
 		openDocument(state, payload) {
 			const id = payload.id
+			console.log("od", state.openDocumentsIds)
 			if (!state.openDocumentsIds.includes(id)) {
-				state.openDocumentsIds.push(payload.id)
+				state.openDocumentsIds.unshift(payload.id)
 				if (state.openDocumentsIds.length > 3) {
-					state.openDocumentsIds.splice(0, state.openDocumentsIds.length - 3)
+					state.openDocumentsIds.length = 3 // .splice(0, state.openDocumentsIds.length - 3)
 				}
 
 				updatePreferencesProp("openDocumentIds", state.openDocumentsIds)

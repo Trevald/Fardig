@@ -24,6 +24,9 @@
 		},
 
 		mounted() {
+			if (this.file !== undefined) {
+				this.$store.commit("openDocument", this.file)
+			}
 			// this.documentId = this.$route.params.documentId;
 		},
 	}

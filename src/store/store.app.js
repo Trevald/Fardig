@@ -4,7 +4,7 @@ const storeApp = {
 	state: () => {
 		return {
 			activeView: getPreferencesProp("activeView", "editor"),
-			accessToken: undefined,
+			accessToken: getAccessToken(),
 		}
 	},
 
@@ -34,6 +34,11 @@ const storeApp = {
 	},
 
 	actions: {},
+}
+
+function getAccessToken() {
+	const accessToken = getPreferencesProp("accessToken")
+	return accessToken
 }
 
 export default storeApp

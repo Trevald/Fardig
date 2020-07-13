@@ -1,4 +1,5 @@
 import Dropbox from "dropbox"
+import { updatePreferencesProp } from "./../utils/preferences"
 
 export default class DropboxApi {
 	constructor(accessToken) {
@@ -7,6 +8,7 @@ export default class DropboxApi {
 
 		if (this.ACCESS_TOKEN === undefined) {
 			this.ACCESS_TOKEN = this.getAccessTokenFromUrl()
+			updatePreferencesProp("accessToken", this.ACCESS_TOKEN)
 		} else {
 			this.dbx = new Dropbox.Dropbox({ accessToken: this.ACCESS_TOKEN, fetch: fetch })
 		}

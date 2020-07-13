@@ -62,7 +62,6 @@ const routes = [
 const router = new VueRouter({ mode: "history", routes })
 
 router.beforeEach((to, from, next) => {
-	console.log("beforeEach", to.name, from.name, store.getters.accessToken)
 	if (to.name !== "Login" && to.name !== "Auth" && !store.getters.accessToken) {
 		next({ name: "Login" })
 	} else {
