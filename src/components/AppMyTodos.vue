@@ -7,10 +7,13 @@
 					getDocumentName(document)
 				}}</router-link>
 			</h2>
-			<ul class="no-style">
-				<li v-for="(todo, index) in getTodos(document)" :key="index">
-					<AppTodoSingle :todo="todo">{{ todo.textContent }}</AppTodoSingle>
-				</li>
+			<ul data-type="todo_list">
+				<AppTodoSingle
+					v-for="(todo, index) in getTodos(document)"
+					:key="index"
+					:todo="todo"
+					>{{ todo.textContent }}</AppTodoSingle
+				>
 			</ul>
 		</article>
 	</div>
@@ -48,3 +51,13 @@
 		},
 	}
 </script>
+
+<style scoped>
+	h2 a {
+		text-decoration: none;
+	}
+
+	h2 a:hover {
+		text-decoration: underline;
+	}
+</style>
