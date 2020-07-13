@@ -218,7 +218,7 @@ input.app-command-input:focus {
 
 	flex: 0 0 auto;
 	/* box-shadow: rgba(0,0,0, 0.75) 0 -0.5px 0 0 inset; */
-	background-color: rgba(0, 0, 0, 0.2);
+	background-color: rgba(0, 0, 0, 0.3);
 
 	display: flex;
 	align-items: stretch;
