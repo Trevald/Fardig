@@ -34,9 +34,13 @@ const storeDocuments = {
 
 		openDocuments: (state, getters) => {
 			// Make sure we sort by index of openDocumentIds
-			return state.openDocumentsIds.map((id) => {
-				return getters.getDocumentById(id)
-			})
+			return state.openDocumentsIds
+				.map((id) => {
+					return getters.getDocumentById(id)
+				})
+				.filter((document) => {
+					return document !== undefined
+				})
 		},
 
 		activeDocument: (state) => {
@@ -54,16 +58,6 @@ const storeDocuments = {
 			state.documents.push(document)
 		},
 
-		newDocument() {
-			const newDocument = {
-				id: `temp-${Date.now()}`,
-				json: documentGetJsonFromMarkdown("# My new file\n"),
-				// contents: "<h1>My new file</h1>",
-			}
-			this.commit("addDocument", newDocument)
-			this.commit("setActiveDocument", newDocument)
-		},
-
 		setActiveDocument(state, payload) {
 			this.commit("openDocument", payload)
 			state.activeDocumentId = payload.id
@@ -73,7 +67,6 @@ const storeDocuments = {
 
 		openDocument(state, payload) {
 			const id = payload.id
-			console.log("od", state.openDocumentsIds)
 			if (!state.openDocumentsIds.includes(id)) {
 				state.openDocumentsIds.unshift(payload.id)
 				if (state.openDocumentsIds.length > 3) {
@@ -94,7 +87,19 @@ const storeDocuments = {
 		},
 	},
 
-	actions: {},
+	actions: {
+		newDocument({ commit }) {
+			return new Promise((resolve) => {
+				const newDocument = {
+					id: `temp-${Date.now()}`,
+					json: documentGetJsonFromMarkdown("# My new file\n"),
+				}
+				commit("addDocument", newDocument)
+				commit("setActiveDocument", newDocument)
+				resolve(newDocument)
+			})
+		},
+	},
 }
 
 export default storeDocuments

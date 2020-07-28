@@ -1,33 +1,43 @@
 <template>
-	<article>
-		<AppDocumentText v-if="file" :file="file" :key="this.documentId" />
-	</article>
+  <article>
+    <AppDocumentText
+      v-if="file"
+      :file="file"
+      :key="this.documentId"
+    />
+  </article>
 </template>
 
 <script>
-	import AppDocumentText from "./AppDocumentText"
+import AppDocumentText from "./AppDocumentText";
 
-	export default {
-		name: "AppDocument",
+export default {
+  name: "AppDocument",
 
-		components: {
-			AppDocumentText,
-		},
+  components: {
+    AppDocumentText,
+  },
 
-		computed: {
-			documentId() {
-				return this.$route.params.documentId
-			},
-			file() {
-				return this.$store.getters.getDocumentById(this.documentId)
-			},
-		},
+  beforeRouteUpdate(to, from, next) {
+    this.$store.commit("setActiveDocument", {
+      id: to.params.documentId,
+    });
+    next();
+  },
 
-		mounted() {
-			if (this.file !== undefined) {
-				this.$store.commit("openDocument", this.file)
-			}
-			// this.documentId = this.$route.params.documentId;
-		},
-	}
+  computed: {
+    documentId() {
+      return this.$route.params.documentId;
+    },
+    file() {
+      return this.$store.getters.getDocumentById(this.documentId);
+    },
+  },
+
+  mounted() {
+    if (this.file !== undefined) {
+      this.$store.commit("openDocument", this.file);
+    }
+  },
+};
 </script>

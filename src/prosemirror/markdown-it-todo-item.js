@@ -26,8 +26,6 @@ module.exports = function(md) {
 			]
 			tokens[i].children[0].content = content.slice(4)
 			tokens[i + 2].type = "todo_item_close" // = new state.Token("app_todo_close", "p", 0)
-			// tokens.splice(i + 2, 1)
-			// tokens.splice(i - 2, 1)
 
 			if (!parentListIsTodo(tokens, i)) {
 				const parentIndexes = getParentList(tokens, i)
