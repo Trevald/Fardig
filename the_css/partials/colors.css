@@ -9,6 +9,10 @@
 
 	--_color-inactive: 68, 74%, 79%;
 
+	/*
+     * Public
+     */
+
 	--color-default: hsl(var(--_color-default));
 	--color-emphasised: hsl(68, 74%, 79%);
 	--color-muted: #b8c468;

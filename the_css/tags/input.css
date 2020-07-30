@@ -46,7 +46,6 @@ input[type="checkbox"]::before {
 input[type="checkbox"]:checked {
 	background-image: url("data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%2011%209%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M10.7488%201.31929L9.19926%200.0548096L4.53726%205.76783L1.60001%203.5L0.377747%205.08305L4.86044%208.54412L5.04655%208.30307L5.04852%208.30467L10.7488%201.31929Z%22%20fill%3D%22%231E1515%22%2F%3E%3C%2Fsvg%3E");
 	background-color: var(--color-active);
-	box-shadow: 0px 1px 1px rgba(255, 255, 255, 0.16), inset 0px 1px 1px rgba(0, 0, 0, 0.16);
 	border: none;
 }
 

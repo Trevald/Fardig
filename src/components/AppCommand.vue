@@ -47,10 +47,29 @@ export default {
         {
           name: "+ New file",
           command: "NEW_FILE",
+          callback: () => {
+            this.$store.dispatch("newDocument").then((doc) => {
+              this.$router.push({
+                name: "Document",
+                params: { documentId: doc.id },
+              });
+            });
+          },
         },
         {
           name: "Delete current file",
           command: "DELETE_FILE",
+          callback: () => {
+            // TODO: Get document Id from router and prompt confirmation
+          },
+        },
+        {
+          name: "Toggle dark/light mode",
+          command: "TOGGLE_DARK_LIGHT_MODE",
+          callback: () => {
+            const html = document.querySelector("html");
+            html.classList.toggle("theme-light");
+          },
         },
       ],
       fuse: new Fuse(this.options, fuseOptions),
@@ -69,14 +88,14 @@ export default {
 
     result() {
       if (this.query === "") {
-        return this.options.slice(0, 5);
+        return this.options.slice(0, 10);
       }
       console.log("options", this.options);
       this.fuse.setCollection(this.options);
       const result = this.fuse.search(this.query);
 
       return result.length > 0
-        ? result.slice(0, 5)
+        ? result.slice(0, 10)
         : [{ name: "No results", command: null }];
     },
 
@@ -123,33 +142,15 @@ export default {
         return false;
       }
 
-      option.command = option.id !== undefined ? "OPEN" : option.command;
       if (option.command !== undefined) {
-        this.doCommand(option.command, {
-          documentId: option.id,
+        option.callback();
+      } else if (option.id !== undefined) {
+        this.$router.push({
+          name: "Document",
+          params: { documentId: option.id },
         });
       }
-    },
 
-    doCommand(command, options) {
-      switch (command) {
-        case "NEW_FILE":
-          this.$store.dispatch("newDocument").then((doc) => {
-            this.$router.push({
-              name: "Document",
-              params: { documentId: doc.id },
-            });
-          });
-          break;
-        case "OPEN":
-          this.$router.push({
-            name: "Document",
-            params: { documentId: options.documentId },
-          });
-          break;
-        default:
-          break;
-      }
       this.closeMe();
     },
 

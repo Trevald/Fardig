@@ -19,3 +19,15 @@
 	--color-commmand-active-foreground: white;
 	--color-commmand-active-backgorund: rgba(134, 157, 210, 0.1);
 }
+
+.theme-light {
+	--main-bg: #f4f1d3;
+	--main-fg: #29201c;
+	--color-background-dark: rgba(0, 0, 0, 0.03);
+
+	--color-tabs-inactive: hsl(18, 19%, 40%);
+	/*--color-todo-checkbox-border: #7ee461;*/
+	--_color-inactive: 18, 17%, 47%;
+
+	--color-todo-checkbox-background-idle: rgba(255, 255, 255, 0.9);
+}
