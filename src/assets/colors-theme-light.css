@@ -1,0 +1,55 @@
+html.theme-light {
+	--_color-bg: 55, 60%, 89%;
+	--_color-bg-muted: 55, 60%, 84%;
+
+	--_color-fg: 18, 19%, 17%;
+	--_color-fg-muted: 41, 13%, 44%;
+	--_color-fg-emphasized: 0, 0%, 0%;
+
+	--_color-link: 238, 77%, 55%;
+	--_color-action: 238, 77%, 55%;
+
+	--_color-good: 134, 73%, 55%;
+	--_color-worrying: 36, 98%, 37%;
+	--_color-bad: 18, 76%, 38%;
+
+	--_color-overlay-bg: 55, 60%, 95%;
+	--_color-overlay-highlight: 0, 0%, 100%;
+
+	--_color-neutral-1: 313, 87%, 60%;
+	--_color-neutral-2: 67, 88%, 32%;
+	--_color-neutral-3: 313, 87%, 60%;
+
+	/* 
+    
+    Assigning of colors
+    
+    Base 
+    
+    */
+	--color-background: hsl(var(--_color-bg));
+	--color-foreground: hsl(var(--_color-fg));
+
+	--color-background-dark: hsl(var(--_color-bg-muted));
+
+	--color-background-status: hsl(var(--_color-action));
+	--color-foreground-status: hsl(var(--_color-bg));
+	--shadow-overlay: rgba(0, 0, 0, 0.25) 0 15px 35px;
+
+	/* 
+    Navigation 
+    */
+	--color-tabs-inactive: hsl(var(--_color-fg-muted));
+	--color-tabs-active: hsl(var(--_color-fg));
+
+	/* Inputs */
+	--color-todo-checkbox-background-idle: hsl(var(--_color-overlay-highlight));
+	--color-todo-checkbox-background-checked: hsl(var(--_color-good));
+	--color-todo-checkbox-border: hsla(var(--_color-fg), 0.3);
+
+	/* Command */
+	--color-command-background: hsl(var(--_color-overlay-bg));
+	--color-command-foreground: hsl(var(--_color-fg));
+	--color-commmand-active-foreground: hsl(var(--_color-fg-emphasized));
+	--color-commmand-active-background: hsl(var(--_color-overlay-highlight));
+}

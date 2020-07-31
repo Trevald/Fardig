@@ -175,6 +175,7 @@ export default {
 
   mounted() {
     this.$refs.input.focus();
+    this.activeItem = 0;
   },
 };
 </script>

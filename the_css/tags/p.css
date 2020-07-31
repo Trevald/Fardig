@@ -1,19 +1,18 @@
-
 p {
-    margin: 0;
-    padding: 0;
+	margin: 0;
+	padding: 0;
 }
 
 p {
-    --font-size: calc(var(--unit) * 2.25);
-    --line-height: calc(var(--unit) * 4); /* 1.28 */
-    --line-height-percentage: calc(4 / 2.25);
-    --cap-height: 0.7;
-    --offset: calc(var(--font-size) * (var(--line-height-percentage) - var(--cap-height)) / 2);
+	--font-size: calc(var(--unit) * 2.25);
+	--line-height: calc(var(--unit) * 4); /* 1.28 */
+	--line-height-percentage: calc(4 / 2.25);
+	--cap-height: 0.7;
+	--offset: calc(var(--font-size) * (var(--line-height-percentage) - var(--cap-height)) / 2);
 
-    padding-top: var(--offset);
-    padding-bottom: calc(var(--unit) * 2 - var(--offset));
-    font-size: var(--font-size);
-    line-height: var(--line-height);
-    font-variation-settings: "wght" 250;
+	padding-top: var(--offset);
+	padding-bottom: calc(var(--unit) * 2 - var(--offset));
+	font-size: var(--font-size);
+	line-height: var(--line-height);
+	font-variation-settings: "wght" 350;
 }

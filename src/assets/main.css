@@ -1,5 +1,13 @@
 @import "./../../the_css/the_css.css";
+
+@import "./colors-theme-dark.css";
+@import "./colors-theme-light.css";
 @import "./colors.css";
+
+body {
+	background-color: var(--color-bg);
+	color: var(--color-fg);
+}
 
 .app-login {
 	flex: 1 1 auto;
@@ -70,9 +78,9 @@
 	align-items: center;
 
 	padding: calc(var(--unit) / 2) calc(var(--unit) / 1);
-	background: rgba(50, 100, 250, 0.6);
+	background: var(--color-background-status);
 	font-size: calc(var(--unit) * 1.5);
-	color: rgba(255, 255, 255, 0.8);
+	color: var(--color-foreground-status);
 }
 
 .app-status .app-logo svg {
@@ -162,7 +170,7 @@ li[data-type="todo_item"] input[type="checkbox"]:focus {
 	border-radius: 2px;
 
 	color: var(--color-command-foreground);
-	box-shadow: rgba(0, 0, 0, 0.25) 0 15px 35px;
+	box-shadow: var(--shadow-overlay);
 }
 
 input.app-command-input {
@@ -200,7 +208,7 @@ input.app-command-input:focus {
 
 .app-command-results > li > button.is-active {
 	color: var(--color-commmand-active-foreground);
-	background: var(--color-commmand-active-backgorund);
+	background: var(--color-commmand-active-background);
 }
 
 .app-command-results > li:last-child > button {
