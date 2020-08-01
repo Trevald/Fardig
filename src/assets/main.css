@@ -135,7 +135,7 @@ li[data-type="todo_item"] {
 li[data-type="todo_item"] input[type="checkbox"] {
 	position: absolute;
 	top: 0.4em;
-	left: calc(var(--unit-fluid) * -7);
+	left: calc(var(--unit-fluid) * -8);
 	background-color: var(--color-todo-checkbox-background-idle);
 	border-color: var(--color-todo-checkbox-border);
 }
@@ -188,6 +188,15 @@ input.app-command-input:focus {
 	outline: none;
 }
 
+.app-command-results-heading {
+	margin: 0;
+	padding: calc(var(--unit) * 2) calc(var(--unit) * 2) calc(var(--unit) * 1) calc(var(--unit) * 2);
+	font-size: calc(var(--unit) * 1.75);
+	line-height: calc(var(--unit) * 2);
+	font-family: var(--font-monospace);
+	color: var(--color-fg-muted);
+}
+
 .app-command-results {
 	padding: 0;
 	list-style: none;
@@ -199,11 +208,20 @@ input.app-command-input:focus {
 }
 
 .app-command-results > li > button {
-	padding: calc(var(--unit) * 2.5) calc(var(--unit) * 4);
+	display: flex;
+	align-items: center;
+
+	padding: calc(var(--unit) * 1) calc(var(--unit) * 2);
+	min-height: calc(var(--unit) * 6);
 	font-size: calc(var(--unit) * 2);
 	font-family: var(--font-monospace);
-	display: block;
 	width: 100%;
+}
+
+.app-command-results > li .icon {
+	margin-right: calc(var(--unit) * 2);
+	width: 20px;
+	height: 20px;
 }
 
 .app-command-results > li > button.is-active {

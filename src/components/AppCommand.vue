@@ -12,15 +12,36 @@
     />
     <ul class="app-command-results no-style">
       <li
-        v-for="(option, index) in result"
+        v-for="(option, index) in filteredActions"
         :key="index"
       >
         <button
           type="button"
-          @mouseover="setActiveOptionToIndex(index)"
+          @mouseover="setActiveOptionToIndex('actions',index)"
           @click="checkActiveOption"
-          :class="{ 'no-style': true, 'is-active': isOptionActive(index) }"
+          :class="{ 'no-style': true, 'is-active': isOptionActive('actions', index) }"
         >
+          <AppIcon
+            :name="getOptionProp(option, 'icon')"
+            :iconLightMode="getOptionProp(option, 'iconLightMode')"
+          />
+          {{ getOptionTitle(option) }}
+        </button>
+      </li>
+    </ul>
+    <h4 class="app-command-results-heading no-style">{{ resultsHeading }}</h4>
+    <ul class="app-command-results no-style">
+      <li
+        v-for="(option, index) in filteredDocumentsSliced"
+        :key="index"
+      >
+        <button
+          type="button"
+          @mouseover="setActiveOptionToIndex('documents', index)"
+          @click="checkActiveOption"
+          :class="{ 'no-style': true, 'is-active': isOptionActive('documents', index) }"
+        >
+          <AppIcon name="document" />
           {{ getOptionTitle(option) }}
         </button>
       </li>
@@ -31,6 +52,7 @@
 <script>
 import Fuse from "fuse.js";
 import { documentGetTitle } from "./../utils/document";
+import AppIcon from "./AppIcon";
 
 const fuseOptions = {
   includeScore: true,
@@ -40,13 +62,19 @@ const fuseOptions = {
 export default {
   name: "AppCommand",
 
+  components: {
+    AppIcon,
+  },
+
   data() {
     return {
       activeItem: 0,
+      activeList: "actions",
       actions: [
         {
-          name: "+ New file",
+          name: "New",
           command: "NEW_FILE",
+          icon: "documentAdd",
           callback: () => {
             this.$store.dispatch("newDocument").then((doc) => {
               this.$router.push({
@@ -59,6 +87,7 @@ export default {
         {
           name: "Delete current file",
           command: "DELETE_FILE",
+          icon: "trash",
           callback: () => {
             // TODO: Get document Id from router and prompt confirmation
           },
@@ -66,13 +95,16 @@ export default {
         {
           name: "Toggle dark/light mode",
           command: "TOGGLE_DARK_LIGHT_MODE",
+          icon: "sun",
+          iconLightMode: "moon",
           callback: () => {
             const html = document.querySelector("html");
             html.classList.toggle("theme-light");
           },
         },
       ],
-      fuse: new Fuse(this.options, fuseOptions),
+      fuseActions: new Fuse(this.actions, fuseOptions),
+      fuseDocuments: new Fuse(this.documents, fuseOptions),
       query: "",
     };
   },
@@ -86,17 +118,32 @@ export default {
       return this.actions.concat(this.documents);
     },
 
-    result() {
+    filteredActions() {
       if (this.query === "") {
-        return this.options.slice(0, 10);
+        return this.actions.slice(0, 5);
       }
-      console.log("options", this.options);
-      this.fuse.setCollection(this.options);
-      const result = this.fuse.search(this.query);
+      this.fuseActions.setCollection(this.actions);
+      return this.fuseActions.search(this.query).slice(0, 5);
+    },
 
-      return result.length > 0
-        ? result.slice(0, 10)
-        : [{ name: "No results", command: null }];
+    filteredDocuments() {
+      if (this.query === "") {
+        return this.documents;
+      }
+      this.fuseDocuments.setCollection(this.documents);
+
+      return this.fuseDocuments.search(this.query);
+    },
+
+    filteredDocumentsSliced() {
+      return this.filteredDocuments.slice(0, 5);
+    },
+
+    resultsHeading() {
+      const numberOfDocumentsFound = this.filteredDocuments.length;
+      const numberOfDocumentsShown = this.filteredDocumentsSliced.length;
+
+      return `${numberOfDocumentsShown} of ${numberOfDocumentsFound} documents`;
     },
 
     keymap() {
@@ -134,10 +181,18 @@ export default {
       }
     },
 
+    getOptionProp(option, propName) {
+      return option.item ? option.item[propName] : option[propName];
+    },
+
     checkActiveOption() {
-      const option = this.result[this.activeItem].item
-        ? this.result[this.activeItem].item
-        : this.result[this.activeItem];
+      const result =
+        this.activeList === "actions"
+          ? this.filteredActions
+          : this.filteredDocumentsSliced;
+      const option = result[this.activeItem].item
+        ? result[this.activeItem].item
+        : result[this.activeItem];
       if (option === undefined) {
         return false;
       }
@@ -154,21 +209,36 @@ export default {
       this.closeMe();
     },
 
-    isOptionActive(index) {
-      return index === this.activeItem;
+    isOptionActive(list, index) {
+      return index === this.activeItem && list === this.activeList;
     },
 
-    setActiveOptionToIndex(index) {
+    setActiveOptionToIndex(list, index) {
+      this.activeList = list;
       this.activeItem = index;
     },
 
     setActiveItem(value) {
       this.activeItem = this.activeItem + value;
-      if (this.activeItem < 0) {
-        this.activeItem = 0;
-      }
-      if (this.activeItem >= this.options.length) {
-        this.activeItem = this.options.length - 1;
+
+      if (this.activeList === "actions") {
+        if (this.activeItem < 0) {
+          this.activeItem = 0;
+        } else if (this.activeItem >= this.filteredActions.length) {
+          if (this.filteredDocumentsSliced.length > 0) {
+            this.activeItem = 0;
+            this.activeList = "documents";
+          } else {
+            this.activeItem = this.filteredActions.length - 1;
+          }
+        }
+      } else if (this.activeList === "documents") {
+        if (this.activeItem < 0) {
+          this.activeList = "actions";
+          this.activeItem = this.filteredActions.length - 1;
+        } else if (this.activeItem >= this.filteredDocumentsSliced.length) {
+          this.activeItem = this.filteredDocumentsSliced.length - 1;
+        }
       }
     },
   },
