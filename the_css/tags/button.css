@@ -42,7 +42,7 @@ button:not(.no-style) {
 	text-decoration: none;
 	color: var(--color-default);
 
-	border-radius: 2px;
+	border-radius: 3px;
 	border: none;
 	background: none;
 

@@ -45,9 +45,10 @@ import {
   Link,
   Strike,
   History,
-  Mention
+  // Mention
 } from "tiptap-extensions";
 
+import NodeTag from "./../nodes/NodeTag";
 import { MentionTagsMixin } from "./../mixins/MentionTagsMixin";
 import MENTION_TAGS_OPTIONS from "./../utils/mention_tags_options";
 
@@ -58,18 +59,18 @@ export default {
   name: "AppEditor",
 
   components: {
-    EditorContent
+    EditorContent,
   },
 
   props: {
-    json: Object
+    json: Object,
   },
 
   mixins: [MentionTagsMixin],
 
   data() {
     return {
-      editor: null
+      editor: null,
     };
   },
 
@@ -91,7 +92,7 @@ export default {
         new Link(),
         new Strike(),
         new History(),
-        new Mention(MENTION_TAGS_OPTIONS(this))
+        new NodeTag(MENTION_TAGS_OPTIONS(this)),
       ],
       content: this.json,
 
@@ -99,15 +100,15 @@ export default {
         const json = getJSON();
 
         this.$emit("change", {
-          json
+          json,
         });
-      }
+      },
     });
   },
 
   beforeDestroy() {
     this.editor.destroy();
-  }
+  },
 };
 </script>
 

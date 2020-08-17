@@ -9,6 +9,10 @@ body {
 	color: var(--color-fg);
 }
 
+.button.primary:not(.no-style) {
+	background-color: var(--color-action);
+}
+
 .app-login {
 	flex: 1 1 auto;
 	display: flex;

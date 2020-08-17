@@ -1,18 +1,15 @@
 import markdownit from "markdown-it"
 const taskLists = require("./markdown-it-todo-item")
+const tag = require("./markdown-it-tag")
 
 import { MarkdownParser } from "prosemirror-markdown"
 import { schema } from "./schema"
 
-/*
-export const markdownRenderer = markdownit("commonmark", { html: false, breaks: false }).use(
-	taskLists
-)
-*/
-
 export const markdownParser = new MarkdownParser(
 	schema,
-	markdownit("commonmark", { html: false, breaks: false }).use(taskLists),
+	markdownit("commonmark", { html: false, breaks: false })
+		.use(taskLists)
+		.use(tag),
 	{
 		blockquote: { block: "blockquote" },
 		paragraph: { block: "paragraph" },
@@ -59,6 +56,14 @@ export const markdownParser = new MarkdownParser(
 			getAttrs: (tok) => ({
 				type: tok.attrGet("data-type"),
 				status: tok.attrGet("data-status"),
+			}),
+		},
+		tag: {
+			node: "tag",
+			getAttrs: (tok) => ({
+				type: tok.attrGet("data-type"),
+				id: tok.attrGet("data-id"),
+				label: tok.attrGet("data-label"),
 			}),
 		},
 

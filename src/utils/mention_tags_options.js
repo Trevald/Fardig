@@ -1,81 +1,71 @@
 export default function MENTION_TAGS_OPTIONS(self) {
+	return {
+		/**
+		 * List of suggestions
+		 */
+		items: () => ["private", "work", "fardig", "farmer"],
 
-    return {
-        matcher: {
-            char: '#',
-            allowSpaces: false,
-            startOfLine: false,
-          },
+		/**
+		 * Suggestion starts
+		 */
+		onEnter: ({ items, query, range, command, virtualNode }) => {
+			console.log("Enter")
+			;(self.mentionTagsQuery = query),
+				(self.mentionTagsFilteredTags = items),
+				(self.mentionTagsSuggestionRange = range),
+				self.mentionTagsRenderPopup(virtualNode)
+			self.mentionTagsInsertTag = command
+		},
 
-          suggestionClass: "mention-tag",
-    /**
-     * List of suggestions
-     */
-    items: () => ["private","work","fardig","farmer"
-    ],
+		/**
+		 * Suggestion changes
+		 */
+		onChange: ({ items, query, range, virtualNode }) => {
+			self.mentionTagsQuery = query
+			self.mentionTagsFilteredTags = items
+			self.mentionTagsSuggestionRange = range
+			self.mentionTagsNavigatedTagIndex = 0
+			self.mentionTagsRenderPopup(virtualNode)
+		},
 
-    /**
-     * Suggestion starts
-     */
-    onEnter: ({
-        items, query, range, command, virtualNode
-    }) => {
-        console.log("Enter");
-        self.mentionTagsQuery = query,
-        self.mentionTagsFilteredTags = items,
-        self.mentionTagsSuggestionRange = range,
-        self.mentionTagsRenderPopup(virtualNode)
-        self.mentionTagsInsertTag = command
-    },
+		/**
+		 * Suggestion canceled
+		 */
 
-    /**
-     * Suggestion changes
-     */
-    onChange: ({
-        items, query, range, virtualNode
-    }) => {
-        self.mentionTagsQuery = query
-        self.mentionTagsFilteredTags = items
-        self.mentionTagsSuggestionRange = range
-        self.mentionTagsNavigatedTagIndex = 0
-        self.mentionTagsRenderPopup(virtualNode)
-    },
+		onExit: () => {
+			console.log("onExit")
+			self.mentionTagsQuery = null
+			self.mentionTagsFilteredTags = []
+			self.mentionTagsSuggestionRange = null
+			self.mentionTagsNavigatedTagIndex = 0
+			self.mentionTagsDestroyPopup()
+		},
 
-    /**
-     * Suggestion canceled
-     */ 
-    onExit: () => {
-        self.mentionTagsQuery = null
-        self.mentionTagsFilteredTags = []
-        self.mentionTagsSuggestionRange = null
-        self.mentionTagsNavigatedTagIndex = 0
-        self.mentionTagsDestroyPopup()
-    },
+		/**
+		 * Cathc every keyDown while a suggestion is active
+		 */
 
-    /**
-     * Cathc every keyDown while a suggestion is active
-     */     
-    onKeyDown: ({event}) => {
-        console.log("onKeyDown", event);
-        switch(event.key) {
-            case "ArrowUp":
-                self.mentionTagsUpHandler()
-                return true
-            case "ArrowDown":
-                self.mentionTagsUpHandler()
-                return true
-            case "Enter":
-                self.mentionTagsEnterHandler()
-                return true
-            default:
-                return false
-        } 
-    },
+		onKeyDown: ({ event }) => {
+			console.log("onKeyDown", event)
+			switch (event.key) {
+				case "ArrowUp":
+					self.mentionTagsUpHandler()
+					return true
+				case "ArrowDown":
+					self.mentionTagsUpHandler()
+					return true
+				case "Enter":
+					self.mentionTagsEnterHandler(self.mentionTagsQuery)
+					return true
+				default:
+					return false
+			}
+		},
 
-    /**
-     * Optional filtering
-     */
+		/**
+		 * Optional filtering
+		 */
 
-     // onFilter: (items, query) => {}
-
-}}
+		// onFilter: (items, query) => {}
+	}
+}
