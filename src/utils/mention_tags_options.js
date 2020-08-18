@@ -1,9 +1,11 @@
-export default function MENTION_TAGS_OPTIONS(self) {
+export default function MENTION_TAGS_OPTIONS(self, itemsCallback) {
 	return {
 		/**
 		 * List of suggestions
 		 */
-		items: () => ["private", "work", "fardig", "farmer"],
+		items: () => {
+			return itemsCallback()
+		},
 
 		/**
 		 * Suggestion starts

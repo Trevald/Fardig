@@ -74,6 +74,14 @@ export default {
     };
   },
 
+  methods: {
+    getTags() {
+      console.log("tag", this.$store.getters.tags);
+      console.log("tag", this.$store.getters.tags);
+      return this.$store.getters.tags;
+    },
+  },
+
   mounted() {
     this.editor = new Editor({
       extensions: [
@@ -92,7 +100,7 @@ export default {
         new Link(),
         new Strike(),
         new History(),
-        new NodeTag(MENTION_TAGS_OPTIONS(this)),
+        new NodeTag(MENTION_TAGS_OPTIONS(this, this.getTags)),
       ],
       content: this.json,
 

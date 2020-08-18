@@ -3,7 +3,11 @@ import Document from "./Document"
 
 import { getPreferencesProp, updatePreferencesProp } from "./../utils/preferences"
 
-import { documentGetJsonFromMarkdown, documentHasTodos } from "./../utils/document"
+import {
+	documentGetJsonFromMarkdown,
+	documentGetTagsLabels,
+	documentHasTodos,
+} from "./../utils/document"
 
 const storeDocuments = {
 	state: () => {
@@ -15,6 +19,14 @@ const storeDocuments = {
 	},
 
 	getters: {
+		activeDocument: (state) => {
+			return state.documents.find((document) => document.id === state.activeDocumentId)
+		},
+
+		activeDocumentId: (state) => {
+			return state.activeDocumentId
+		},
+
 		allDocuments: (state) => {
 			return state.documents
 		},
@@ -43,12 +55,13 @@ const storeDocuments = {
 				})
 		},
 
-		activeDocument: (state) => {
-			return state.documents.find((document) => document.id === state.activeDocumentId)
-		},
+		tags: (state) => {
+			let tags = []
+			state.documents.forEach((doc) => {
+				tags = tags.concat(documentGetTagsLabels(doc))
+			})
 
-		activeDocumentId: (state) => {
-			return state.activeDocumentId
+			return tags
 		},
 	},
 

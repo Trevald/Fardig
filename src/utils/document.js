@@ -66,26 +66,49 @@ export function documentGetTitle(doc) {
 }
 
 export function documentGetTodos(doc) {
+	return getNodesByName(doc, "todo_item")
+}
+
+export function documentGetTags(doc) {
+	return getNodesByName(doc, "tag")
+}
+
+function getNodesByName(doc, nodeName) {
 	const node = Node.fromJSON(schema, doc.json)
-	const todos = []
+	const result = []
 
 	node.descendants((descendant) => {
-		if (descendant.type.name === "todo_item") {
-			todos.push(descendant)
+		if (descendant.type.name === nodeName) {
+			result.push(descendant)
 		}
 	})
 
-	return todos
+	return result
+}
+
+export function documentGetTagsLabels(doc) {
+	const tags = documentGetTags(doc)
+	const tagLabels = tags.map((tag) => tag.attrs.label)
+	return [...new Set(tagLabels)] // Remove duplicates
 }
 
 export function documentHasTodos(doc) {
+	return documentHasNodeType(doc, "todo_item")
+}
+
+export function documentHasTags(doc) {
+	return documentHasNodeType(doc, "tag")
+}
+
+function documentHasNodeType(doc, nodeName) {
 	const node = Node.fromJSON(schema, doc.json)
 	let result = false
+
 	node.descendants((descendant) => {
 		if (result === true) {
 			return false
 		}
-		result = descendant.type.name === "todo_item"
+		result = descendant.type.name === nodeName
 	})
 
 	return result
