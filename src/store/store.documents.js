@@ -61,7 +61,7 @@ const storeDocuments = {
 				tags = tags.concat(documentGetTagsLabels(doc))
 			})
 
-			return tags
+			return [...new Set(tags)]
 		},
 	},
 

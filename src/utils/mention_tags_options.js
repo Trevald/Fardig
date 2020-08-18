@@ -54,7 +54,7 @@ export default function MENTION_TAGS_OPTIONS(self, itemsCallback) {
 					self.mentionTagsUpHandler()
 					return true
 				case "ArrowDown":
-					self.mentionTagsUpHandler()
+					self.mentionTagsDownHandler()
 					return true
 				case "Enter":
 					self.mentionTagsEnterHandler(self.mentionTagsQuery)

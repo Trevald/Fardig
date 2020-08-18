@@ -9,6 +9,10 @@ body {
 	color: var(--color-fg);
 }
 
+.container {
+	--view-max-width: calc(var(--unit) * 80);
+}
+
 .button.primary:not(.no-style) {
 	background-color: var(--color-action);
 }
@@ -139,9 +143,10 @@ li[data-type="todo_item"] {
 li[data-type="todo_item"] input[type="checkbox"] {
 	position: absolute;
 	top: 0.4em;
-	left: calc(var(--unit-fluid) * -8);
+	left: calc(var(--unit-fluid) * -7);
 	background-color: var(--color-todo-checkbox-background-idle);
 	border-color: var(--color-todo-checkbox-border);
+	cursor: pointer;
 }
 
 li[data-type="todo_item"] input[type="checkbox"]:checked {

@@ -49,4 +49,8 @@ html {
 	--color-command-foreground: var(--color-fg);
 	--color-commmand-active-foreground: var(--color-fg-emphasized);
 	--color-commmand-active-background: var(--color-overlay-highlight);
+
+	/* Mapping for Unity.css */
+
+	--color-any-1: var(--color-neutral-2);
 }

@@ -89,7 +89,8 @@ function getNodesByName(doc, nodeName) {
 export function documentGetTagsLabels(doc) {
 	const tags = documentGetTags(doc)
 	const tagLabels = tags.map((tag) => tag.attrs.label)
-	return [...new Set(tagLabels)] // Remove duplicates
+
+	return tagLabels
 }
 
 export function documentHasTodos(doc) {

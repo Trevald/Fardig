@@ -2,19 +2,19 @@ html.theme-light {
 	--_color-bg: 55, 60%, 89%;
 	--_color-bg-muted: 55, 60%, 84%;
 
-	--_color-fg: 18, 19%, 17%;
+	--_color-fg: 18, 19%, 28%;
 	--_color-fg-muted: 41, 13%, 44%;
 	--_color-fg-emphasized: 0, 0%, 0%;
 
 	--_color-link: 238, 77%, 55%;
-	--_color-action: 238, 77%, 55%;
+	--_color-action: 238, 60%, 65%;
 
 	--_color-good: 134, 73%, 55%;
 	--_color-worrying: 36, 98%, 37%;
 	--_color-bad: 18, 76%, 38%;
 
-	--_color-overlay-bg: 55, 60%, 95%;
-	--_color-overlay-highlight: 0, 0%, 100%;
+	--_color-overlay-bg: 0, 0%, 100%;
+	--_color-overlay-highlight: 68, 82%, 89%;
 
 	--_color-neutral-1: 313, 87%, 60%;
 	--_color-neutral-2: 67, 88%, 27%;
