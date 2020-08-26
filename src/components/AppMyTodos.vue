@@ -1,6 +1,11 @@
 <template>
   <div class="view-col">
     <h1>My ToDos</h1>
+    <AppTagFilter
+      :tags="tags"
+      @filterChanged="updateResult"
+    />
+
     <article
       v-for="document in documentsWithTodos"
       :key="document.id"
@@ -10,7 +15,16 @@
 					getDocumentName(document)
 				}}</router-link>
       </h2>
-
+      <ul
+        v-if="hasTags(document)"
+        class="no-style tags"
+      >
+        <li
+          v-for="(tag, index) in getTags(document)"
+          :key="index"
+          :tag="tag"
+        ><span class="tag">{{tag}}</span></li>
+      </ul>
       <ul data-type="todo_list">
         <AppTodoSingle
           v-for="(todo, index) in getTodos(document)"
@@ -23,13 +37,20 @@
 </template>
 
 <script>
-import { documentGetName, documentGetTodos } from "./../utils/document";
+import {
+  documentGetName,
+  documentGetTodos,
+  documentHasTags,
+  documentGetTagsLabels,
+} from "./../utils/document";
 import AppTodoSingle from "./AppTodoSingle";
+import AppTagFilter from "./AppTagFilter";
 
 export default {
   name: "AppMyTodos",
 
   components: {
+    AppTagFilter,
     AppTodoSingle,
   },
 
@@ -41,6 +62,10 @@ export default {
     documentsWithTodos() {
       return this.$store.getters.documentsWithTodos;
     },
+
+    tags() {
+      return this.$store.getters.tags;
+    },
   },
 
   methods: {
@@ -50,6 +75,18 @@ export default {
 
     getTodos(doc) {
       return documentGetTodos(doc);
+    },
+
+    getTags(doc) {
+      return documentGetTagsLabels(doc);
+    },
+
+    hasTags(doc) {
+      return documentHasTags(doc);
+    },
+
+    updateResult(tags) {
+      console.log(tags);
     },
   },
 };
@@ -62,5 +99,16 @@ h2 a {
 
 h2 a:hover {
   text-decoration: underline;
+}
+
+.tags {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.tags > li:not(:last-child) {
+  margin-right: 1rem;
 }
 </style>

@@ -4,6 +4,8 @@ import App from "./App.vue"
 import VueHotkey from "v-hotkey"
 import VueRouter from "vue-router"
 
+import { getPreferencesProp } from "./utils/preferences"
+
 // CSS
 import "./assets/main.css"
 import "./assets/suggestions.css"
@@ -45,7 +47,7 @@ const routes = [
 	{
 		name: "Index",
 		path: "/",
-		redirect: { name: "Login" },
+		redirect: { name: "Document" },
 	},
 	{
 		name: "Auth",
@@ -62,7 +64,9 @@ const routes = [
 const router = new VueRouter({ mode: "history", routes })
 
 router.beforeEach((to, from, next) => {
-	if (to.name !== "Login" && to.name !== "Auth" && !store.getters.accessToken) {
+	const accessToken = getPreferencesProp("accessToken")
+	console.log(accessToken, to)
+	if (to.name !== "Login" && to.name !== "Auth" && !accessToken) {
 		next({ name: "Login" })
 	} else {
 		next()

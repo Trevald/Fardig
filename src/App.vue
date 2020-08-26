@@ -50,6 +50,7 @@ import {
   documentGetTitle,
   documentGetJsonFromMarkdown,
 } from "./utils/document";
+import { getPreferencesProp } from "./utils/preferences";
 
 export default {
   name: "App",
@@ -169,7 +170,9 @@ export default {
     },
 
     login() {
-      this.cloudStorage = new DropboxApi(this.accessToken);
+      console.log("App", this.accessToken);
+      const accessToken = this.accessToken || getPreferencesProp("accessToken");
+      this.cloudStorage = new DropboxApi(accessToken);
       if (!this.cloudStorage.isAuthenticated()) {
         this.dropboxAuthLink = this.cloudStorage.getAuthUrl();
       } else {

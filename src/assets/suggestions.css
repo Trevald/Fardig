@@ -1,14 +1,28 @@
-.tag {
-	background: hsla(var(--_color-neutral-2), 0.1);
+.tag,
+button.tag {
+	background: hsla(var(--_color-neutral-1), 0.1);
 	border-radius: 2px;
 	font-family: var(--font-monospace);
 	font-weight: 400;
 	font-size: calc(var(--unit) * 2);
-	color: hsla(var(--_color-neutral-2), 1);
+	color: hsla(var(--_color-neutral-1), 1);
 
 	padding: calc(var(--unit) * 0.5) calc(var(--unit) * 1);
 	white-space: nowrap;
 	letter-spacing: 0.05em;
+	border: 1px solid transparent;
+}
+
+.tag.outline {
+	background: transparent;
+	border-color: hsla(var(--_color-neutral-1), 0.3);
+	color: hsla(var(--_color-neutral-1), 0.8);
+}
+
+.tag.is-active {
+	background: hsla(var(--_color-neutral-2), 0.1);
+	color: hsla(var(--_color-neutral-2), 1);
+	border-collapse: transparent;
 }
 
 .suggestion-list {

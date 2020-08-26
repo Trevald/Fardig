@@ -37,6 +37,14 @@ export default {
   mounted() {
     if (this.file !== undefined) {
       this.$store.commit("openDocument", this.file);
+    } else {
+      const activeDocumentId = this.$store.getters.activeDocumentId;
+      if (activeDocumentId) {
+        this.$router.push({
+          name: "Document",
+          params: { documentId: activeDocumentId },
+        });
+      }
     }
   },
 };

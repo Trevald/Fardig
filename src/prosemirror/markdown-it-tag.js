@@ -11,7 +11,7 @@ module.exports = function(md) {
 			if (!isTag(tokens, i)) {
 				continue
 			}
-			console.log("mi", tokens[i])
+
 			const content = tokens[i].content + ""
 			const label = content.substring(1, content.length)
 			tokens[i].type = "tag"
