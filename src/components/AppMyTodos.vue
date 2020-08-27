@@ -1,13 +1,11 @@
 <template>
   <div class="view-col">
     <h1>My ToDos</h1>
-    <AppTagFilter
-      :tags="tags"
-      @filterChanged="updateResult"
-    />
+
+    <AppTagFilter :tags="tags" />
 
     <article
-      v-for="document in documentsWithTodos"
+      v-for="document in documentsWithTodosFiltered"
       :key="document.id"
     >
       <h2>
@@ -63,8 +61,28 @@ export default {
       return this.$store.getters.documentsWithTodos;
     },
 
+    documentsWithTodosFiltered() {
+      if (!this.filter) {
+        return this.documentsWithTodos;
+      }
+
+      const docs = this.documentsWithTodos;
+      const filteredDocs = docs.filter((doc) => {
+        const docTagsLabels = documentGetTagsLabels(doc);
+        return docTagsLabels.some((tagLabel) => {
+          return this.filter.includes(tagLabel);
+        });
+      });
+
+      return filteredDocs;
+    },
+
     tags() {
       return this.$store.getters.tags;
+    },
+
+    filter() {
+      return this.$route.query.filter;
     },
   },
 
@@ -83,10 +101,6 @@ export default {
 
     hasTags(doc) {
       return documentHasTags(doc);
-    },
-
-    updateResult(tags) {
-      console.log(tags);
     },
   },
 };

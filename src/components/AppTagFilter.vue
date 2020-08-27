@@ -1,18 +1,15 @@
 <template>
-  <ul
-    class="no-style filter"
-    :class="{'has-selection': hasActiveTags}"
-  >
+  <ul class="no-style filter">
     <li
       v-for="(tag, index) in tags"
       :key="index"
     >
       <button
         class="no-style tag"
-        :class="{'outline': !isTagActive(tag), 'is-active': !isTagActive(tag)}"
+        :class="{'outline': !isTagActive(tag), 'is-active': isTagActive(tag)}"
         @click="toggleTag(tag)"
       >{{tag}}</button>
-    </li> {{this.activeTags.size}}
+    </li>
   </ul>
 </template>
 
@@ -24,33 +21,36 @@ export default {
     tags: Array,
   },
 
-  data() {
-    return {
-      activeTags: [],
-    };
-  },
-
   computed: {
-    hasActiveTags() {
-      return this.activeTags.length > 0;
+    filter() {
+      if (typeof this.$route.query.filter === "string") {
+        return this.$route.query.filter.split(",");
+      } else if (typeof this.$route.query.filter === "object") {
+        return this.$route.query.filter;
+      } else {
+        return [];
+      }
     },
   },
 
   methods: {
     isTagActive(tag) {
-      console.log(12, this.activeTags);
-      return this.activeTags.includes(tag);
+      return this.filter.includes(tag);
     },
 
     toggleTag(tag) {
+      const filter = this.filter;
+
       if (this.isTagActive(tag)) {
-        const index = this.activeTags.indexOf(tag);
-        this.activeTags.splice(index, 1);
+        const index = filter.indexOf(tag);
+        filter.splice(index, 1);
       } else {
-        this.activeTags.push(tag);
+        filter.push(tag);
       }
 
-      this.$emit("filterChanged", [...this.activeTags]);
+      const query = filter.length > 0 ? { filter: filter.join(",") } : {};
+
+      this.$router.push({ name: "Todos", query: query });
     },
   },
 };

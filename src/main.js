@@ -40,6 +40,11 @@ const routes = [
 		component: AppMyTodos,
 	},
 	{
+		name: "Todos",
+		path: "/todos/:filter",
+		component: AppMyTodos,
+	},
+	{
 		name: "Document",
 		path: "/doc/:documentId",
 		component: AppDocument,
@@ -65,7 +70,6 @@ const router = new VueRouter({ mode: "history", routes })
 
 router.beforeEach((to, from, next) => {
 	const accessToken = getPreferencesProp("accessToken")
-	console.log(accessToken, to)
 	if (to.name !== "Login" && to.name !== "Auth" && !accessToken) {
 		next({ name: "Login" })
 	} else {

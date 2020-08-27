@@ -57,7 +57,7 @@ button:not(.no-style) {
 	background-color: hsl(var(--_color-action-primary));
 	box-shadow: var(--shadow-md);
 	outline: 1px dashed transparent;
-	outline-offset: 0.5rem;
+	outline-offset: calc(var(--unit) * 0.5);
 	color: var(--main-bg);
 }
 
@@ -74,8 +74,14 @@ button:not(.no-style):active {
 	transform: scale(1) translateY(0.125rem) translateZ(0) perspective(1px);
 }
 
+.button:focus,
+button:focus {
+	outline: 1px dashed transparent;
+	outline-offset: calc(var(--unit) * 0.5);
+}
+
 .button:focus:not(:active),
-button:not(.no-style):focus:not(:active) {
+button:focus:not(:active) {
 	outline-color: #869dd2;
 }
 
@@ -89,7 +95,7 @@ button.primary {
 	color: var(--main-fg);
 	background-color: var(--interaction-primary-idle);
 }
-
+/* 
 .button.primary:hover,
 button[type="submit"]:not(.no-style):hover,
 button.primary:hover {
@@ -104,3 +110,4 @@ button.primary:active {
 button[type="submit"]:not(.no-style):focus,
 button.primary:focus {
 }
+*/

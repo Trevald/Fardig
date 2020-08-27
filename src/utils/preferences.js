@@ -1,7 +1,6 @@
 const LOCAL_STORAGE_KEY = "USER_PREFERENCES"
 
 export function updatePreferencesProp(propName, propValue) {
-	console.log("updatePreferencesProp", propName, propValue)
 	const preferences = hasPreferences() ? getPreferences() : {}
 	preferences[propName] = propValue
 	savePreferences(preferences)

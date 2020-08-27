@@ -1,11 +1,11 @@
 .tag,
 button.tag {
-	background: hsla(var(--_color-neutral-1), 0.1);
+	background: hsla(var(--_color-neutral-2), 0.1);
 	border-radius: 2px;
 	font-family: var(--font-monospace);
 	font-weight: 400;
 	font-size: calc(var(--unit) * 2);
-	color: hsla(var(--_color-neutral-1), 1);
+	color: hsla(var(--_color-neutral-2), 1);
 
 	padding: calc(var(--unit) * 0.5) calc(var(--unit) * 1);
 	white-space: nowrap;
@@ -15,14 +15,14 @@ button.tag {
 
 .tag.outline {
 	background: transparent;
-	border-color: hsla(var(--_color-neutral-1), 0.3);
-	color: hsla(var(--_color-neutral-1), 0.8);
+	border-color: hsla(var(--_color-fg-muted), 0.4);
+	color: hsla(var(--_color-fg-muted), 1);
 }
 
 .tag.is-active {
 	background: hsla(var(--_color-neutral-2), 0.1);
 	color: hsla(var(--_color-neutral-2), 1);
-	border-collapse: transparent;
+	border-color: transparent;
 }
 
 .suggestion-list {

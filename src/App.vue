@@ -170,7 +170,6 @@ export default {
     },
 
     login() {
-      console.log("App", this.accessToken);
       const accessToken = this.accessToken || getPreferencesProp("accessToken");
       this.cloudStorage = new DropboxApi(accessToken);
       if (!this.cloudStorage.isAuthenticated()) {
