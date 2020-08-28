@@ -1,5 +1,5 @@
 # Fardig
-Markdown GUI that turn notes with actions points into a single ToDo list. Read more at [https://fardig.io](Fardig.io)
+Markdown GUI that turn notes with actions points into a single ToDo list. Read more at [Fardig.io](https://fardig.io)
 
 ## ToDo
 - [ ] Save confirmation
