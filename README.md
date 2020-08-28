@@ -1,5 +1,5 @@
 # Fardig
-Just another ToDo handler
+Markdown GUI that turn notes with actions points into a single ToDo list. Read more at [https://fardig.io](Fardig.io)
 
 ## Project setup
 ```
