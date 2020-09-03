@@ -128,13 +128,15 @@ export default {
 
     keymap() {
       return {
-        "ctrl+s": () => {
+        "meta+s": (event) => {
+          event.preventDefault();
           this.upload();
         },
         "ctrl+space": () => {
           this.showCommand = !this.showCommand;
         },
-        "ctrl+p": () => {
+        "meta+p": (event) => {
+          event.preventDefault();
           this.showCommand = !this.showCommand;
         },
       };
@@ -161,6 +163,9 @@ export default {
       });
 
       this.cloudStorage.storeContents(filesCommitInfo).then((doc) => {
+        if (doc.id !== fileToUpload.id) {
+          // this.$router.
+        }
         this.$store.commit("updateDocument", {
           id: fileToUpload.id,
           rev: doc.rev,

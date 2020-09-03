@@ -16,19 +16,19 @@
 	"dependencies": {
 		"core-js": "^3.6.4",
 		"dropbox": "^4.0.30",
-		"fuse.js": "^6.4.0",
+		"fuse.js": "^6.4.1",
 		"markdown-it-task-lists": "^2.1.1",
-		"marked": "^1.0.0",
-		"prosemirror-markdown": "^1.4.5",
+		"marked": "^1.1.1",
+		"prosemirror-markdown": "^1.5.0",
 		"prosemirror-utils": "^0.9.6",
-		"tippy.js": "^6.2.3",
-		"tiptap": "^1.27.1",
-		"tiptap-extensions": "^1.29.1",
+		"tippy.js": "^6.2.6",
+		"tiptap": "^1.29.6",
+		"tiptap-extensions": "^1.32.5",
 		"turndown": "^6.0.0",
 		"v-hotkey": "^0.8.0",
-		"vue": "^2.6.11",
-		"vue-router": "^3.3.4",
-		"vuex": "^3.4.0"
+		"vue": "^2.6.12",
+		"vue-router": "^3.4.3",
+		"vuex": "^3.5.1"
 	},
 	"devDependencies": {
 		"@vue/cli-plugin-babel": "~4.3.0",
@@ -37,7 +37,7 @@
 		"babel-eslint": "^10.1.0",
 		"eslint": "^6.8.0",
 		"eslint-plugin-vue": "^6.2.2",
-		"vue-template-compiler": "^2.6.11"
+		"vue-template-compiler": "^2.6.12"
 	},
 	"resolutions": {
 		"prosemirror-model": "1.8.2"
