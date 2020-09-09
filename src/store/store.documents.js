@@ -1,5 +1,6 @@
 import Vue from "vue"
 import Document from "./Document"
+import { router } from "./../router"
 
 import { getPreferencesProp, updatePreferencesProp } from "./../utils/preferences"
 
@@ -109,7 +110,11 @@ const storeDocuments = {
 				}
 				commit("addDocument", newDocument)
 				commit("setActiveDocument", newDocument)
-				resolve(newDocument)
+				router.push({
+					name: "Document",
+					params: { documentId: newDocument.id },
+				})
+				resolve(newDocument.id)
 			})
 		},
 	},

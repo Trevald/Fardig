@@ -3,7 +3,12 @@
     <ul class="no-style">
       <li>{{saveState}}</li>
     </ul>
-    <AppLogo />
+    <ul class="no-style">
+      <li><button class="no-style">Shortcuts</button></li>
+      <li>
+        <AppLogo />
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -14,18 +19,18 @@ export default {
   name: "AppStatus",
 
   components: {
-    AppLogo
+    AppLogo,
   },
 
   props: {
     hasUnsavedChanges: {
       type: Boolean,
-      default: false
+      default: false,
     },
     isSaving: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   computed: {
@@ -40,8 +45,8 @@ export default {
 
     saveAction() {
       return this.isSaving === true ? "Saving ..." : "";
-    }
-  }
+    },
+  },
 };
 </script>
 

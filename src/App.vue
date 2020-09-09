@@ -17,10 +17,12 @@
           class="container"
           style="display: flex"
         >
+
           <div class="view">
             <router-view></router-view>
           </div>
         </div>
+
       </main>
 
       <AppStatus
@@ -29,10 +31,7 @@
         :hasUnsavedChanges="hasUnsavedChanges"
       />
       <transition name="fade">
-        <AppCommand
-          v-if="showCommand"
-          @close="closeCommand"
-        />
+        <AppCommand v-if="commandIsVisible" />
       </transition>
     </div>
   </div>
@@ -52,6 +51,8 @@ import {
 } from "./utils/document";
 import { getPreferencesProp } from "./utils/preferences";
 
+import { commands } from "./commands/commands";
+
 export default {
   name: "App",
 
@@ -68,9 +69,10 @@ export default {
       cloudStorage: undefined,
       fileMeta: undefined,
       newFile: undefined,
-      showCommand: false,
       totalNumberOfFiles: undefined,
       numberOfFilesLoaded: 0,
+      keymap: {},
+      unsubscribeAction: undefined,
     };
   },
 
@@ -96,6 +98,10 @@ export default {
 
     activeDocument() {
       return this.$store.getters.getDocumentById(this.documentId);
+    },
+
+    commandIsVisible() {
+      return this.$store.getters.commandIsVisible;
     },
 
     openDocuments() {
@@ -125,31 +131,11 @@ export default {
     hasUnsavedChanges() {
       return this.lastUpdated < this.lastChanged;
     },
-
-    keymap() {
-      return {
-        "meta+s": (event) => {
-          event.preventDefault();
-          this.upload();
-        },
-        "ctrl+space": () => {
-          this.showCommand = !this.showCommand;
-        },
-        "meta+p": (event) => {
-          event.preventDefault();
-          this.showCommand = !this.showCommand;
-        },
-      };
-    },
   },
 
   methods: {
     getTitle(doc) {
       return documentGetTitle(doc);
-    },
-
-    closeCommand() {
-      this.showCommand = false;
     },
 
     upload() {
@@ -164,7 +150,7 @@ export default {
 
       this.cloudStorage.storeContents(filesCommitInfo).then((doc) => {
         if (doc.id !== fileToUpload.id) {
-          // this.$router.
+          // 'this.$router.
         }
         this.$store.commit("updateDocument", {
           id: fileToUpload.id,
@@ -242,6 +228,31 @@ export default {
     this.login();
 
     window.addEventListener("beforeunload", this.beforeUnload);
+
+    this.unsubscribeAction = this.$store.subscribeAction({
+      after: (action, state) => {
+        console.log("aftersub", action, state);
+        switch (action.type) {
+          case "toggleCommand":
+            break;
+        }
+      },
+    });
+  },
+
+  beforeDestroy() {
+    this.unsubscribeAction();
+  },
+
+  created() {
+    commands.forEach((command) => {
+      if (command.shortcut) {
+        this.keymap[command.shortcut] = (event) => {
+          event.preventDefault();
+          this.$store.dispatch(command.action);
+        };
+      }
+    });
   },
 };
 </script>

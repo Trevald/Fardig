@@ -76,8 +76,6 @@ export default {
 
   methods: {
     getTags() {
-      console.log("tag", this.$store.getters.tags);
-      console.log("tag", this.$store.getters.tags);
       return this.$store.getters.tags;
     },
   },

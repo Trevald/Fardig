@@ -4,8 +4,6 @@ import App from "./App.vue"
 import VueHotkey from "v-hotkey"
 import VueRouter from "vue-router"
 
-import { getPreferencesProp } from "./utils/preferences"
-
 // CSS
 import "./assets/main.css"
 import "./assets/suggestions.css"
@@ -14,6 +12,8 @@ Vue.use(Vuex)
 Vue.use(VueHotkey)
 Vue.use(VueRouter)
 Vue.config.productionTip = false
+
+import { router } from "./router.js"
 
 // Stores
 import storeApp from "./store/store.app"
@@ -25,56 +25,6 @@ const store = new Vuex.Store({
 		storeApp,
 		storeDocuments,
 	},
-})
-
-// Routes
-import AppAuth from "./components/AppAuth"
-import AppLogin from "./components/AppLogin"
-import AppMyTodos from "./components/AppMyTodos"
-import AppDocument from "./components/AppDocument"
-
-const routes = [
-	{
-		name: "Todos",
-		path: "/todos",
-		component: AppMyTodos,
-	},
-	{
-		name: "Todos",
-		path: "/todos/:filter",
-		component: AppMyTodos,
-	},
-	{
-		name: "Document",
-		path: "/doc/:documentId",
-		component: AppDocument,
-	},
-	{
-		name: "Index",
-		path: "/",
-		redirect: { name: "Document" },
-	},
-	{
-		name: "Auth",
-		path: "/auth*",
-		component: AppAuth,
-	},
-	{
-		name: "Login",
-		path: "/login",
-		component: AppLogin,
-	},
-]
-
-const router = new VueRouter({ mode: "history", routes })
-
-router.beforeEach((to, from, next) => {
-	const accessToken = getPreferencesProp("accessToken")
-	if (to.name !== "Login" && to.name !== "Auth" && !accessToken) {
-		next({ name: "Login" })
-	} else {
-		next()
-	}
 })
 
 new Vue({

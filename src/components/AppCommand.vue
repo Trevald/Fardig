@@ -17,9 +17,9 @@
       >
         <button
           type="button"
-          @mouseover="setActiveOptionToIndex('actions',index)"
+          @mouseover="setActiveOptionToIndex('commands', index)"
           @click="checkActiveOption"
-          :class="{ 'no-style': true, 'is-active': isOptionActive('actions', index) }"
+          :class="{ 'no-style': true, 'is-active': isOptionActive('commands', index) }"
         >
           <AppIcon
             :name="getOptionProp(option, 'icon')"
@@ -31,6 +31,7 @@
     </ul>
     <h4 class="app-command-results-heading no-style">{{ resultsHeading }}</h4>
     <ul class="app-command-results no-style">
+
       <li
         v-for="(option, index) in filteredDocumentsSliced"
         :key="index"
@@ -54,6 +55,8 @@ import Fuse from "fuse.js";
 import { documentGetTitle } from "./../utils/document";
 import AppIcon from "./AppIcon";
 
+import { commands } from "./../commands/commands";
+
 const fuseOptions = {
   includeScore: true,
   keys: ["name"],
@@ -69,43 +72,13 @@ export default {
   data() {
     return {
       activeItem: 0,
-      activeList: "actions",
-      actions: [
-        {
-          name: "New",
-          command: "NEW_FILE",
-          icon: "documentAdd",
-          callback: () => {
-            this.$store.dispatch("newDocument").then((doc) => {
-              this.$router.push({
-                name: "Document",
-                params: { documentId: doc.id },
-              });
-            });
-          },
-        },
-        {
-          name: "Delete current file",
-          command: "DELETE_FILE",
-          icon: "trash",
-          callback: () => {
-            // TODO: Get document Id from router and prompt confirmation
-          },
-        },
-        {
-          name: "Toggle dark/light mode",
-          command: "TOGGLE_DARK_LIGHT_MODE",
-          icon: "sun",
-          iconLightMode: "moon",
-          callback: () => {
-            const html = document.querySelector("html");
-            html.classList.toggle("theme-light");
-          },
-        },
-      ],
-      fuseActions: new Fuse(this.actions, fuseOptions),
+      activeList: "commands",
+
+      fuseActions: new Fuse(this.commands, fuseOptions),
       fuseDocuments: new Fuse(this.documents, fuseOptions),
       query: "",
+      commands: [],
+      unsubscribeActions: undefined,
     };
   },
 
@@ -115,14 +88,14 @@ export default {
     },
 
     options() {
-      return this.actions.concat(this.documents);
+      return this.commands.concat(this.documents);
     },
 
     filteredActions() {
       if (this.query === "") {
-        return this.actions.slice(0, 5);
+        return this.commands.slice(0, 5);
       }
-      this.fuseActions.setCollection(this.actions);
+      this.fuseActions.setCollection(this.commands);
       return this.fuseActions.search(this.query).slice(0, 5);
     },
 
@@ -171,12 +144,12 @@ export default {
 
     getOptionTitle(option) {
       if (option.item) {
-        return option.item.name !== undefined
-          ? option.item.name
+        return option.item.description !== undefined
+          ? option.item.description
           : documentGetTitle(option);
       } else {
-        return option.name !== undefined
-          ? option.name
+        return option.description !== undefined
+          ? option.description
           : documentGetTitle(option);
       }
     },
@@ -187,7 +160,7 @@ export default {
 
     checkActiveOption() {
       const result =
-        this.activeList === "actions"
+        this.activeList === "commands"
           ? this.filteredActions
           : this.filteredDocumentsSliced;
       const option = result[this.activeItem].item
@@ -197,8 +170,10 @@ export default {
         return false;
       }
 
-      if (option.command !== undefined) {
-        option.callback();
+      if (option.id !== undefined && this.activeList === "commands") {
+        console.log(1, option);
+        this.$store.dispatch(option.action);
+        this.$store.dispatch("toggleCommand");
       } else if (option.id !== undefined) {
         this.$router.push({
           name: "Document",
@@ -221,7 +196,7 @@ export default {
     setActiveItem(value) {
       this.activeItem = this.activeItem + value;
 
-      if (this.activeList === "actions") {
+      if (this.activeList === "commands") {
         if (this.activeItem < 0) {
           this.activeItem = 0;
         } else if (this.activeItem >= this.filteredActions.length) {
@@ -234,7 +209,7 @@ export default {
         }
       } else if (this.activeList === "documents") {
         if (this.activeItem < 0) {
-          this.activeList = "actions";
+          this.activeList = "commands";
           this.activeItem = this.filteredActions.length - 1;
         } else if (this.activeItem >= this.filteredDocumentsSliced.length) {
           this.activeItem = this.filteredDocumentsSliced.length - 1;
@@ -246,6 +221,22 @@ export default {
   mounted() {
     this.$refs.input.focus();
     this.activeItem = 0;
+
+    this.unsubscribeAction = this.$store.subscribeAction({
+      after: (action, state) => {
+        console.log("aftersub", action, state);
+      },
+    });
+  },
+
+  beforeDestroy() {
+    this.unsubscribeAction();
+  },
+
+  created() {
+    commands.forEach((command) => {
+      this.commands.push(command);
+    });
   },
 };
 </script>

@@ -91,6 +91,10 @@ body {
 	color: var(--color-foreground-status);
 }
 
+.app-status button {
+	font-size: calc(var(--unit) * 1.5);
+}
+
 .app-status .app-logo svg {
 	width: auto;
 	height: 10px;

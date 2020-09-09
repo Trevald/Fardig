@@ -5,6 +5,7 @@ const storeApp = {
 		return {
 			activeView: getPreferencesProp("activeView", "editor"),
 			accessToken: getAccessToken(),
+			commandIsVisible: false,
 		}
 	},
 
@@ -20,9 +21,17 @@ const storeApp = {
 		isAuthenticated: (state) => {
 			return state.accessToken !== undefined
 		},
+
+		commandIsVisible: (state) => {
+			return state.commandIsVisible
+		},
 	},
 
 	mutations: {
+		addShortcut(state, payload) {
+			state.shortcuts.push(payload)
+		},
+
 		setActiveView(state, payload) {
 			state.activeView = payload.name
 			updatePreferencesProp("activeView", payload.name)
@@ -31,9 +40,17 @@ const storeApp = {
 		setAccessToken(state, payload) {
 			state.accessToken = payload.accessToken
 		},
+
+		toggleCommand(state) {
+			state.commandIsVisible = !state.commandIsVisible
+		},
 	},
 
-	actions: {},
+	actions: {
+		toggleCommand({ commit }) {
+			commit("toggleCommand")
+		},
+	},
 }
 
 function getAccessToken() {
