@@ -340,3 +340,15 @@ input.app-command-input:focus {
 	flex: 0 0 auto;
 	justify-self: flex-end;
 }
+
+/* 
+ * Vue Transitions 
+ */
+
+.fade-enter-active,
+.fade-leave-active {
+	transition: opacity 0.2s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+	opacity: 0;
+}

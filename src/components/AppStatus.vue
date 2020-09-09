@@ -4,22 +4,30 @@
       <li>{{saveState}}</li>
     </ul>
     <ul class="no-style">
-      <li><button class="no-style">Shortcuts</button></li>
+      <li><button
+          class="no-style"
+          @click="toggleShortcuts"
+        >Shortcuts</button></li>
       <li>
         <AppLogo />
       </li>
     </ul>
+    <transition name="fade">
+      <AppShortcuts v-if="shortcutsAreVisisble" />
+    </transition>
   </div>
 </template>
 
 <script>
 import AppLogo from "./AppLogo";
+import AppShortcuts from "./AppShortcuts";
 
 export default {
   name: "AppStatus",
 
   components: {
     AppLogo,
+    AppShortcuts,
   },
 
   props: {
@@ -31,6 +39,12 @@ export default {
       type: Boolean,
       default: false,
     },
+  },
+
+  data() {
+    return {
+      shortcutsAreVisisble: false,
+    };
   },
 
   computed: {
@@ -45,6 +59,12 @@ export default {
 
     saveAction() {
       return this.isSaving === true ? "Saving ..." : "";
+    },
+  },
+
+  methods: {
+    toggleShortcuts() {
+      this.shortcutsAreVisisble = !this.shortcutsAreVisisble;
     },
   },
 };
