@@ -1,9 +1,9 @@
 export const commands = [
 	{
-		id: "NEW_FILE",
+		id: "NEW_DOCUMENT",
 		description: "Create new file",
 		icon:
-			'<path d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>',
+			'<path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V8z"></path>',
 		shortcut: "ctrl+n",
 		action: "newDocument",
 	},
@@ -13,6 +13,25 @@ export const commands = [
 		shortcut: "meta+p",
 		action: "toggleCommand",
 		hidden: true,
+	},
+	{
+		id: "SAVE_DOCUMENT",
+		description: "Save current file",
+		icon:
+			'<path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>',
+		shortcut: "meta+s",
+		action: "saveDocument",
+	},
+	{
+		id: "TOGGE_THEME_MODE",
+		description: "Toggle dark/light mode",
+		action: "toggleDarkMode",
+		icon: {
+			dark:
+				'<path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"></path>',
+			light:
+				'<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>',
+		},
 	} /*
 	{
 		id: "DELETE_FILE",
@@ -24,16 +43,5 @@ export const commands = [
 			event.preventDefault()
 		},
 	},
-	{
-		id: "TOGGLE_DARK_LIGHT_MODE",
-		description: "Toggle dark/light mode",
-		icon:
-			'<path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>',
-		iconLightMode:
-			'<path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>',
-		callback: () => {
-			const html = document.querySelector("html")
-			html.classList.toggle("theme-light")
-		},
-	},*/,
+	*/,
 ]

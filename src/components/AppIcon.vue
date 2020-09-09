@@ -2,14 +2,12 @@
   <div class="icon">
 
     <svg
-      fill="none"
+      fill="currentColor"
       stroke-linecap="round"
       stroke-linejoin="round"
-      stroke-width="2"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
+      viewBox="0 0 20 20"
+      v-html="svgContent"
     >
-      {{svg}}
     </svg>
 
   </div>
@@ -20,7 +18,19 @@ export default {
   name: "AppIcon",
 
   props: {
-    svg: String,
+    svg: [String, Object],
+  },
+
+  computed: {
+    svgContent() {
+      if (typeof this.svg === "string") {
+        return this.svg;
+      } else {
+        return this.$store.getters.darkMode === true
+          ? this.svg.dark
+          : this.svg.light;
+      }
+    },
   },
 };
 </script>

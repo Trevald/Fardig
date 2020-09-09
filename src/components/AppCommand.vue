@@ -19,13 +19,14 @@
           type="button"
           @mouseover="setActiveOptionToIndex('commands', index)"
           @click="checkActiveOption"
+          class="option"
           :class="{ 'no-style': true, 'is-active': isOptionActive('commands', index) }"
         >
-          <AppIcon
-            :name="getOptionProp(option, 'icon')"
-            :iconLightMode="getOptionProp(option, 'iconLightMode')"
-          />
-          {{ getOptionTitle(option) }}
+          <span class="title">
+            <AppIcon :svg="getOptionProp(option, 'icon')" />
+            {{ getOptionTitle(option) }}
+          </span>
+          <span class="shortcut">{{getOptionShortcut(option)}}</span>
         </button>
       </li>
     </ul>
@@ -42,7 +43,7 @@
           @click="checkActiveOption"
           :class="{ 'no-style': true, 'is-active': isOptionActive('documents', index) }"
         >
-          <AppIcon name="document" />
+          <AppIcon :svg="documentIcon" />
           {{ getOptionTitle(option) }}
         </button>
       </li>
@@ -78,7 +79,8 @@ export default {
       fuseDocuments: new Fuse(this.documents, fuseOptions),
       query: "",
       commands: [],
-      unsubscribeActions: undefined,
+      documentIcon:
+        '<path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"></path>',
     };
   },
 
@@ -131,7 +133,7 @@ export default {
           this.setActiveItem(-1);
         },
         esc: () => {
-          this.closeMe();
+          this.$store.dispatch("toggleCommand");
         },
       };
     },
@@ -158,6 +160,20 @@ export default {
       return option.item ? option.item[propName] : option[propName];
     },
 
+    getOptionShortcut(option) {
+      if (option.shortcut === undefined) {
+        return "";
+      }
+
+      var isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform);
+      let metaKey = isMacLike ? "⌘" : "⊞ Win";
+
+      return option.shortcut
+        .replace("+", " + ")
+        .replace("ctrl", "^")
+        .replace("meta", metaKey);
+    },
+
     checkActiveOption() {
       const result =
         this.activeList === "commands"
@@ -171,7 +187,6 @@ export default {
       }
 
       if (option.id !== undefined && this.activeList === "commands") {
-        console.log(1, option);
         this.$store.dispatch(option.action);
         this.$store.dispatch("toggleCommand");
       } else if (option.id !== undefined) {
@@ -221,22 +236,31 @@ export default {
   mounted() {
     this.$refs.input.focus();
     this.activeItem = 0;
-
-    this.unsubscribeAction = this.$store.subscribeAction({
-      after: (action, state) => {
-        console.log("aftersub", action, state);
-      },
-    });
-  },
-
-  beforeDestroy() {
-    this.unsubscribeAction();
   },
 
   created() {
     commands.forEach((command) => {
-      this.commands.push(command);
+      if (command.hidden !== true) {
+        this.commands.push(command);
+      }
     });
   },
 };
 </script>
+
+<style scoped>
+.option {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  display: flex;
+}
+
+.shortcut {
+  flex: 0 0 0;
+  white-space: nowrap;
+  text-transform: uppercase;
+}
+</style>

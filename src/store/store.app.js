@@ -6,6 +6,7 @@ const storeApp = {
 			activeView: getPreferencesProp("activeView", "editor"),
 			accessToken: getAccessToken(),
 			commandIsVisible: false,
+			darkMode: true,
 		}
 	},
 
@@ -24,6 +25,10 @@ const storeApp = {
 
 		commandIsVisible: (state) => {
 			return state.commandIsVisible
+		},
+
+		darkMode: (state) => {
+			return state.darkMode
 		},
 	},
 
@@ -44,11 +49,26 @@ const storeApp = {
 		toggleCommand(state) {
 			state.commandIsVisible = !state.commandIsVisible
 		},
+
+		toggleDarkMode(state, payload) {
+			state.darkMode = payload
+		},
 	},
 
 	actions: {
 		toggleCommand({ commit }) {
 			commit("toggleCommand")
+		},
+
+		toggleDarkMode({ commit }) {
+			const htmlClassList = document.querySelector("html").classList
+			if (!htmlClassList.contains("theme-light")) {
+				htmlClassList.add("theme-light")
+				commit("toggleDarkMode", false)
+			} else {
+				htmlClassList.remove("theme-light")
+				commit("toggleDarkMode", true)
+			}
 		},
 	},
 }

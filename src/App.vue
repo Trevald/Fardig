@@ -150,7 +150,10 @@ export default {
 
       this.cloudStorage.storeContents(filesCommitInfo).then((doc) => {
         if (doc.id !== fileToUpload.id) {
-          // 'this.$router.
+          this.$router.replace({
+            name: "Document",
+            params: { documentId: doc.id },
+          });
         }
         this.$store.commit("updateDocument", {
           id: fileToUpload.id,
@@ -233,7 +236,8 @@ export default {
       after: (action, state) => {
         console.log("aftersub", action, state);
         switch (action.type) {
-          case "toggleCommand":
+          case "saveDocument":
+            this.upload();
             break;
         }
       },

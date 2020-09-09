@@ -117,6 +117,8 @@ const storeDocuments = {
 				resolve(newDocument.id)
 			})
 		},
+
+		saveDocument() {},
 	},
 }
 
