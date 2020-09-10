@@ -198,7 +198,7 @@ export default {
         });
       }
 
-      this.closeMe();
+      this.$store.dispatch("toggleCommand");
     },
 
     isOptionActive(list, index) {

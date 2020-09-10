@@ -10,7 +10,7 @@ import AppDocument from "./components/AppDocument"
 const routes = [
 	{
 		name: "Todos",
-		path: "/todos/:filter",
+		path: "/todos/",
 		component: AppMyTodos,
 	},
 	{
