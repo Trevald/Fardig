@@ -192,10 +192,12 @@ export default {
         this.$store.dispatch(option.action);
         this.$store.dispatch("toggleCommand");
       } else if (option.id !== undefined) {
-        this.$router.push({
-          name: "Document",
-          params: { documentId: option.id },
-        });
+        this.$router
+          .push({
+            name: "Document",
+            params: { documentId: option.id },
+          })
+          .catch(() => {});
       }
 
       this.$store.dispatch("toggleCommand");

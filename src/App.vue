@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <AppProgress
-      v-if="loggedIn && numberOfFilesLoaded < totalNumberOfFiles"
+      v-if="!appReadyAndLoggedIn"
       :value="numberOfFilesLoaded"
       :max="totalNumberOfFiles"
       class="app-progress"
@@ -9,10 +9,14 @@
     <div
       class="view-col"
       v-hotkey="keymap"
+      v-if="appReady"
     >
-      <AppHeader v-if="loggedIn" />
+      <AppHeader v-if="appReadyAndLoggedIn" />
 
-      <main class="app-main">
+      <main
+        class="app-main"
+        v-if="appReady"
+      >
         <div
           class="container"
           style="display: flex"
@@ -25,12 +29,13 @@
 
       </main>
       <AppStatus
+        v-if="appReadyAndLoggedIn"
         class="app-status"
         :isSaving="isUploading"
         :hasUnsavedChanges="hasUnsavedChanges"
       />
       <transition name="fade">
-        <AppCommand v-if="commandIsVisible" />
+        <AppCommand v-if="commandIsVisible && appReadyAndLoggedIn" />
       </transition>
     </div>
   </div>
@@ -68,12 +73,25 @@ export default {
   },
 
   computed: {
+    appReady() {
+      return (
+        !this.loggedIn ||
+        (this.loggedIn && this.numberOfFilesLoaded >= this.totalNumberOfFiles)
+      );
+    },
+
+    appReadyAndLoggedIn() {
+      return (
+        this.loggedIn && this.numberOfFilesLoaded >= this.totalNumberOfFiles
+      );
+    },
+
     numberOfFilesLoaded() {
-      return this.$store.getters.documentsLoading;
+      return this.$store.getters.documentsLoaded.length;
     },
 
     totalNumberOfFiles() {
-      return this.$store.getters.allDocuments;
+      return this.$store.getters.allDocuments.length;
     },
 
     allFilesAreLoaded() {
@@ -197,8 +215,7 @@ export default {
     window.addEventListener("beforeunload", this.beforeUnload);
 
     this.unsubscribeAction = this.$store.subscribeAction({
-      after: (action, state) => {
-        console.log("aftersub", action, state);
+      after: (action) => {
         switch (action.type) {
           case "saveDocument":
             this.upload();

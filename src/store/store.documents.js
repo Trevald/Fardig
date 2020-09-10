@@ -33,8 +33,8 @@ const storeDocuments = {
 			return state.documents
 		},
 
-		documentsLoading: (state) => {
-			return state.documents.filter((doc) => doc.isLoaded !== true)
+		documentsLoaded: (state) => {
+			return state.documents.filter((doc) => doc.isLoaded === true)
 		},
 
 		documentsWithTodos: (state) => {

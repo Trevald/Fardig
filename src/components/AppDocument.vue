@@ -1,7 +1,7 @@
 <template>
   <article>
     <AppDocumentText
-      v-if="file"
+      v-if="fileIsLoaded"
       :file="file"
       :key="this.documentId"
     />
@@ -32,6 +32,10 @@ export default {
     file() {
       return this.$store.getters.getDocumentById(this.documentId);
     },
+
+    fileIsLoaded() {
+      return this.file?.isLoaded;
+    },
   },
 
   mounted() {
@@ -40,10 +44,12 @@ export default {
     } else {
       const activeDocumentId = this.$store.getters.activeDocumentId;
       if (activeDocumentId) {
-        this.$router.push({
-          name: "Document",
-          params: { documentId: activeDocumentId },
-        });
+        this.$router
+          .push({
+            name: "Document",
+            params: { documentId: activeDocumentId },
+          })
+          .catch(() => {});
       }
     }
   },

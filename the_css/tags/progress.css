@@ -18,7 +18,7 @@ progress::-webkit-progress-bar {
 }
 
 progress::-webkit-progress-value {
-	background: var(--color-disabled);
+	background: var(--color-muted);
 	transition: all 0.3s ease;
 }
 

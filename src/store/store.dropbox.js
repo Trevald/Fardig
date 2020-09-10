@@ -33,7 +33,7 @@ const storeDropbox = {
 		getEntries() {
 			return API.filesListFolder({ path: "" })
 				.then(function(response) {
-					return response.entries
+					return response.entries.filter((file) => file[".tag"] === "file")
 				})
 				.catch(function(error) {
 					console.error(error)

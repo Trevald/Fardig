@@ -10,7 +10,10 @@ export default class Document {
 		this.lastChanged = data?.lastChanged ? data.lastChanged : 0
 		this.lastUpdated = data?.lastUpdated ? data.lastUpdated : 0
 		this.json = data?.json
-		this.isLoaded = data?.isLoaded || false
+	}
+
+	get isLoaded() {
+		return this.json !== undefined
 	}
 
 	get name() {

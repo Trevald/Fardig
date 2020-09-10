@@ -341,6 +341,22 @@ input.app-command-input:focus {
 	justify-self: flex-end;
 }
 
+/*
+ * Progress
+ */
+
+progress {
+	border-color: var(--color-fg-muted);
+}
+
+progress::-webkit-progress-bar {
+	background: rgba(0, 0, 0, 0.1);
+}
+
+progress::-webkit-progress-value {
+	background-color: var(--color-fg-muted);
+}
+
 /* 
  * Vue Transitions 
  */
