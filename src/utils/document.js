@@ -74,6 +74,9 @@ export function documentGetTags(doc) {
 }
 
 function getNodesByName(doc, nodeName) {
+	if (doc.json === undefined) {
+		return []
+	}
 	const node = Node.fromJSON(schema, doc.json)
 	const result = []
 
@@ -102,6 +105,9 @@ export function documentHasTags(doc) {
 }
 
 function documentHasNodeType(doc, nodeName) {
+	if (doc.json === undefined) {
+		return false
+	}
 	const node = Node.fromJSON(schema, doc.json)
 	let result = false
 

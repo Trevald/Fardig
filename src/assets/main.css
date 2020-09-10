@@ -147,7 +147,7 @@ li[data-type="todo_item"] {
 li[data-type="todo_item"] input[type="checkbox"] {
 	position: absolute;
 	top: 0.4em;
-	left: calc(var(--unit-fluid) * -7);
+	left: calc(var(--unit) * -7);
 	background-color: var(--color-todo-checkbox-background-idle);
 	border-color: var(--color-todo-checkbox-border);
 	cursor: pointer;
