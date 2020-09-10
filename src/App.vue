@@ -47,8 +47,6 @@ import AppHeader from "./components/AppHeader";
 import AppProgress from "./components/AppProgress";
 import AppStatus from "./components/AppStatus";
 
-import { documentGetCommitInfo, documentGetTitle } from "./utils/document";
-
 import { commands } from "./commands/commands";
 
 export default {
@@ -63,12 +61,7 @@ export default {
 
   data() {
     return {
-      dropboxAuthLink: undefined,
-      cloudStorage: undefined,
-      fileMeta: undefined,
-      newFile: undefined,
       keymap: {},
-      unsubscribeAction: undefined,
     };
   },
 
@@ -92,13 +85,6 @@ export default {
 
     totalNumberOfFiles() {
       return this.$store.getters.allDocuments.length;
-    },
-
-    allFilesAreLoaded() {
-      return this.numberOfFilesLoaded === this.totalNumberOfFiles;
-    },
-    accessToken() {
-      return this.$store.getters.accessToken;
     },
 
     documentId() {
@@ -141,51 +127,14 @@ export default {
       return this.activeDocument?.lastUpdated;
     },
 
-    fileContents() {
-      return this.activeDocument?.contents;
-    },
-
     hasUnsavedChanges() {
       return this.lastUpdated < this.lastChanged;
     },
   },
 
   methods: {
-    getTitle(doc) {
-      return documentGetTitle(doc);
-    },
-
-    upload() {
-      const fileToUpload = this.activeDocument;
-      const filesCommitInfo = documentGetCommitInfo(fileToUpload);
-
-      this.$store.commit("updateDocument", {
-        id: fileToUpload.id,
-        isUploading: true,
-        lastUpdated: fileToUpload.lastChanged,
-      });
-
-      this.cloudStorage.storeContents(filesCommitInfo).then((doc) => {
-        if (doc.id !== fileToUpload.id) {
-          this.$router.replace({
-            name: "Document",
-            params: { documentId: doc.id },
-          });
-        }
-        this.$store.commit("updateDocument", {
-          id: fileToUpload.id,
-          rev: doc.rev,
-          isUploading: false,
-        });
-      });
-    },
-
     login() {
-      if (!this.$store.getters.isAuthenticated) {
-        console.log("Loged out!");
-        this.dropboxAuthLink = this.$store.getters.dropboxAuthLink;
-      } else {
-        console.log("Loged in!");
+      if (this.$store.getters.isAuthenticated) {
         this.$store.dispatch("fetchDocuments");
       }
     },
@@ -213,20 +162,6 @@ export default {
     this.login();
 
     window.addEventListener("beforeunload", this.beforeUnload);
-
-    this.unsubscribeAction = this.$store.subscribeAction({
-      after: (action) => {
-        switch (action.type) {
-          case "saveDocument":
-            this.upload();
-            break;
-        }
-      },
-    });
-  },
-
-  beforeDestroy() {
-    this.unsubscribeAction();
   },
 
   created() {

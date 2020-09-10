@@ -124,6 +124,11 @@ const storeDocuments = {
 				}
 			}
 		},
+
+		updateDocumentId(state, payload) {
+			const document = this.getters.getDocumentById(payload.id)
+			document.id = payload.newId
+		},
 	},
 
 	actions: {
@@ -156,33 +161,40 @@ const storeDocuments = {
 			})
 		},
 
-		async uploadDocument(doc) {
+		async uploadDocument({ commit, dispatch, getters }, documentId) {
+			const doc = getters.getDocumentById(documentId)
 			const filesCommitInfo = documentGetCommitInfo(doc)
 
-			this.$store.commit("updateDocument", {
+			commit("updateDocument", {
 				id: doc.id,
 				isUploading: true,
 				lastUpdated: doc.lastChanged,
 			})
 
-			this.cloudStorage.storeContents(filesCommitInfo).then((newDoc) => {
-				if (newDoc.id !== doc.id) {
-					this.$router.replace({
-						name: "Document",
-						params: { documentId: newDoc.id },
-					})
-				}
-				this.$store.commit("updateDocument", {
-					id: doc.id,
-					rev: newDoc.rev,
-					isUploading: false,
-				})
+			const newDoc = await dispatch("storeContents", filesCommitInfo)
+			commit("updateDocument", {
+				id: doc.id,
+				rev: newDoc.rev,
+				isUploading: false,
 			})
+			if (newDoc.id !== doc.id) {
+				commit("updateDocumentId", { id: doc.id, newId: newDoc.id })
+				router.replace({
+					name: "Document",
+					params: { documentId: newDoc.id },
+				})
+			}
 		},
 
 		uploadDocuments() {},
 
-		saveDocument() {},
+		saveDocument({ dispatch, getters }) {
+			const documentId = router.currentRoute.params.documentId
+			const document = getters.getDocumentById(documentId)
+			if (document !== undefined) {
+				dispatch("uploadDocument", documentId)
+			}
+		},
 	},
 }
 
