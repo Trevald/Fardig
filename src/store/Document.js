@@ -7,9 +7,10 @@ export default class Document {
 		this.rev = data?.rev
 		this.unsavedChanges = data?.unsavedChanges
 		this.isUploading = data?.isUploading
-		this.lastChanged = data.lastChanged ? data.lastChanged : 0
-		this.lastUpdated = data.lastUpdated ? data.lastUpdated : 0
-		this.json = data.json
+		this.lastChanged = data?.lastChanged ? data.lastChanged : 0
+		this.lastUpdated = data?.lastUpdated ? data.lastUpdated : 0
+		this.json = data?.json
+		this.isLoaded = data?.isLoaded || false
 	}
 
 	get name() {

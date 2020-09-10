@@ -12,7 +12,7 @@
     />
     <ul class="app-command-results no-style">
       <li
-        v-for="(option, index) in filteredActions"
+        v-for="(option, index) in filteredCommands"
         :key="index"
       >
         <button
@@ -60,7 +60,8 @@ import { commands } from "./../commands/commands";
 
 const fuseOptions = {
   includeScore: true,
-  keys: ["name"],
+  threshold: 0.3,
+  keys: ["name", "description"],
 };
 
 export default {
@@ -93,11 +94,12 @@ export default {
       return this.commands.concat(this.documents);
     },
 
-    filteredActions() {
+    filteredCommands() {
       if (this.query === "") {
         return this.commands.slice(0, 5);
       }
       this.fuseActions.setCollection(this.commands);
+
       return this.fuseActions.search(this.query).slice(0, 5);
     },
 
@@ -148,7 +150,7 @@ export default {
       if (option.item) {
         return option.item.description !== undefined
           ? option.item.description
-          : documentGetTitle(option);
+          : documentGetTitle(option.item);
       } else {
         return option.description !== undefined
           ? option.description
@@ -177,7 +179,7 @@ export default {
     checkActiveOption() {
       const result =
         this.activeList === "commands"
-          ? this.filteredActions
+          ? this.filteredCommands
           : this.filteredDocumentsSliced;
       const option = result[this.activeItem].item
         ? result[this.activeItem].item
@@ -214,18 +216,18 @@ export default {
       if (this.activeList === "commands") {
         if (this.activeItem < 0) {
           this.activeItem = 0;
-        } else if (this.activeItem >= this.filteredActions.length) {
+        } else if (this.activeItem >= this.filteredCommands.length) {
           if (this.filteredDocumentsSliced.length > 0) {
             this.activeItem = 0;
             this.activeList = "documents";
           } else {
-            this.activeItem = this.filteredActions.length - 1;
+            this.activeItem = this.filteredCommands.length - 1;
           }
         }
       } else if (this.activeList === "documents") {
         if (this.activeItem < 0) {
           this.activeList = "commands";
-          this.activeItem = this.filteredActions.length - 1;
+          this.activeItem = this.filteredCommands.length - 1;
         } else if (this.activeItem >= this.filteredDocumentsSliced.length) {
           this.activeItem = this.filteredDocumentsSliced.length - 1;
         }

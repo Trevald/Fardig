@@ -4,9 +4,10 @@ const storeApp = {
 	state: () => {
 		return {
 			activeView: getPreferencesProp("activeView", "editor"),
-			accessToken: getAccessToken(),
+			// accessToken: dropboxAccessToken,
 			commandIsVisible: false,
 			darkMode: true,
+			// cloudStorage: new DropboxApi(dropboxAccessToken),
 		}
 	},
 
@@ -17,10 +18,6 @@ const storeApp = {
 
 		accessToken: (state) => {
 			return state.accessToken
-		},
-
-		isAuthenticated: (state) => {
-			return state.accessToken !== undefined
 		},
 
 		commandIsVisible: (state) => {
@@ -56,6 +53,8 @@ const storeApp = {
 	},
 
 	actions: {
+		login() {},
+
 		toggleCommand({ commit }) {
 			commit("toggleCommand")
 		},
@@ -71,11 +70,6 @@ const storeApp = {
 			}
 		},
 	},
-}
-
-function getAccessToken() {
-	const accessToken = getPreferencesProp("accessToken")
-	return accessToken
 }
 
 export default storeApp

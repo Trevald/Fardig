@@ -3,6 +3,7 @@ import Document from "./Document"
 import { router } from "./../router"
 
 import { getPreferencesProp, updatePreferencesProp } from "./../utils/preferences"
+import { documentGetCommitInfo } from "./../utils/document"
 
 import {
 	documentGetJsonFromMarkdown,
@@ -30,6 +31,10 @@ const storeDocuments = {
 
 		allDocuments: (state) => {
 			return state.documents
+		},
+
+		documentsLoading: (state) => {
+			return state.documents.filter((doc) => doc.isLoaded !== true)
 		},
 
 		documentsWithTodos: (state) => {
@@ -63,6 +68,26 @@ const storeDocuments = {
 			})
 
 			return [...new Set(tags)]
+		},
+
+		unsavedDocuments: (state) => {
+			return state.documents.filter((doc) => {
+				return doc.lastUpdated < doc.lastChanged
+			})
+		},
+
+		hasUnsavedDocuments: (state, getters) => {
+			return getters.unsavedDocuments.length > 0
+		},
+
+		uploadingDocuments: (state) => {
+			return state.documents.filter((doc) => {
+				return doc.isUploading === true
+			})
+		},
+
+		documentsAreUploading: (state, getters) => {
+			return getters.uploadingDocuments.length > 0
 		},
 	},
 
@@ -102,21 +127,60 @@ const storeDocuments = {
 	},
 
 	actions: {
-		newDocument({ commit }) {
-			return new Promise((resolve) => {
-				const newDocument = {
-					id: `temp-${Date.now()}`,
-					json: documentGetJsonFromMarkdown("# My new file\n"),
-				}
-				commit("addDocument", newDocument)
-				commit("setActiveDocument", newDocument)
-				router.push({
-					name: "Document",
-					params: { documentId: newDocument.id },
-				})
-				resolve(newDocument.id)
+		async fetchDocuments({ dispatch, commit, rootState }) {
+			console.log("fetchDocuments", rootState)
+			const files = await dispatch("getEntries")
+			files.forEach((file) => {
+				commit("addDocument", file)
+				dispatch("fetchDocument", file)
 			})
 		},
+
+		async fetchDocument({ commit, dispatch }, file) {
+			const fileContent = await dispatch("getContents", file.path_lower)
+
+			file.json = documentGetJsonFromMarkdown(fileContent)
+			commit("updateDocument", { id: file.id, json: file.json })
+		},
+
+		newDocument({ commit }) {
+			const newDocument = {
+				id: `temp-${Date.now()}`,
+				json: documentGetJsonFromMarkdown("# My new file\n"),
+			}
+			commit("addDocument", newDocument)
+			commit("setActiveDocument", newDocument)
+			router.push({
+				name: "Document",
+				params: { documentId: newDocument.id },
+			})
+		},
+
+		async uploadDocument(doc) {
+			const filesCommitInfo = documentGetCommitInfo(doc)
+
+			this.$store.commit("updateDocument", {
+				id: doc.id,
+				isUploading: true,
+				lastUpdated: doc.lastChanged,
+			})
+
+			this.cloudStorage.storeContents(filesCommitInfo).then((newDoc) => {
+				if (newDoc.id !== doc.id) {
+					this.$router.replace({
+						name: "Document",
+						params: { documentId: newDoc.id },
+					})
+				}
+				this.$store.commit("updateDocument", {
+					id: doc.id,
+					rev: newDoc.rev,
+					isUploading: false,
+				})
+			})
+		},
+
+		uploadDocuments() {},
 
 		saveDocument() {},
 	},

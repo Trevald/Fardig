@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <AppProgress
-      v-if="loggedIn && !allFilesAreLoaded"
+      v-if="loggedIn && numberOfFilesLoaded < totalNumberOfFiles"
       :value="numberOfFilesLoaded"
       :max="totalNumberOfFiles"
       class="app-progress"
@@ -41,14 +41,8 @@ import AppCommand from "./components/AppCommand";
 import AppHeader from "./components/AppHeader";
 import AppProgress from "./components/AppProgress";
 import AppStatus from "./components/AppStatus";
-import DropboxApi from "./cloud/dropbox";
 
-import {
-  documentGetCommitInfo,
-  documentGetTitle,
-  documentGetJsonFromMarkdown,
-} from "./utils/document";
-import { getPreferencesProp } from "./utils/preferences";
+import { documentGetCommitInfo, documentGetTitle } from "./utils/document";
 
 import { commands } from "./commands/commands";
 
@@ -68,14 +62,20 @@ export default {
       cloudStorage: undefined,
       fileMeta: undefined,
       newFile: undefined,
-      totalNumberOfFiles: undefined,
-      numberOfFilesLoaded: 0,
       keymap: {},
       unsubscribeAction: undefined,
     };
   },
 
   computed: {
+    numberOfFilesLoaded() {
+      return this.$store.getters.documentsLoading;
+    },
+
+    totalNumberOfFiles() {
+      return this.$store.getters.allDocuments;
+    },
+
     allFilesAreLoaded() {
       return this.numberOfFilesLoaded === this.totalNumberOfFiles;
     },
@@ -163,47 +163,12 @@ export default {
     },
 
     login() {
-      const accessToken = this.accessToken || getPreferencesProp("accessToken");
-      this.cloudStorage = new DropboxApi(accessToken);
-      if (!this.cloudStorage.isAuthenticated()) {
-        this.dropboxAuthLink = this.cloudStorage.getAuthUrl();
+      if (!this.$store.getters.isAuthenticated) {
+        console.log("Loged out!");
+        this.dropboxAuthLink = this.$store.getters.dropboxAuthLink;
       } else {
-        this.cloudStorage.getEntries().then((files) => {
-          files = files.filter((file) => file[".tag"] === "file");
-          let loadedFiles = [];
-
-          this.totalNumberOfFiles = files.length;
-          files.forEach((file) => {
-            this.cloudStorage
-              .getContents(file.path_lower)
-              .then((fileContent) => {
-                file.json = documentGetJsonFromMarkdown(fileContent);
-
-                this.$store.commit("addDocument", file);
-                loadedFiles.push(file.id);
-                this.numberOfFilesLoaded++;
-                if (loadedFiles.length === files.length) {
-                  this.allFilesLoaded();
-                }
-              });
-          });
-        });
-      }
-    },
-
-    allFilesLoaded() {
-      this.documents.forEach((file) => {
-        if (this.documentId === file.id) {
-          this.$store.commit("setActiveDocument", { id: file.id });
-        } else if (this.openDocuments.includes(file.id)) {
-          this.$store.commit("openDocument", { id: file.id });
-        }
-      });
-
-      if (this.activeDocument === undefined) {
-        this.$store.commit("setActiveDocument", {
-          id: this.$store.getters.firstDocument.id,
-        });
+        console.log("Loged in!");
+        this.$store.dispatch("fetchDocuments");
       }
     },
 

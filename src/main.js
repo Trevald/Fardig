@@ -18,12 +18,14 @@ import { router } from "./router.js"
 // Stores
 import storeApp from "./store/store.app"
 import storeDocuments from "./store/store.documents"
+import storeDropbox from "./store/store.dropbox"
 
 const store = new Vuex.Store({
 	strict: process.env.NODE_ENV !== "production",
 	modules: {
 		storeApp,
 		storeDocuments,
+		storeDropbox,
 	},
 })
 

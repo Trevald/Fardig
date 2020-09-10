@@ -35,47 +35,47 @@ export default class DropboxApi {
 	isAuthenticated() {
 		return this.accessToken !== undefined
 	}
+}
 
-	getEntries() {
-		return this.dbx
-			.filesListFolder({ path: "" })
-			.then(function(response) {
-				return response.entries
-			})
-			.catch(function(error) {
-				console.error(error)
-			})
-	}
+DropboxApi.prototype.getEntries = () => {
+	return this.dbx
+		.filesListFolder({ path: "" })
+		.then(function(response) {
+			return response.entries
+		})
+		.catch(function(error) {
+			console.error(error)
+		})
+}
 
-	getContents(path) {
-		return this.dbx
-			.filesDownload({ path })
-			.then((response) => {
-				// return response.fileBlob.text()
-				var reader = new FileReader()
+DropboxApi.prototype.getContents = (path) => {
+	return this.dbx
+		.filesDownload({ path })
+		.then((response) => {
+			// return response.fileBlob.text()
+			var reader = new FileReader()
 
-				return new Promise((resolve) => {
-					reader.onload = function() {
-						resolve(reader.result)
-					}
-					reader.readAsText(response.fileBlob)
-				})
+			return new Promise((resolve) => {
+				reader.onload = function() {
+					resolve(reader.result)
+				}
+				reader.readAsText(response.fileBlob)
 			})
-			.catch(function(error) {
-				console.error(error)
-			})
-	}
+		})
+		.catch(function(error) {
+			console.error(error)
+		})
+}
 
-	storeContents(filesCommitInfo) {
-		return this.dbx
-			.filesUpload(filesCommitInfo)
-			.then((response) => {
-				return response
-			})
-			.catch(function(error) {
-				console.error(error)
-			})
-	}
+DropboxApi.prototype.storeContents = (filesCommitInfo) => {
+	return this.dbx
+		.filesUpload(filesCommitInfo)
+		.then((response) => {
+			return response
+		})
+		.catch(function(error) {
+			console.error(error)
+		})
 }
 
 function parseQueryString(str) {
