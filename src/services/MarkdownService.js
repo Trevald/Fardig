@@ -1,68 +1,70 @@
 import TurndownService from "turndown"
-const marked = require('marked');
+const marked = require("marked")
 
 export default class Markdown {
+	constructor() {
+		this.initToMarkdownConverter()
+	}
 
-    constructor() {
-        this.initToMarkdownConverter();
-    }
+	initToMarkdownConverter() {
+		this.turndownService = new TurndownService({
+			headingStyle: "atx",
+		})
 
-    initToMarkdownConverter() {
-        this.turndownService = new TurndownService({
-            headingStyle: "atx",
-        });     
+		this.turndownService.addRule("todo", {
+			filter: (node) => {
+				return node.getAttribute("data-type") === "todo_item" // [data-type="${this.name}"]
+			},
+			replacement: function(content, node) {
+				const state = node.getAttribute("data-state") === "done" ? "x" : " "
+				return `[${state}] ${content}\n`
+			},
+		})
+	}
 
-        this.turndownService.addRule('todo', {
-            filter: (node) => {
-                return node.getAttribute("data-type") === "todo_item";  // [data-type="${this.name}"]
-            },
-            replacement: function (content, node) {
-                const state = node.getAttribute("data-state") === "done" ? "x" : " ";
-                return `[${state}] ${content}\n`;
-            }
-        });        
-    }
+	fromHTML(html) {
+		const markdown = this.turndownService.turndown(html)
 
-    fromHTML(html) {
-        const markdown = this.turndownService.turndown(html);
+		return markdown
+	}
 
-        return markdown;
-    } 
+	getMarkedRenderer() {
+		return {
+			paragraph(text) {
+				const re = /^\[[\s|x]\].*$/gim
+				const re2 = /(\[[\s|x]\])/gim
+				const hasTodos = text.match(re)
 
-    getMarkedRenderer() {
-        return {
-            paragraph(text) {
-                console.log("markedRendererParagraph");
-                const re = /^\[[\s|x]\].*$/gmi
-                const re2 = /(\[[\s|x]\])/gmi
-                const hasTodos  = text.match(re);
-                
-                // Break if no todos
-                if (!hasTodos) { return `<p>${text}</p>`; }
-                const textLines = text.split(/\r?\n/);
-                let returnValue = "";
-                
-                textLines.forEach(textLine => {
-                    let isTodo = textLine.match(re2);
-                    if (isTodo) {
-                        const todoIndicator = isTodo[0];
-                        const state = todoIndicator.includes("x") ? "done" : "not started";
-                        returnValue+= `<p data-type="app_todo" data-state="${state}">${textLine.replace(todoIndicator, "")}</p>`;                        
-                    } else {
-                        returnValue+=`<p>${textLine}</p>`;
-                    }
-                });
+				// Break if no todos
+				if (!hasTodos) {
+					return `<p>${text}</p>`
+				}
+				const textLines = text.split(/\r?\n/)
+				let returnValue = ""
 
-                return returnValue;
-            }
-        }
-    }
+				textLines.forEach((textLine) => {
+					let isTodo = textLine.match(re2)
+					if (isTodo) {
+						const todoIndicator = isTodo[0]
+						const state = todoIndicator.includes("x") ? "done" : "not started"
+						returnValue += `<p data-type="app_todo" data-state="${state}">${textLine.replace(
+							todoIndicator,
+							""
+						)}</p>`
+					} else {
+						returnValue += `<p>${textLine}</p>`
+					}
+				})
 
-    toHTML(markdown) {
-        const renderer = this.getMarkedRenderer();
-        marked.use({renderer})
-        
-        return marked(markdown);    
-    }
+				return returnValue
+			},
+		}
+	}
 
+	toHTML(markdown) {
+		const renderer = this.getMarkedRenderer()
+		marked.use({ renderer })
+
+		return marked(markdown)
+	}
 }

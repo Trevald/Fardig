@@ -15,6 +15,10 @@ module.exports = function(md) {
 			const content = tokens[i].content + ""
 			const done = content.charAt(1).toLowerCase() + "" === "x"
 
+			if (content.indexOf("Yellow") !== -1) {
+				console.log(md.core, tokens[i - 1], tokens[i], tokens[i + 1])
+			}
+
 			tokens[i - 1].type = "paragraph_open"
 			tokens[i + 1].type = "paragraph_close"
 
@@ -24,7 +28,7 @@ module.exports = function(md) {
 				["data-type", "todo_item"],
 				["data-status", done ? "done" : "not started"],
 			]
-			tokens[i].children[0].content = content.slice(4)
+			tokens[i].children[0].content = tokens[i].children[0].content.slice(4)
 			tokens[i + 2].type = "todo_item_close" // = new state.Token("app_todo_close", "p", 0)
 
 			if (!parentListIsTodo(tokens, i)) {

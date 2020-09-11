@@ -1,121 +1,119 @@
 <template>
-  <div class="app-editor">
-    <editor-content :editor="editor" />
-    <div
-      class="suggestion-list"
-      v-show="mentionTagsShowSuggestions"
-      ref="mentionTagsSuggestions"
-    >
-      <template v-if="mentionTagsHasResults">
-        <div
-          v-for="(tag, index) in mentionTagsFilteredTags"
-          :key="index"
-          class="suggestion-list__item"
-          :class="{
+	<div class="app-editor">
+		<editor-content :editor="editor" />
+		<div
+			class="suggestion-list"
+			v-show="mentionTagsShowSuggestions"
+			ref="mentionTagsSuggestions"
+		>
+			<template v-if="mentionTagsHasResults">
+				<div
+					v-for="(tag, index) in mentionTagsFilteredTags"
+					:key="index"
+					class="suggestion-list__item"
+					:class="{
 						'is-selected': mentionTagsNavigatedTagIndex === index,
 					}"
-          @click="mentionTagsSelectTag(tag)"
-        >
-          {{ tag }}
-        </div>
-      </template>
-      <div
-        v-else
-        class="suggestion-list__item is-empty"
-      >
-        No tags found
-      </div>
-    </div>
-  </div>
+					@click="mentionTagsSelectTag(tag)"
+				>
+					{{ tag }}
+				</div>
+			</template>
+			<div v-else class="suggestion-list__item is-empty">
+				No tags found
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
-import { Editor, EditorContent } from "tiptap";
-import {
-  Blockquote,
-  CodeBlock,
-  HardBreak,
-  Heading,
-  OrderedList,
-  BulletList,
-  ListItem,
-  Bold,
-  Code,
-  Italic,
-  Link,
-  Strike,
-  History,
-  // Mention
-} from "tiptap-extensions";
+	import { Editor, EditorContent } from "tiptap"
+	import {
+		Blockquote,
+		CodeBlock,
+		HardBreak,
+		Heading,
+		OrderedList,
+		BulletList,
+		ListItem,
+		Code,
+		Link,
+		Strike,
+		History,
+		// Mention
+	} from "tiptap-extensions"
 
-import NodeTag from "./../nodes/NodeTag";
-import { MentionTagsMixin } from "./../mixins/MentionTagsMixin";
-import MENTION_TAGS_OPTIONS from "./../utils/mention_tags_options";
+	import Bold from "./../prosemirror/nodes/Bold"
+	import Italic from "./../prosemirror/nodes/Italic"
 
-import TodoItem from "./../prosemirror/TodoItemNode";
-import TodoList from "./../prosemirror/TodoListNode";
+	import NodeTag from "./../nodes/NodeTag"
+	import { MentionTagsMixin } from "./../mixins/MentionTagsMixin"
+	import MENTION_TAGS_OPTIONS from "./../utils/mention_tags_options"
 
-export default {
-  name: "AppEditor",
+	import TodoItem from "./../prosemirror/TodoItemNode"
+	import TodoList from "./../prosemirror/TodoListNode"
 
-  components: {
-    EditorContent,
-  },
+	export default {
+		name: "AppEditor",
 
-  props: {
-    json: Object,
-  },
+		components: {
+			EditorContent,
+		},
 
-  mixins: [MentionTagsMixin],
+		props: {
+			json: Object,
+		},
 
-  data() {
-    return {
-      editor: null,
-    };
-  },
+		mixins: [MentionTagsMixin],
 
-  methods: {
-    getTags() {
-      return this.$store.getters.tags;
-    },
-  },
+		data() {
+			return {
+				editor: null,
+			}
+		},
 
-  mounted() {
-    this.editor = new Editor({
-      extensions: [
-        new Blockquote(),
-        new CodeBlock(),
-        new HardBreak(),
-        new Heading({ levels: [1, 2, 3, 4] }),
-        new BulletList(),
-        new OrderedList(),
-        new ListItem(),
-        new TodoItem(),
-        new TodoList(),
-        new Bold(),
-        new Code(),
-        new Italic(),
-        new Link(),
-        new Strike(),
-        new History(),
-        new NodeTag(MENTION_TAGS_OPTIONS(this, this.getTags)),
-      ],
-      content: this.json,
+		methods: {
+			getTags() {
+				return this.$store.getters.tags
+			},
+		},
 
-      onUpdate: ({ getJSON }) => {
-        const json = getJSON();
+		mounted() {
+			this.editor = new Editor({
+				extensions: [
+					new Blockquote(),
+					new CodeBlock(),
+					new HardBreak(),
+					new Heading({ levels: [1, 2, 3, 4] }),
+					new BulletList(),
+					new OrderedList(),
+					new ListItem(),
+					new TodoItem(),
+					new TodoList(),
+					new Bold(),
+					new Code(),
+					new Italic(),
+					new Link(),
+					new Strike(),
+					new History(),
+					new NodeTag(MENTION_TAGS_OPTIONS(this, this.getTags)),
+				],
+				content: this.json,
 
-        this.$emit("change", {
-          json,
-        });
-      },
-    });
-  },
+				onUpdate: ({ getJSON }) => {
+					const json = getJSON()
 
-  beforeDestroy() {
-    this.editor.destroy();
-  },
-};
+					this.$emit("change", {
+						json,
+					})
+				},
+			})
+		},
+
+		beforeDestroy() {
+			this.editor.destroy()
+		},
+	}
 </script>
 
 <style></style>
