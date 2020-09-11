@@ -15,10 +15,6 @@ module.exports = function(md) {
 			const content = tokens[i].content + ""
 			const done = content.charAt(1).toLowerCase() + "" === "x"
 
-			if (content.indexOf("Yellow") !== -1) {
-				console.log(md.core, tokens[i - 1], tokens[i], tokens[i + 1])
-			}
-
 			tokens[i - 1].type = "paragraph_open"
 			tokens[i + 1].type = "paragraph_close"
 
