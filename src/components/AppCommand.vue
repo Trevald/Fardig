@@ -251,20 +251,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.option {
-  display: flex;
-  justify-content: space-between;
-}
-
-.title {
-  display: flex;
-}
-
-.shortcut {
-  flex: 0 0 0;
-  white-space: nowrap;
-  text-transform: uppercase;
-}
-</style>

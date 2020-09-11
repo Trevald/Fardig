@@ -16,6 +16,7 @@ Markdown GUI that turn notes with actions points into a single ToDo list. Read m
 -   [ ] List all files
 -   [ ] Faster loading in startup
 -   [ ] Revisions
+-   [ ] Front page
 -   [ ] Presentation mode (H1 => Title, H2 => New slide, One bullet at a time etc)
 
 ## Project setup

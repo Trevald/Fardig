@@ -3,7 +3,8 @@ import { getPreferencesProp } from "./utils/preferences"
 
 // Routes
 import AppAuth from "./components/AppAuth"
-import AppLogin from "./components/AppLogin"
+import AppFrontPage from "./components/AppFrontPage"
+// import AppLogin from "./components/AppLogin"
 import AppMyTodos from "./components/AppMyTodos"
 import AppDocument from "./components/AppDocument"
 
@@ -31,7 +32,7 @@ const routes = [
 	{
 		name: "Login",
 		path: "/login",
-		component: AppLogin,
+		component: AppFrontPage,
 	},
 ]
 

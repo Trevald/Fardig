@@ -132,8 +132,7 @@ const storeDocuments = {
 	},
 
 	actions: {
-		async fetchDocuments({ dispatch, commit, rootState }) {
-			console.log("fetchDocuments", rootState)
+		async fetchDocuments({ dispatch, commit }) {
 			const files = await dispatch("getEntries")
 			files.forEach((file) => {
 				commit("addDocument", file)

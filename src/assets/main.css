@@ -4,6 +4,8 @@
 @import "./colors-theme-light.css";
 @import "./colors.css";
 
+@import "./front.css";
+
 body {
 	background-color: var(--color-bg);
 	color: var(--color-fg);
@@ -245,6 +247,21 @@ input.app-command-input:focus {
 .app-command-results > li:last-child > button {
 	border-bottom-left-radius: 2px;
 	border-bottom-right-radius: 2px;
+}
+
+.app-command-results .option {
+	display: flex;
+	justify-content: space-between;
+}
+
+.app-command-results .title {
+	display: flex;
+}
+
+.app-command-results .shortcut {
+	flex: 0 0 0;
+	white-space: nowrap;
+	text-transform: uppercase;
 }
 
 /*

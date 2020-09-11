@@ -1,7 +1,7 @@
 <template>
   <div class="app-login">
     <div class="app-login-content">
-      <AppLogo />
+
       <a
         class="button primary"
         v-if="dropboxAuthLink"
@@ -12,14 +12,9 @@
 </template>
 
 <script>
-import AppLogo from "./AppLogo";
-
 export default {
   name: "AppLogin",
 
-  components: {
-    AppLogo,
-  },
   computed: {
     dropboxAuthLink() {
       return this.$store.getters.dropboxAuthLink;

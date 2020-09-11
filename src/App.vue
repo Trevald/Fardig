@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <AppProgress
-      v-if="!appReadyAndLoggedIn"
+      v-if="!appReady"
       :value="numberOfFilesLoaded"
       :max="totalNumberOfFiles"
       class="app-progress"

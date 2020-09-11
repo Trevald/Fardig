@@ -1,0 +1,48 @@
+.page-front {
+	flex: 1 1 auto;
+	position: relative;
+}
+
+.page-front header {
+	padding: calc(var(--unit) * 1) calc(var(--unit) * 1);
+}
+
+.page-front .app-logo svg {
+	width: 100%;
+	max-width: 280px;
+	height: auto;
+}
+
+.page-front h2 {
+	font-size: calc(3 * var(--unit));
+	margin-bottom: calc(1 * var(--unit));
+}
+.page-front .app-command {
+	position: static;
+	transform: none;
+	min-width: 100%;
+}
+
+.page-front .app-command .option:hover {
+	color: var(--color-commmand-active-foreground);
+	background: var(--color-commmand-active-background);
+}
+
+.page-front .app-login-wrapper {
+	position: fixed;
+	top: calc(-1 * var(--unit));
+	width: 100%;
+	max-width: var(--view-max-width);
+	display: flex;
+	justify-content: flex-end;
+}
+
+.page-front .app-login {
+	flex: 0 0 auto;
+	width: auto;
+}
+
+.page-front .app-login .button {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
