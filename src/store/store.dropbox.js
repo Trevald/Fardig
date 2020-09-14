@@ -11,7 +11,10 @@ updatePreferencesProp("accessToken", ACCESS_TOKEN)
 
 const storeDropbox = {
 	state: () => {
-		return {}
+		return {
+			requestedFiles: 0,
+			loadedFiles: 0,
+		}
 	},
 
 	getters: {
@@ -25,9 +28,25 @@ const storeDropbox = {
 				? dbx.getAuthenticationUrl("https://fardig.io/auth")
 				: dbx.getAuthenticationUrl("http://localhost:8080/auth")
 		},
+
+		requestedFiles: (state) => {
+			return state.requestedFiles
+		},
+
+		loadedFiles: (state) => {
+			return state.loadedFiles
+		},
 	},
 
-	mutations: {},
+	mutations: {
+		addRequestedFilesCount: (state) => {
+			state.requestedFiles++
+		},
+
+		addLoadedFilesCount: (state) => {
+			state.loadedFiles++
+		},
+	},
 
 	actions: {
 		getEntries() {
@@ -40,13 +59,19 @@ const storeDropbox = {
 				})
 		},
 
-		getContents(store, path) {
+		getContents({ commit, getters }, path) {
+			commit("addRequestedFilesCount")
+			console.log("load", path, getters.requestedFiles)
+
 			return API.filesDownload({ path })
 				.then((response) => {
 					var reader = new FileReader()
+					commit("addLoadedFilesCount")
+					console.log("loaded", path, getters.loadedFiles)
 
 					return new Promise((resolve) => {
 						reader.onload = function() {
+							console.log("onload done!", path)
 							resolve(reader.result)
 						}
 						reader.readAsText(response.fileBlob)

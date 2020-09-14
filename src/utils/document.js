@@ -69,6 +69,10 @@ export function documentGetTodos(doc) {
 	return getNodesByName(doc, "todo_item")
 }
 
+export function documentGetTodoLists(doc) {
+	return getNodesByName(doc, "todo_list")
+}
+
 export function documentGetTags(doc) {
 	return getNodesByName(doc, "tag")
 }

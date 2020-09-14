@@ -54,6 +54,7 @@ export const markdownParser = new MarkdownParser(
 			block: "todo_item",
 			node: "todo_item",
 			getAttrs: (tok) => ({
+				id: tok.attrGet("data-id"),
 				type: tok.attrGet("data-type"),
 				status: tok.attrGet("data-status"),
 			}),

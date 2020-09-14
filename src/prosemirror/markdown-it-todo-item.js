@@ -3,6 +3,8 @@
 // https://github.com/blog/1375-task-lists-in-gfm-issues-pulls-comments
 // https://github.com/blog/1825-task-lists-in-all-markdown-documents
 
+const { generateID } = require("../utils/helpers")
+
 module.exports = function(md) {
 	md.core.ruler.after("inline", "todo_item", function(state) {
 		var tokens = state.tokens
@@ -19,8 +21,10 @@ module.exports = function(md) {
 			tokens[i + 1].type = "paragraph_close"
 
 			tokens[i - 2].type = "todo_item_open" // = new state.Token("app_todo_open", "p", 0)
+			const id = generateID()
 
 			tokens[i - 2].attrs = [
+				["data-id", id],
 				["data-type", "todo_item"],
 				["data-status", done ? "done" : "not started"],
 			]

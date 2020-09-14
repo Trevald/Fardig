@@ -1,5 +1,7 @@
 import { Node } from "tiptap"
 import { sinkListItem, splitToDefaultListItem, liftListItem } from "tiptap-commands"
+import { generateID } from "../utils/helpers"
+
 import AppTodo from "./../components/AppTodoItem"
 
 export default class TodoItem extends Node {
@@ -10,11 +12,16 @@ export default class TodoItem extends Node {
 	get defaultOptions() {
 		return {
 			nested: true,
+			todoList: false,
 		}
 	}
 
 	get view() {
 		return AppTodo
+	}
+
+	getId() {
+		return generateID()
 	}
 
 	get schema() {
@@ -23,16 +30,21 @@ export default class TodoItem extends Node {
 				status: {
 					default: "not started",
 				},
+				id: {
+					default: undefined,
+				},
 			},
+			group: "block",
 			draggable: true,
-			content: this.options.nested ? "(paragraph|todo_list)+" : "paragraph+", // "inline*", //
+			content: this.options.nested ? "(paragraph|todo_list)+" : "paragraph+",
 			toDOM: (node) => {
-				const { status } = node.attrs
+				const { id, status } = node.attrs
 				return [
 					"li",
 					{
 						"data-type": this.name,
 						"data-status": status,
+						"data-id": id || generateID(),
 					},
 					["span", { class: "todo-checkbox", contenteditable: "false" }],
 					["div", { class: "todo-content" }, 0],
@@ -43,6 +55,7 @@ export default class TodoItem extends Node {
 					priority: 51,
 					tag: `[data-type="${this.name}"]`,
 					getAttrs: (dom) => ({
+						id: dom.getAttribute("data-id"),
 						status:
 							dom.getAttribute("data-status") !== undefined
 								? dom.getAttribute("data-status")
