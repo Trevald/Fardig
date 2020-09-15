@@ -10,6 +10,7 @@
 							:name="button.name"
 							v-for="(button, buttonIndex) in getButtonsByGroup(group)"
 							:key="buttonIndex"
+							class="menu-bar-button"
 						>
 							{{ button.label }}
 						</AppEditorMenuBarButton>
@@ -63,6 +64,26 @@
 						name: "em",
 						label: "Italic",
 						group: 2,
+					},
+					{
+						name: "bullet_list",
+						label: "Bullet list",
+						group: 3,
+					},
+					{
+						name: "ordered_list",
+						label: "Ordered list",
+						group: 3,
+					},
+					{
+						name: "todo_list",
+						label: "Todo list",
+						group: 3,
+					},
+					{
+						name: "blockquote",
+						label: "Quote",
+						group: 4,
 					},
 				],
 			}
@@ -122,6 +143,7 @@
 		margin-right: 2rem;
 	}
 
-	.app-editor-menubar .container {
+	.menu-bar-button:not(:last-child) {
+		margin-right: 0.5rem;
 	}
 </style>

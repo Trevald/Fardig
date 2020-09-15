@@ -19,7 +19,7 @@ button.no-style {
 	background-image: none;
 	background-color: transparent;
 
-	transition: all 0.3s ease;
+	transition: all 0.3s ease, outline 0s linear;
 	user-select: none;
 }
 
@@ -74,15 +74,19 @@ button:not(.no-style):active {
 	transform: scale(1) translateY(0.125rem) translateZ(0) perspective(1px);
 }
 
+.button,
+button {
+	outline-offset: calc(var(--unit) * 0.5);
+}
+
 .button:focus,
 button:focus {
-	outline: 1px dashed transparent;
-	outline-offset: calc(var(--unit) * 0.5);
+	outline: none;
 }
 
 .button:focus:not(:active),
 button:focus:not(:active) {
-	outline-color: #869dd2;
+	outline: 1px dashed #869dd2;
 }
 
 /*
