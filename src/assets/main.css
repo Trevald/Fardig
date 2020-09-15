@@ -91,6 +91,7 @@ body {
 	background: var(--color-background-status);
 	font-size: calc(var(--unit) * 1.5);
 	color: var(--color-foreground-status);
+	min-height: calc(3 * var(--unit));
 }
 
 .app-status button {

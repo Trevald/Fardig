@@ -1,6 +1,7 @@
 <template>
 	<div class="app-editor">
-		<editor-content :editor="editor" />
+		<AppEditorMenuBar :editor="editor" />
+		<editor-content :editor="editor" class="app-editor-content" />
 		<div
 			class="suggestion-list"
 			v-show="mentionTagsShowSuggestions"
@@ -53,11 +54,14 @@
 	import TodoItem from "./../prosemirror/TodoItemNode"
 	import TodoList from "./../prosemirror/TodoListNode"
 
+	import AppEditorMenuBar from "./AppEditorMenuBar"
+
 	export default {
 		name: "AppEditor",
 
 		components: {
 			EditorContent,
+			AppEditorMenuBar,
 		},
 
 		props: {
@@ -115,5 +119,3 @@
 		},
 	}
 </script>
-
-<style></style>
