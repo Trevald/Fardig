@@ -1,5 +1,13 @@
 <template>
-	<li :data-type="node.type.name" :data-status="node.attrs.status" data-drag-handle>
+	<li
+		:data-type="node.type.name"
+		:data-status="node.attrs.status"
+		:data-id="this.id"
+		data-drag-handle
+	>
+		<span style="position: absolute; top: -0.5rem; font-size: 0.75rem; display: none">{{
+			this.id
+		}}</span>
 		<input type="checkbox" @click="onChange" :checked="checked" tabindex="-1" />
 		<div class="todo-content" ref="content" :contenteditable="view.editable.toString()"></div>
 	</li>

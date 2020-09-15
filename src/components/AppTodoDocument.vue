@@ -100,10 +100,9 @@
 				],
 				content: doc,
 
-				onUpdate: ({ transaction }) => {
-					// const json = getJSON()
-
-					console.log("update", transaction)
+				onUpdate: ({ getJSON }) => {
+					const json = getJSON()
+					console.log(json)
 				},
 			})
 		},
