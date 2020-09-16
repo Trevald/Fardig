@@ -7,6 +7,7 @@ const storeApp = {
 			// accessToken: dropboxAccessToken,
 			commandIsVisible: false,
 			darkMode: true,
+			editorToolbarIsVisible: getPreferencesProp("editorToolbarIsVisible", "editor"),
 			// cloudStorage: new DropboxApi(dropboxAccessToken),
 		}
 	},
@@ -26,6 +27,10 @@ const storeApp = {
 
 		darkMode: (state) => {
 			return state.darkMode
+		},
+
+		editorToolbarIsVisible: (state) => {
+			return state.editorToolbarIsVisible
 		},
 	},
 
@@ -50,6 +55,11 @@ const storeApp = {
 		toggleDarkMode(state, payload) {
 			state.darkMode = payload
 		},
+
+		toggleEditorToolbar(state) {
+			state.editorToolbarIsVisible = !state.editorToolbarIsVisible
+			updatePreferencesProp("editorToolbarIsVisible", state.editorToolbarIsVisible)
+		},
 	},
 
 	actions: {
@@ -57,6 +67,10 @@ const storeApp = {
 
 		toggleCommand({ commit }) {
 			commit("toggleCommand")
+		},
+
+		toggleEditorToolbar({ commit }) {
+			commit("toggleEditorToolbar")
 		},
 
 		toggleDarkMode({ commit }) {

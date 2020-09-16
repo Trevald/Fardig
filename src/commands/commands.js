@@ -32,7 +32,24 @@ export const commands = [
 			light:
 				'<path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>',
 		},
-	} /*
+	},
+	{
+		id: "TOGGLE_EDITOR_TOOLBAR",
+		description: "Toggle toolbar",
+		action: "toggleEditorToolbar",
+		icon:
+			'<path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>',
+	},
+
+	/*
+        {
+        id: "LOGOUT",
+        description: "Logout",
+        action: "logout",
+        icon: '<path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"></path>'
+        }
+        */
+	/*
 	{
 		id: "DELETE_FILE",
 		description: "Delete current file",
@@ -43,5 +60,5 @@ export const commands = [
 			event.preventDefault()
 		},
 	},
-	*/,
+	*/
 ]

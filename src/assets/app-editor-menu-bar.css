@@ -1,0 +1,60 @@
+.app-editor-menubar {
+	position: fixed;
+	z-index: 10;
+	left: 1rem;
+	right: 1rem;
+	bottom: 1.5rem;
+	/*
+		background: hsla(var(--_color-bg), 0.99);
+		box-shadow: 0 -3px 5px hsla(var(--_color-bg), 0.99);
+        */
+	backdrop-filter: blur(0.5px);
+	padding: 4rem 0 1rem 0;
+
+	background: linear-gradient(
+		to top,
+		hsla(var(--_color-bg), 0.95) 50%,
+		hsla(var(--_color-bg), 0)
+	);
+	pointer-events: none;
+}
+
+.app-editor-menubar .groups {
+	display: flex;
+	justify-content: flex-start;
+	pointer-events: all;
+}
+
+.app-editor-menubar .group {
+	display: flex;
+}
+
+.app-editor-menubar .group:not(:last-child) {
+	margin-right: 2rem;
+}
+
+.menu-bar-button:not(:last-child) {
+	margin-right: 0.5rem;
+}
+
+.app-editor-menubar button {
+	width: 32px;
+	height: 32px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.app-editor-menubar button svg {
+	width: 28px;
+	height: 28px;
+	fill: hsl(var(--_color-fg-muted));
+}
+
+.app-editor-menubar button.is-active svg {
+	fill: hsl(var(--_color-fg));
+}
+
+.app-editor-menubar button:not(.is-active):hover svg {
+	fill: hsl(var(--_color-fg-emphasized));
+}

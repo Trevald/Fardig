@@ -19,6 +19,8 @@ body {
 	background-color: var(--color-action);
 }
 
+@import "./app-editor-menu-bar.css";
+
 .app-login {
 	flex: 1 1 auto;
 	display: flex;
@@ -78,11 +80,13 @@ body {
 .app-editor {
 	display: flex;
 	flex: 1 1 auto;
-	padding-bottom: calc(var(--unit) * 4);
+	padding-bottom: calc(var(--unit) * 24);
 }
 
 .app-status {
 	flex: 0 0 auto;
+	position: relative;
+	z-index: 20;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -369,4 +373,17 @@ progress::-webkit-progress-value {
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
 	opacity: 0;
+}
+
+.slide-from-bottom-enter-active {
+	transition: transform 0.5s ease-out;
+}
+
+.slide-from-bottom-leave-active {
+	transition: transform 0.5s ease-in;
+}
+
+.slide-from-bottom-enter,
+.slide-from-bottom-leave-to {
+	transform: translateY(100%);
 }

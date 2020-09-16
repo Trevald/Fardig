@@ -69,30 +69,3 @@
 		},
 	}
 </script>
-<style scoped>
-	button {
-		--_color-fg: 5, 68%, 87%;
-		--_color-fg-muted: 49, 11%, 49%;
-		--_color-fg-emphasized: 68, 94%, 69%;
-
-		width: 32px;
-		height: 32px;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	}
-
-	button svg {
-		width: 28px;
-		height: 28px;
-		fill: hsl(var(--_color-fg-muted));
-	}
-
-	.is-active svg {
-		fill: hsl(var(--_color-fg));
-	}
-
-	button:not(.is-active):hover svg {
-		fill: hsl(var(--_color-fg-emphasized));
-	}
-</style>
