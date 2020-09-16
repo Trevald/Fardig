@@ -363,6 +363,28 @@ progress::-webkit-progress-value {
 	background-color: var(--color-fg-muted);
 }
 
+/*
+    Tippy.js
+
+    <div data-tippy-root>
+        <div class="tippy-box" data-placement="top">
+            <div class="tippy-content">
+                My content
+            </div>
+        </div>
+        </div>
+*/
+
+.tippy-box {
+	padding: calc(1 * var(--unit));
+
+	background-color: var(--color-background-dark);
+	color: var(--color-fg);
+	border-radius: calc(0.5 * var(--unit));
+
+	box-shadow: var(--shadow-overlay);
+}
+
 /* 
  * Vue Transitions 
  */

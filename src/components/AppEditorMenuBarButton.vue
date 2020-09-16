@@ -1,10 +1,12 @@
 <template>
-	<button @click="doCommand" class="no-style" :class="{ 'is-active': thisIsActive }">
+	<button @click="doCommand" class="no-style" :class="{ 'is-active': thisIsActive }" ref="button">
 		<svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" v-html="icon"></svg>
 	</button>
 </template>
 
-<script lang="ts">
+<script>
+	import tippy from "tippy.js"
+
 	export default {
 		name: "AppEditorMenuButton",
 
@@ -66,6 +68,35 @@
 					this.commands[this.name]()
 				}
 			},
+
+			getTooltip() {
+				const isMacLike = /(Mac|iPhone|iPod|iPad)/i.test(navigator.platform)
+				const metaKey = isMacLike ? "⌘" : "⊞ Win"
+
+				switch (this.name) {
+					case "h1":
+						return "^ + ⇧ + 1"
+					case "h2":
+						return "^ + ⇧ + 2"
+					case "h3":
+						return "^ + ⇧ + 3"
+					case "strong":
+						return `${metaKey} + B`
+					case "em":
+						return `${metaKey} + I`
+					default:
+						return undefined
+				}
+			},
+		},
+
+		mounted() {
+			const tooltip = this.getTooltip()
+			if (tooltip !== undefined) {
+				tippy(this.$refs.button, {
+					content: tooltip,
+				})
+			}
 		},
 	}
 </script>
