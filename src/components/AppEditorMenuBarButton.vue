@@ -74,6 +74,8 @@
 				const metaKey = isMacLike ? "⌘" : "⊞ Win"
 
 				switch (this.name) {
+					case "blockquote":
+						return "^ + >"
 					case "h1":
 						return "^ + ⇧ + 1"
 					case "h2":
@@ -84,6 +86,12 @@
 						return `${metaKey} + B`
 					case "em":
 						return `${metaKey} + I`
+					case "bullet_list":
+						return `^ + ⇧ + 8`
+					case "ordered_list":
+						return `^ + ⇧ + 9`
+					case "todo_list":
+						return `^ + T`
 					default:
 						return undefined
 				}
@@ -95,6 +103,8 @@
 			if (tooltip !== undefined) {
 				tippy(this.$refs.button, {
 					content: tooltip,
+					delay: [250, 100],
+					duration: [250, 100],
 				})
 			}
 		},
