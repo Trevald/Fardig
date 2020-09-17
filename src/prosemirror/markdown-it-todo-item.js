@@ -9,7 +9,10 @@ module.exports = function(md) {
 	md.core.ruler.after("inline", "todo_item", function(state) {
 		var tokens = state.tokens
 
-		for (var i = 0; i < tokens.length; i++) {
+		console.log(tokens.length)
+
+		// Can't parse Todos in beginning of file
+		for (let i = 0; i < tokens.length; i++) {
 			if (!isTodoItem(tokens, i)) {
 				continue
 			}
@@ -33,8 +36,10 @@ module.exports = function(md) {
 
 			if (!parentListIsTodo(tokens, i)) {
 				const parentIndexes = getParentList(tokens, i)
-				tokens[parentIndexes.open].type = "todo_list_open"
-				tokens[parentIndexes.close].type = "todo_list_close"
+				if (parentIndexes.open > 0) {
+					tokens[parentIndexes.open].type = "todo_list_open"
+					tokens[parentIndexes.close].type = "todo_list_close"
+				}
 			}
 		}
 
