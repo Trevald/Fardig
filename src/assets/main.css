@@ -79,8 +79,17 @@ body {
 
 .app-editor {
 	display: flex;
-	flex: 1 1 auto;
+	flex: 1 1 100%;
 	padding-bottom: calc(var(--unit) * 24);
+}
+
+.app-editor-content {
+	display: flex;
+	flex: 1 1 100%;
+}
+
+.app-editor-content .ProseMirror {
+	width: 100%;
 }
 
 .app-status {

@@ -1,5 +1,5 @@
 <template>
-	<article>
+	<article class="view">
 		<AppDocumentText v-if="fileIsLoaded" :file="file" :key="this.documentId" />
 	</article>
 </template>
