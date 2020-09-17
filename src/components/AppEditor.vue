@@ -46,6 +46,7 @@
 
 	import Bold from "./../prosemirror/nodes/Bold"
 	import Italic from "./../prosemirror/nodes/Italic"
+	import Image from "./../nodes/NodeImage"
 
 	import NodeTag from "./../nodes/NodeTag"
 	import { MentionTagsMixin } from "./../mixins/MentionTagsMixin"
@@ -80,6 +81,20 @@
 			getTags() {
 				return this.$store.getters.tags
 			},
+
+			async uploadImage(image) {
+				console.log("Uploading…", image)
+				const fileName = image.name
+				const file = await this.$store.dispatch("storeContents", {
+					contents: new Blob([image], { type: image.type }),
+					autorename: true,
+					mode: "add",
+					path: `/images/${fileName}`,
+				})
+				console.log("uploadImageDone", file)
+
+				return file
+			},
 		},
 
 		mounted() {
@@ -89,6 +104,7 @@
 					new CodeBlock(),
 					new HardBreak(),
 					new Heading({ levels: [1, 2, 3, 4] }),
+					new Image(null, null, this.uploadImage),
 					new BulletList(),
 					new OrderedList(),
 					new ListItem(),
