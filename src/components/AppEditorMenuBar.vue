@@ -1,31 +1,33 @@
 <template>
-	<transition name="slide-from-bottom">
-		<editor-menu-bar
-			:editor="editor"
-			class="app-editor-menubar"
-			v-slot="{ commands, isActive }"
-			v-if="isVisible"
-		>
-			<div>
-				<div class="container">
-					<div class="groups">
-						<div class="group" v-for="(group, index) in groups" :key="index">
-							<AppEditorMenuBarButton
-								:commands="commands"
-								:is-active="isActive"
-								:name="button.name"
-								v-for="(button, buttonIndex) in getButtonsByGroup(group)"
-								:key="buttonIndex"
-								class="menu-bar-button"
-							>
-								{{ button.label }}
-							</AppEditorMenuBarButton>
+	<div>
+		<transition :name="transitionName">
+			<editor-menu-bar
+				:editor="editor"
+				class="app-editor-menubar"
+				v-slot="{ commands, isActive }"
+				v-if="isVisible"
+			>
+				<div>
+					<div class="container">
+						<div class="groups">
+							<div class="group" v-for="(group, index) in groups" :key="index">
+								<AppEditorMenuBarButton
+									:commands="commands"
+									:is-active="isActive"
+									:name="button.name"
+									v-for="(button, buttonIndex) in getButtonsByGroup(group)"
+									:key="buttonIndex"
+									class="menu-bar-button"
+								>
+									{{ button.label }}
+								</AppEditorMenuBarButton>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-		</editor-menu-bar>
-	</transition>
+			</editor-menu-bar>
+		</transition>
+	</div>
 </template>
 
 <script>
@@ -93,6 +95,8 @@
 						group: 4,
 					},
 				],
+				defaultTransitionName: undefined,
+				unsubscribe: undefined,
 			}
 		},
 
@@ -110,6 +114,10 @@
 			isVisible() {
 				return this.$store.getters.editorToolbarIsVisible
 			},
+
+			transitionName() {
+				return this.defaultTransitionName
+			},
 		},
 
 		methods: {
@@ -118,6 +126,12 @@
 					return button.group === groupId
 				})
 			},
+		},
+
+		mounted() {
+			this.$nextTick(() => {
+				this.defaultTransitionName = "slide-from-bottom"
+			})
 		},
 	}
 </script>
