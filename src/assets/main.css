@@ -6,6 +6,10 @@
 
 @import "./front.css";
 
+:root {
+	--figure-border-width: var(--unit);
+}
+
 body {
 	background-color: var(--color-bg);
 	color: var(--color-fg);
@@ -376,6 +380,57 @@ progress::-webkit-progress-value {
 }
 
 /*
+ * File transfer progress bar
+ */
+
+.app-loader-image-progress {
+	appearance: none;
+	display: flex;
+	position: absolute;
+	top: var(--figure-border-width);
+	bottom: var(--figure-border-width);
+
+	overflow: hidden;
+	width: calc(var(--unit) * 1);
+	background-color: rgba(255, 255, 255, 0.25);
+	color: var(--color-fg-muted);
+}
+
+.app-loader-image-progressup svg {
+	width: calc(var(--unit) * 1);
+	height: auto;
+}
+
+.app-loader-image-progress.direction-down {
+	left: var(--figure-border-width);
+}
+
+.app-loader-image-progress.direction-up {
+	right: var(--figure-border-width);
+}
+
+.app-loader-image-progress.direction-up svg {
+	transform: rotate(180deg);
+}
+
+.app-loader-image-progress .progress-wrapper {
+	flex: 1 1 100%;
+	display: flex;
+	flex-direction: column;
+	background-color: rgba(0, 0, 0, 0.25);
+}
+
+.app-loader-image-progress.direction-up .progress-wrapper {
+	flex-direction: column-reverse;
+}
+
+.app-loader-image-progress .progress-bar {
+	position: relative;
+	flex: 0 0 0%;
+	background-color: currentColor;
+}
+
+/*
  * Spinner
  */
 
@@ -426,7 +481,7 @@ progress::-webkit-progress-value {
  */
 
 figure {
-	--figure-width: calc(50% - var(--unit));
+	--figure-width: calc(50% - (var(--figure-border-width) * 2));
 	--figure-aspect-ratio: 3/4;
 
 	position: relative;
@@ -444,12 +499,12 @@ figure:nth-child(odd) {
 
 figure img {
 	position: absolute;
-	top: var(--unit);
-	left: var(--unit);
+	top: var(--figure-border-width);
+	left: var(--figure-border-width);
 
 	margin: 0;
-	width: calc(100% - var(--unit) * 2);
-	height: calc(100% - var(--unit) * 2);
+	width: calc(100% - var(--figure-border-width) * 2);
+	height: calc(100% - var(--figure-border-width) * 2);
 	object-fit: cover;
 }
 
@@ -489,8 +544,16 @@ figure:last-of-type:nth-child(odd) {
 .fade-leave-active {
 	transition: opacity 0.2s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+.fade-enter,
+.fade-leave-to,
+.fade-slow-enter,
+.fade-slow-leave-to {
 	opacity: 0;
+}
+
+.fade-slow-enter-active,
+.fade-slow-leave-active {
+	transition: opacity 1s;
 }
 
 .slide-from-bottom-enter-active {

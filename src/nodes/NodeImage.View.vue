@@ -8,21 +8,28 @@
 			:data-path="path"
 			v-if="imageCanBeSeen"
 		/>
-		<transition name="fade">
-			<div class="image-loader" v-if="loading">
-				<AppSpinner size="10" />
-			</div>
+		<transition name="fade-slow">
+			<AppLoaderImageProgress direction="up" ref="uploading" v-if="uploading" />
 		</transition>
+		<transition name="fade-slow">
+			<AppLoaderImageProgress direction="down" ref="downloading" v-if="downloading" />
+		</transition>
+
+		<div class="image-loader" v-if="loading">
+			<AppSpinner :size="10" />
+		</div>
 	</figure>
 </template>
 
 <script>
 	import AppSpinner from "./../components/AppSpinner"
+	import AppLoaderImageProgress from "./../components/AppLoaderImageProgress"
 
 	export default {
 		name: "AppImage",
 
 		components: {
+			AppLoaderImageProgress,
 			AppSpinner,
 		},
 
@@ -31,6 +38,8 @@
 		data() {
 			return {
 				loading: false,
+				downloading: false,
+				uploading: false,
 			}
 		},
 
@@ -84,22 +93,37 @@
 			},
 
 			addNewImage(imageData) {
+				this.setLoader("uploading", true)
 				this.uploadImage(imageData).then((fileData) => {
 					this.updateAttrs({
 						path: fileData.path_lower,
 						id: fileData.id,
 					})
-					this.loading = false
+
+					this.setLoader("uploading", false)
 				})
 			},
 
 			async getExistingImage(path) {
+				this.setLoader("downloading", true)
 				const base64 = await this.$store.dispatch("getFile", path)
 
 				this.updateAttrs({
 					base64: base64,
 				})
-				this.loading = false
+
+				this.setLoader("downloading", false)
+			},
+
+			setLoader(direction, value) {
+				if (value === true) {
+					this[direction] = value
+				} else {
+					this.$refs[direction].done()
+					setTimeout(() => {
+						this[direction] = false
+					}, 100)
+				}
 			},
 		},
 
@@ -107,10 +131,8 @@
 			const { imageData, path } = this.node.attrs
 
 			if (imageData) {
-				this.loading = true
 				this.addNewImage(imageData)
 			} else if (path) {
-				this.loading = true
 				this.getExistingImage(path)
 			}
 		},
