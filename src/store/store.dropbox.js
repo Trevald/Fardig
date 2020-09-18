@@ -14,6 +14,7 @@ const storeDropbox = {
 		return {
 			requestedFiles: 0,
 			loadedFiles: 0,
+			cache: [],
 		}
 	},
 
@@ -36,6 +37,11 @@ const storeDropbox = {
 		loadedFiles: (state) => {
 			return state.loadedFiles
 		},
+
+		getFromCache: (state) => (key) => {
+			const isInCache = state.cache.find((cache) => cache.key === key)
+			return isInCache ? isInCache.value : undefined
+		},
 	},
 
 	mutations: {
@@ -45,6 +51,10 @@ const storeDropbox = {
 
 		addLoadedFilesCount: (state) => {
 			state.loadedFiles++
+		},
+
+		addToCache: (state, payload) => {
+			state.cache.push(payload)
 		},
 	},
 
@@ -79,12 +89,19 @@ const storeDropbox = {
 				})
 		},
 
-		getFile(store, path) {
+		getFile({ getters, commit }, path) {
+			const fileFromCache = getters.getFromCache(path)
+			if (fileFromCache) {
+				return new Promise((resolve) => {
+					resolve(fileFromCache)
+				})
+			}
 			return API.filesDownload({ path }).then((repsonse) => {
 				var reader = new FileReader()
 
 				return new Promise((resolve) => {
 					reader.onload = function() {
+						commit("addToCache", { key: path, value: reader.result })
 						resolve(reader.result)
 					}
 					reader.readAsDataURL(repsonse.fileBlob)
