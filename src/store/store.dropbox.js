@@ -59,19 +59,16 @@ const storeDropbox = {
 				})
 		},
 
-		getContents({ commit, getters }, path) {
+		getContents({ commit }, path) {
 			commit("addRequestedFilesCount")
-			console.log("load", path, getters.requestedFiles)
 
 			return API.filesDownload({ path })
 				.then((response) => {
 					var reader = new FileReader()
 					commit("addLoadedFilesCount")
-					console.log("loaded", path, getters.loadedFiles)
 
 					return new Promise((resolve) => {
 						reader.onload = function() {
-							console.log("onload done!", path)
 							resolve(reader.result)
 						}
 						reader.readAsText(response.fileBlob)

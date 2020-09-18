@@ -81,8 +81,6 @@
 		mounted() {
 			const { imageData, path } = this.node.attrs
 
-			console.log("Image mounted", imageData, path)
-
 			if (imageData) {
 				this.addNewImage(imageData)
 			} else if (path) {

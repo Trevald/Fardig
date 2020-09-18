@@ -9,8 +9,6 @@ module.exports = function(md) {
 	md.core.ruler.after("inline", "todo_item", function(state) {
 		var tokens = state.tokens
 
-		console.log(tokens.length)
-
 		// Can't parse Todos in beginning of file
 		for (let i = 0; i < tokens.length; i++) {
 			if (!isTodoItem(tokens, i)) {
