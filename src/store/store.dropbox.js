@@ -82,6 +82,19 @@ const storeDropbox = {
 				})
 		},
 
+		getFile(store, path) {
+			return API.filesDownload({ path }).then((repsonse) => {
+				var reader = new FileReader()
+
+				return new Promise((resolve) => {
+					reader.onload = function() {
+						resolve(reader.result)
+					}
+					reader.readAsDataURL(repsonse.fileBlob)
+				})
+			})
+		},
+
 		storeContents(store, filesCommitInfo) {
 			return API.filesUpload(filesCommitInfo)
 				.then((response) => {

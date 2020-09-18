@@ -26,4 +26,16 @@ nodes.tag = function(state, node) {
 	state.closeBlock(node)
 }
 
+nodes.image = function(state, node) {
+	console.log("imageSerizllizer", node.attrs)
+	state.write(
+		"![" +
+			state.esc(node.attrs.alt || "") +
+			"](" +
+			state.esc(node.attrs.path) +
+			(node.attrs.title ? " " + state.quote(node.attrs.title) : "") +
+			")"
+	)
+}
+
 export const markdownSerializer = new MarkdownSerializer(nodes, marks)

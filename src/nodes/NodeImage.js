@@ -35,11 +35,11 @@ export default class Image extends Node {
 		return {
 			inline: true,
 			attrs: {
-				src: {
+				base64: {
 					default: null,
 				},
 				alt: {
-					default: null,
+					default: "Image",
 				},
 				title: {
 					default: null,
@@ -53,6 +53,9 @@ export default class Image extends Node {
 				imageData: {
 					default: null,
 				},
+				src: {
+					default: null,
+				},
 			},
 			group: "inline",
 			draggable: true,
@@ -60,11 +63,11 @@ export default class Image extends Node {
 				{
 					tag: "img[src]",
 					getAttrs: (dom) => ({
-						src: dom.getAttribute("src"),
 						title: dom.getAttribute("title"),
 						alt: dom.getAttribute("alt"),
 						id: dom.getAttribute("data-id"),
 						path: dom.getAttribute("data-path"),
+						src: dom.getAttribute("data-path"),
 					}),
 				},
 			],
@@ -96,9 +99,9 @@ export default class Image extends Node {
 	inputRules({ type }) {
 		return [
 			nodeInputRule(IMAGE_INPUT_REGEX, type, (match) => {
-				const [, alt, src, title] = match
+				const [, alt, path, title] = match
 				return {
-					src,
+					path,
 					alt,
 					title,
 				}

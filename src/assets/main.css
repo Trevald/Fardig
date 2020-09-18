@@ -78,6 +78,7 @@ img {
 .app-main {
 	flex: 1 1 0;
 	display: flex;
+	flex-direction: column;
 	overflow: auto;
 	padding-top: calc(var(--unit) * 8);
 }
@@ -375,6 +376,38 @@ progress::-webkit-progress-bar {
 
 progress::-webkit-progress-value {
 	background-color: var(--color-fg-muted);
+}
+
+/*
+ * Figure
+ */
+
+figure {
+	--figure-width: calc(50% - var(--unit));
+	--figure-aspect-ratio: 3/4;
+
+	position: relative;
+	display: inline-block;
+
+	margin: 0;
+	background: var(--color-bg-muted);
+	width: var(--figure-width);
+	padding-bottom: calc(var(--figure-width) * var(--figure-aspect-ratio));
+}
+
+figure:nth-child(odd) {
+	margin-right: calc(2 * var(--unit));
+}
+
+figure img {
+	position: absolute;
+	top: var(--unit);
+	left: var(--unit);
+
+	margin: 0;
+	width: calc(100% - var(--unit) * 2);
+	height: calc(100% - var(--unit) * 2);
+	object-fit: cover;
 }
 
 /*

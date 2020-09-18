@@ -139,32 +139,6 @@ const nodes = {
 		group: "inline",
 	},
 
-	image: {
-		inline: true,
-		attrs: {
-			src: {},
-			alt: { default: null },
-			title: { default: null },
-		},
-		group: "inline",
-		draggable: true,
-		parseDOM: [
-			{
-				tag: "img[src]",
-				getAttrs(dom) {
-					return {
-						src: dom.getAttribute("src"),
-						title: dom.getAttribute("title"),
-						alt: dom.getAttribute("alt"),
-					}
-				},
-			},
-		],
-		toDOM(node) {
-			return ["img", node.attrs]
-		},
-	},
-
 	hard_break: {
 		inline: true,
 		group: "inline",
@@ -237,6 +211,9 @@ const marks = {
 
 nodes.todo_list = new TodoList().schema
 nodes.todo_item = new TodoItem().schema
+
+import NodeImage from "./../nodes/NodeImage"
+nodes.image = new NodeImage().schema
 
 import NodeTag from "./../nodes/NodeTag"
 
