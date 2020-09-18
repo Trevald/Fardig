@@ -368,14 +368,57 @@ input.app-command-input:focus {
 
 progress {
 	border-color: var(--color-fg-muted);
-}
-
-progress::-webkit-progress-bar {
-	background: rgba(0, 0, 0, 0.1);
+	background: var(--color-bg-muted);
 }
 
 progress::-webkit-progress-value {
-	background-color: var(--color-fg-muted);
+	background-color: var(--color-overlay-highlight);
+}
+
+/*
+ * Spinner
+ */
+
+.app-spinner {
+	position: relative;
+	width: 100%;
+	padding-bottom: 100%;
+
+	--border-width: calc(var(--unit) * 0.375);
+}
+
+.app-spinner-area,
+.app-spinner-area::after {
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	border-radius: 100%;
+	border-width: var(--border-width);
+	border-style: solid;
+}
+
+.app-spinner-area {
+	border-color: rgba(0, 0, 0, 0.25);
+}
+
+.app-spinner-area::after {
+	content: "";
+	margin: calc(var(--border-width) * -1);
+	border-color: rgba(255, 255, 255, 0.15);
+	border-right-color: var(--color-bg-muted);
+	animation: appSpinner 1s linear infinite;
+	transform: translateZ(0);
+}
+
+@keyframes appSpinner {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
 }
 
 /*
@@ -408,6 +451,12 @@ figure img {
 	width: calc(100% - var(--unit) * 2);
 	height: calc(100% - var(--unit) * 2);
 	object-fit: cover;
+}
+
+figure:last-of-type:nth-child(odd) {
+	width: 100%;
+	--figure-aspect-ratio: 9/16;
+	--figure-width: 100%;
 }
 
 /*
