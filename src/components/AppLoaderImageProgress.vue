@@ -54,7 +54,6 @@
 
 		methods: {
 			done() {
-				console.log("Done!")
 				this.fakeProgress.end()
 			},
 		},
