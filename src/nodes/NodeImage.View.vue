@@ -1,5 +1,5 @@
 <template>
-	<figure>
+	<figure tabindex="0" @click="log" @dblclick="hello" @keydown="handleKeyDown">
 		<img
 			:src="src"
 			:alt="alt"
@@ -33,13 +33,19 @@
 			AppSpinner,
 		},
 
-		props: ["node", "updateAttrs", "view"],
+		props: ["node", "updateAttrs", "view", "getPos"],
 
 		data() {
 			return {
 				loading: false,
 				downloading: false,
 				uploading: false,
+				keymap: {
+					backspace: (event) => {
+						event.preventDefault()
+						this.deleteNode()
+					},
+				},
 			}
 		},
 
@@ -65,6 +71,33 @@
 		},
 
 		methods: {
+			log() {
+				console.log(this.node, this.view)
+			},
+
+			handleKeyDown(event) {
+				switch (event.keyCode) {
+					case 8:
+						this.deleteNode()
+						break
+					default:
+						break
+				}
+			},
+
+			hello() {
+				console.log("hello")
+			},
+
+			deleteNode() {
+				// make a prosemirror transaction
+				// which available on editor node
+				let tr = this.view.state.tr
+				let pos = this.getPos()
+				tr.delete(pos, pos + this.node.nodeSize)
+				this.view.dispatch(tr)
+			},
+
 			async uploadImage(image) {
 				console.log("Image Vue Uploading…", image)
 				const fileName = this.makeSafeMDFileName(image.name)
@@ -140,6 +173,10 @@
 </script>
 
 <style scoped>
+	figure:focus {
+		outline: 2px solid lightblue;
+		outline-offset: 0.25rem;
+	}
 	.image-loader {
 		position: absolute;
 		bottom: 1rem;

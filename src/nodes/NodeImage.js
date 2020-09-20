@@ -33,7 +33,6 @@ export default class Image extends Node {
 
 	get schema() {
 		return {
-			inline: true,
 			attrs: {
 				base64: {
 					default: null,
@@ -57,8 +56,10 @@ export default class Image extends Node {
 					default: null,
 				},
 			},
+			inline: true,
 			group: "inline",
 			draggable: true,
+			selectable: true,
 			parseDOM: [
 				{
 					tag: "img[src]",

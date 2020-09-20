@@ -41,6 +41,7 @@
 		Link,
 		Strike,
 		History,
+		// Focus,
 		// Mention
 	} from "tiptap-extensions"
 
@@ -116,8 +117,15 @@
 					new Link(),
 					new Strike(),
 					new History(),
+					/*
+					new Focus({
+						className: "has-focus",
+						nested: true,
+                    }),
+                    */
 					new NodeTag(MENTION_TAGS_OPTIONS(this, this.getTags)),
 				],
+				autoFocus: true,
 				content: this.json,
 
 				onUpdate: ({ getJSON }) => {
@@ -135,3 +143,10 @@
 		},
 	}
 </script>
+
+<style>
+	figure.has-focus {
+		border-radius: 3px;
+		box-shadow: 0 0 0 3px #3ea4ffe6;
+	}
+</style>
