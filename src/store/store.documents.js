@@ -188,6 +188,14 @@ const storeDocuments = {
 		uploadDocuments() {},
 
 		saveDocument({ dispatch, getters }) {
+			if (getters.isCommandDisabled("saveDocument")) {
+				Vue.notify({
+					group: "main",
+					type: "warning",
+					text: "Can't save while image is uploading",
+				})
+				return
+			}
 			const documentId = router.currentRoute.params.documentId
 			const document = getters.getDocumentById(documentId)
 			if (document !== undefined) {

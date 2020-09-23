@@ -59,7 +59,6 @@ export default class Image extends Node {
 			inline: true,
 			group: "inline",
 			draggable: true,
-			selectable: true,
 			parseDOM: [
 				{
 					tag: "img[src]",

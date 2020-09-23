@@ -1,4 +1,5 @@
 import { getPreferencesProp, updatePreferencesProp } from "./../utils/preferences"
+import { deleteFromArray } from "./../utils/helpers"
 
 const storeApp = {
 	state: () => {
@@ -8,6 +9,7 @@ const storeApp = {
 			commandIsVisible: false,
 			darkMode: true,
 			editorToolbarIsVisible: getPreferencesProp("editorToolbarIsVisible", "editor"),
+			disabledCommands: [],
 			// cloudStorage: new DropboxApi(dropboxAccessToken),
 		}
 	},
@@ -31,6 +33,18 @@ const storeApp = {
 
 		editorToolbarIsVisible: (state) => {
 			return state.editorToolbarIsVisible
+		},
+
+		isCommandDisabled: (state) => (name) => {
+			return state.disabledCommands.find((command) => command.name === name) !== undefined
+		},
+
+		getDisabledCommandsByName: (state) => (name) => {
+			return state.disabledCommands.filter((command) => command.name === name)
+		},
+
+		disabledCommands: (state) => {
+			return state.disabledCommands
 		},
 	},
 
@@ -59,6 +73,14 @@ const storeApp = {
 		toggleEditorToolbar(state) {
 			state.editorToolbarIsVisible = !state.editorToolbarIsVisible
 			updatePreferencesProp("editorToolbarIsVisible", state.editorToolbarIsVisible)
+		},
+
+		disableCommand(state, payload) {
+			state.disabledCommands.push(payload)
+		},
+
+		enableCommand(state, payload) {
+			state.disabledCommands = deleteFromArray(state.disabledCommands, payload, "key")
 		},
 	},
 

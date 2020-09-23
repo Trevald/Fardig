@@ -1,19 +1,25 @@
 import Vue from "vue"
+
 import Vuex from "vuex"
-import App from "./App.vue"
+Vue.use(Vuex)
+
 import VueHotkey from "v-hotkey"
+Vue.use(VueHotkey)
+
 import VueRouter from "vue-router"
+Vue.use(VueRouter)
+
+import Notifications from "vue-notification"
+Vue.use(Notifications)
+
+import App from "./App.vue"
+import { router } from "./router.js"
 
 // CSS
 import "./assets/main.css"
 import "./assets/suggestions.css"
 
-Vue.use(Vuex)
-Vue.use(VueHotkey)
-Vue.use(VueRouter)
 Vue.config.productionTip = false
-
-import { router } from "./router.js"
 
 // Stores
 import storeApp from "./store/store.app"

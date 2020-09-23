@@ -536,6 +536,42 @@ figure:last-of-type:nth-child(odd) {
 	box-shadow: var(--shadow-overlay);
 }
 
+/*
+* Vue-notifications
+*/
+
+.vue-notification-wrapper {
+	overflow: visible !important;
+}
+
+.vue-notification-group {
+	margin-top: calc(4 * var(--unit));
+}
+
+.unity-notification {
+	margin: calc(4 * var(--unit));
+	padding: calc(1 * var(--unit)) calc(2 * var(--unit));
+
+	font-family: var(--font-monospace);
+	font-size: calc(var(--unit) * 1.75);
+	line-height: calc(var(--unit) * 3);
+	color: var(--color-command-foreground);
+
+	background: var(--color-overlay-bg);
+	box-shadow: var(--shadow-overlay);
+	border-radius: 2px;
+}
+
+.unity-notification .notification-title {
+}
+
+.unity-notification .notification-content {
+}
+
+.unity-notification.warning {
+	border-left: solid var(--unit) var(--color-worrying);
+}
+
 /* 
  * Vue Transitions 
  */

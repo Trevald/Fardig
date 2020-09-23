@@ -89,6 +89,10 @@ button:focus:not(:active) {
 	outline: 1px dashed #869dd2;
 }
 
+button:disabled {
+	opacity: 0.4;
+}
+
 /*
  * Primary
  */

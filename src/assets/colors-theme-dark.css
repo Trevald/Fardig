@@ -34,7 +34,7 @@ html {
 
 	--color-background-status: hsl(var(--_color-action));
 	--color-foreground-status: hsl(var(--_color-fg));
-	--shadow-overlay: rgba(0, 0, 0, 0.25) 0 15px 35px;
+	--shadow-overlay: rgba(0, 0, 0, 0.25) 0 7px 15px;
 
 	/* 
     Navigation 
