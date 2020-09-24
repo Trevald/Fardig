@@ -44,7 +44,6 @@
 	import {
 		documentGetName,
 		documentGetTodos,
-		documentGetTodoLists,
 		documentHasTags,
 		documentGetTagsLabels,
 	} from "./../utils/document"
@@ -80,12 +79,9 @@
 
 		mounted() {
 			const todos = documentGetTodos(this.document)
-			const todoLists = documentGetTodoLists(this.document)
 
 			const doc = schema.node("doc", null, todos).toJSON()
-			// const doc = this.schema
 
-			console.log("doc", doc, todoLists)
 			this.editor = new Editor({
 				extensions: [
 					new TodoItem({ todoList: true }),
