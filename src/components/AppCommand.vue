@@ -202,8 +202,9 @@ export default {
       this.$store.dispatch("toggleCommand");
     },
 
-    isDisabled(command) {
-      return this.$store.getters.isCommandDisabled(command.action);
+    isDisabled() {
+      // ToDo: Enable this method and make sure to avoid infinite loop if all available options are disabled
+      return false; // this.$store.getters.isCommandDisabled(command.action);
     },
 
     isOptionActive(list, index) {
