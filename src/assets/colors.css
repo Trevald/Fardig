@@ -33,7 +33,7 @@ html {
 
 	--color-background-status: var(--color-action);
 	--color-foreground-status: var(--color-fg);
-	--shadow-overlay: rgba(0, 0, 0, 0.25) 0 15px 35px;
+	--shadow-overlay: rgba(0, 0, 0, 0.15) 0 7px 15px;
 
 	/* Navigation */
 	--color-tabs-inactive: var(--color-fg-muted);
