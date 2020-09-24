@@ -18,6 +18,8 @@ Markdown GUI that turn notes with actions points into a single ToDo list. Read m
 -   [ ] Revisions
 -   [ ] Front page
 -   [ ] Presentation mode (H1 => Title, H2 => New slide, One bullet at a time etc)
+-   [ ] Create reminders through command palette
+-   [ ] Refactor connection service to prepare for other storage providers
 
 ## Project setup
 

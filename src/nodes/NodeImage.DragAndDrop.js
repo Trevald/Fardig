@@ -1,22 +1,35 @@
-export function dropAndUpload(view, event, uploadFunction) {
+export function dropAndUpload(view, event) {
 	if (!shouldRun(event)) {
 		return
 	}
 	event.preventDefault()
 
 	const { schema } = view.state
+	const reader = new FileReader()
 	const coordinates = view.posAtCoords({ left: event.clientX, top: event.clientY })
 
 	const images = getImages(event)
 
 	images.forEach(async (image) => {
+		reader.onload = async (readerEvent) => {
+			const node = schema.nodes.image.create({
+				base64: readerEvent.target.result,
+				imageData: image,
+			})
+			const transaction = view.state.tr.insert(coordinates.pos, node)
+			view.dispatch(transaction)
+		}
+		reader.readAsDataURL(image)
+
+		/*
 		if (uploadFunction) {
 			const node = schema.nodes.image.create({
 				src: await uploadFunction(image),
 			})
 			const transaction = view.state.tr.insert(coordinates.pos, node)
 			view.dispatch(transaction)
-		}
+        }
+        */
 	})
 }
 
