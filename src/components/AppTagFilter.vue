@@ -59,7 +59,9 @@
 	ul.filter {
 		display: flex;
 		justify-content: flex-start;
+		flex-wrap: wrap;
 		margin: 0 -0.5rem 1rem -0.5rem;
+		min-height: fit-content; /* Needed for Safari to not set 0px height on UL ?!*/
 	}
 
 	ul.filter > li {
