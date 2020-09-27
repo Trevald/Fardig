@@ -56,7 +56,7 @@ import Fuse from "fuse.js";
 import { documentGetTitle } from "./../utils/document";
 import AppIcon from "./AppIcon";
 
-import { commands } from "./../commands/commands";
+import commands from "./../commands/default-commands";
 
 const fuseOptions = {
   includeScore: true,

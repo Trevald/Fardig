@@ -49,7 +49,7 @@ import AppHeader from "./components/AppHeader";
 import AppProgress from "./components/AppProgress";
 import AppStatus from "./components/AppStatus";
 
-import { commands } from "./commands/commands";
+import commands from "./commands/default-commands";
 
 export default {
   name: "App",

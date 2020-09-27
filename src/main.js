@@ -12,6 +12,9 @@ Vue.use(VueRouter)
 import Notifications from "vue-notification"
 Vue.use(Notifications)
 
+import AppCommands from "./app-commands"
+Vue.use(AppCommands)
+
 import App from "./App.vue"
 import { router } from "./router.js"
 
@@ -34,6 +37,11 @@ const store = new Vuex.Store({
 		storeDropbox,
 	},
 })
+
+// Plugins
+import AppPresentation from "./plugins/presentation/index"
+AppPresentation.install(router)
+import "./plugins/presentation/app-presentation-slide.css"
 
 new Vue({
 	router,

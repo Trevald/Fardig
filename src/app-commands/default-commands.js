@@ -1,4 +1,4 @@
-export const commands = [
+export default [
 	{
 		id: "NEW_DOCUMENT",
 		description: "Create new file",

@@ -13,14 +13,16 @@
 </template>
 
 <script>
-import { commands } from "./../commands/commands";
+// import commands from "./../commands/default-commands";
 
 export default {
   name: "AppShortcuts",
 
   computed: {
     shortcuts() {
-      return commands.filter((command) => command.shortcut !== undefined);
+      return this.$genie.commands.filter(
+        (command) => command.shortcut !== undefined
+      );
     },
   },
 
