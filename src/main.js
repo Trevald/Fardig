@@ -12,8 +12,8 @@ Vue.use(VueRouter)
 import Notifications from "vue-notification"
 Vue.use(Notifications)
 
-import AppCommands from "./app-commands"
-Vue.use(AppCommands)
+import Genie from "./plugins/genie"
+Vue.use(Genie)
 
 import App from "./App.vue"
 import { router } from "./router.js"
@@ -29,7 +29,7 @@ import storeApp from "./store/store.app"
 import storeDocuments from "./store/store.documents"
 import storeDropbox from "./store/store.dropbox"
 
-const store = new Vuex.Store({
+export const store = new Vuex.Store({
 	strict: process.env.NODE_ENV !== "production",
 	modules: {
 		storeApp,
@@ -39,9 +39,9 @@ const store = new Vuex.Store({
 })
 
 // Plugins
-import AppPresentation from "./plugins/presentation/index"
+import AppPresentation from "./app-plugins/presentation/index"
 AppPresentation.install(router)
-import "./plugins/presentation/app-presentation-slide.css"
+import "./app-plugins/presentation/app-presentation-slide.css"
 
 new Vue({
 	router,

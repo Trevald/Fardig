@@ -55,12 +55,6 @@ export default {
       loading: false,
       downloading: false,
       uploading: false,
-      keymap: {
-        backspace: (event) => {
-          event.preventDefault();
-          this.deleteNode();
-        },
-      },
     };
   },
 

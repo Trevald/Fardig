@@ -13,8 +13,6 @@
 </template>
 
 <script>
-// import commands from "./../commands/default-commands";
-
 export default {
   name: "AppShortcuts",
 

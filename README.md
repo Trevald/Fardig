@@ -14,12 +14,16 @@ Markdown GUI that turn notes with actions points into a single ToDo list. Read m
 -   [ ] Fix logo for Dropbox connect
 -   [ ] Archive documents
 -   [ ] List all files
--   [ ] Faster loading in startup
+-   [ ] Faster loading on startup, progressive load
 -   [ ] Revisions
 -   [ ] Front page
 -   [ ] Presentation mode (H1 => Title, H2 => New slide, One bullet at a time etc)
 -   [ ] Create reminders through command palette
 -   [ ] Refactor connection service to prepare for other storage providers
+
+## Bugs
+
+-   [ ] File names with slashes creates folders
 
 ## Project setup
 

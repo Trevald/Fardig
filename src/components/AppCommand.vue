@@ -56,8 +56,6 @@ import Fuse from "fuse.js";
 import { documentGetTitle } from "./../utils/document";
 import AppIcon from "./AppIcon";
 
-import commands from "./../commands/default-commands";
-
 const fuseOptions = {
   includeScore: true,
   threshold: 0.3,
@@ -79,13 +77,15 @@ export default {
       fuseActions: new Fuse(this.commands, fuseOptions),
       fuseDocuments: new Fuse(this.documents, fuseOptions),
       query: "",
-      commands: [],
       documentIcon:
         '<path d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"></path>',
     };
   },
 
   computed: {
+    commands() {
+      return this.$genie.commands.filter((command) => command.hidden !== true);
+    },
     documents() {
       return this.$store.getters.allDocuments;
     },
@@ -253,14 +253,6 @@ export default {
   mounted() {
     this.$refs.input.focus();
     this.activeItem = 0;
-  },
-
-  created() {
-    commands.forEach((command) => {
-      if (command.hidden !== true) {
-        this.commands.push(command);
-      }
-    });
   },
 };
 </script>

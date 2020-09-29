@@ -1,8 +1,9 @@
 import Commands from "./Commands"
 import defaultCommands from "./default-commands"
+import { store } from "./../../main"
 
-const AppCommands = {
-	install(Vue, args = {}) {
+const Genie = {
+	install(vue, args = {}) {
 		if (this.intalled) {
 			return
 		}
@@ -19,8 +20,16 @@ const AppCommands = {
 			commands.addCommand(command)
 		})
 
-		Vue.prototype["$" + this.name] = commands
+		// Listen for keyboard events
+		document.addEventListener("keydown", (event) => {
+			const command = commands.keyHandler(event)
+			if (command) {
+				store.dispatch(command.action)
+			}
+		})
+
+		vue.prototype["$" + this.name] = commands
 	},
 }
 
-export default AppCommands
+export default Genie

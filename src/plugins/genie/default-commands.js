@@ -1,5 +1,11 @@
 export default [
 	{
+		id: "TEST",
+		description: "Test",
+		hidden: true,
+		shortcut: "meta+ctrl+y",
+	},
+	{
 		id: "NEW_DOCUMENT",
 		description: "Create new file",
 		icon:

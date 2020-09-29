@@ -16,7 +16,7 @@ const routes = [
 	},
 	{
 		name: "Document",
-		path: "/doc/:documentId",
+		path: "/doc/:documentId?",
 		component: AppDocument,
 	},
 	{

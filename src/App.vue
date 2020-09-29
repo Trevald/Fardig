@@ -8,7 +8,6 @@
     />
     <div
       class="view-col"
-      v-hotkey="keymap"
       v-if="appReady"
     >
       <AppHeader v-if="appReadyAndLoggedIn" />
@@ -49,8 +48,6 @@ import AppHeader from "./components/AppHeader";
 import AppProgress from "./components/AppProgress";
 import AppStatus from "./components/AppStatus";
 
-import commands from "./commands/default-commands";
-
 export default {
   name: "App",
 
@@ -59,12 +56,6 @@ export default {
     AppHeader,
     AppProgress,
     AppStatus,
-  },
-
-  data() {
-    return {
-      keymap: {},
-    };
   },
 
   computed: {
@@ -164,17 +155,6 @@ export default {
     this.login();
 
     window.addEventListener("beforeunload", this.beforeUnload);
-  },
-
-  created() {
-    commands.forEach((command) => {
-      if (command.shortcut) {
-        this.keymap[command.shortcut] = (event) => {
-          event.preventDefault();
-          this.$store.dispatch(command.action);
-        };
-      }
-    });
   },
 };
 </script>
