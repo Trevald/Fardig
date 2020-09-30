@@ -18,7 +18,7 @@
       >
         <div
           class="container"
-          style="display: flex"
+          style="display: flex; min-height: min-content"
         >
           <div class="view">
             <router-view></router-view>
@@ -47,6 +47,9 @@ import AppCommand from "./components/AppCommand";
 import AppHeader from "./components/AppHeader";
 import AppProgress from "./components/AppProgress";
 import AppStatus from "./components/AppStatus";
+
+// App Plugins
+import AppPresentation from "./app-plugins/presentation/index";
 
 export default {
   name: "App",
@@ -155,6 +158,14 @@ export default {
     this.login();
 
     window.addEventListener("beforeunload", this.beforeUnload);
+  },
+
+  created() {
+    // Plugins
+    AppPresentation.install({
+      genie: this.$genie,
+      router: this.$router,
+    });
   },
 };
 </script>
