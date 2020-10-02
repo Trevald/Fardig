@@ -38,11 +38,6 @@ export const store = new Vuex.Store({
 	},
 })
 
-// Plugins
-import AppPresentation from "./app-plugins/presentation/index"
-AppPresentation.install(router)
-import "./app-plugins/presentation/app-presentation-slide.css"
-
 new Vue({
 	router,
 	store,
