@@ -1,8 +1,16 @@
 import keycodes from "./keycodes"
+import { store } from "./../../main"
 
 export default class {
 	constructor() {
 		this._commands = []
+		// Listen for keyboard events
+		document.addEventListener("keydown", (event) => {
+			const command = this.keyHandler(event)
+			if (command) {
+				this.handleCommand(command, { store })
+			}
+		})
 	}
 
 	get commands() {
@@ -14,6 +22,10 @@ export default class {
 			command.keyMap = convertToKeyMap(command.shortcut)
 		}
 		this.commands.push(command)
+	}
+
+	handleCommand(command, params) {
+		command.action(params)
 	}
 
 	keyHandler(event) {

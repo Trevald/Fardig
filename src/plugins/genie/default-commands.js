@@ -11,13 +11,17 @@ export default [
 		icon:
 			'<path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v2H7a1 1 0 100 2h2v2a1 1 0 102 0v-2h2a1 1 0 100-2h-2V8z"></path>',
 		shortcut: "ctrl+n",
-		action: "newDocument",
+		action: ({ store }) => {
+			store.dispatch("newDocument")
+		},
 	},
 	{
 		id: "TOGGLE_COMMAND",
 		description: "Toggle command palette",
 		shortcut: "meta+p",
-		action: "toggleCommand",
+		action: ({ store }) => {
+			store.dispatch("toggleCommand")
+		},
 		hidden: true,
 	},
 	{
@@ -26,7 +30,9 @@ export default [
 		icon:
 			'<path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM6.293 6.707a1 1 0 010-1.414l3-3a1 1 0 011.414 0l3 3a1 1 0 01-1.414 1.414L11 5.414V13a1 1 0 11-2 0V5.414L7.707 6.707a1 1 0 01-1.414 0z" clip-rule="evenodd"></path>',
 		shortcut: "meta+s",
-		action: "saveDocument",
+		action: ({ store }) => {
+			store.dispatch("saveDocument")
+		},
 	},
 	{
 		id: "TOGGE_THEME_MODE",
@@ -42,7 +48,9 @@ export default [
 	{
 		id: "TOGGLE_EDITOR_TOOLBAR",
 		description: "Toggle toolbar",
-		action: "toggleEditorToolbar",
+		action: ({ store }) => {
+			store.dispatch("toggleEditorToolbar")
+		},
 		icon:
 			'<path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"></path>',
 	},
