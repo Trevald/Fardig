@@ -125,6 +125,35 @@ function documentHasNodeType(doc, nodeName) {
 	return result
 }
 
+export function documentHasNotStartedTodos(doc) { 
+    return documentHasNodeTypeWithAttrValue(doc, "todo_item", "status", "not started") 
+}
+
+function documentHasNodeTypeWithAttrValue(doc, nodeName, fieldKey, fieldValue) {
+	if (doc.json === undefined) {
+		return false
+	}
+	const node = Node.fromJSON(schema, doc.json)
+	let result = false
+
+    node.descendants((descendant) => {
+        
+        // Break loop if we already have a hit
+		if (result === true) {
+			return false
+        }
+        
+        // Check for node type
+        if (descendant.type.name === nodeName) {
+            
+            // Check value of attr
+            result = descendant.attrs[fieldKey] === fieldValue
+        }
+	})
+
+	return result
+}
+
 export function documentGetCommitInfo(doc) {
 	const docState = EditorState.create({
 		doc: Node.fromJSON(schema, doc.json),

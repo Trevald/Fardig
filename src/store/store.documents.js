@@ -3,12 +3,13 @@ import Document from "./Document"
 import { router } from "./../router"
 
 import { getPreferencesProp, updatePreferencesProp } from "./../utils/preferences"
-import { documentGetCommitInfo } from "./../utils/document"
 
 import {
+    documentGetCommitInfo,
 	documentGetJsonFromMarkdown,
 	documentGetTagsLabels,
-	documentHasTodos,
+    documentHasTodos,
+    documentHasNotStartedTodos
 } from "./../utils/document"
 
 const storeDocuments = {
@@ -38,9 +39,12 @@ const storeDocuments = {
 		},
 
 		documentsWithTodos: (state) => {
-			const res = state.documents.filter((doc) => documentHasTodos(doc) === true)
-			return res
-		},
+			return state.documents.filter((doc) => documentHasTodos(doc) === true)
+        },
+        
+		documentsWithNotStartedTodos: (state) => {
+			return state.documents.filter((doc) => documentHasNotStartedTodos(doc) === true)
+		},        
 
 		firstDocument: (state) => {
 			return state.documents[0]

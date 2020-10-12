@@ -36,20 +36,22 @@
 
 		computed: {
 			documentsWithTodos() {
-				return this.$store.getters.documentsWithTodos
+				return this.$store.getters.documentsWithNotStartedTodos
 			},
 
 			documentsWithTodosFiltered() {
 				if (!this.filter) {
 					return this.documentsWithTodos
-				}
-
+                }
+                
+                const filter = this.filter.split(",")
 				const docs = this.documentsWithTodos
 				const filteredDocs = docs.filter((doc) => {
-					const docTagsLabels = documentGetTagsLabels(doc)
-					return docTagsLabels.some((tagLabel) => {
-						return this.filter.includes(tagLabel)
-					})
+                    const docTagsLabels = documentGetTagsLabels(doc)
+                    console.log(filter,docTagsLabels)
+                    return filter.every((tagLabel) => {
+                       return  docTagsLabels.includes(tagLabel)
+                    })
 				})
 
 				return filteredDocs
