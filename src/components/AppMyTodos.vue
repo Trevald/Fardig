@@ -48,7 +48,7 @@
 				const docs = this.documentsWithTodos
 				const filteredDocs = docs.filter((doc) => {
                     const docTagsLabels = documentGetTagsLabels(doc)
-                    console.log(filter,docTagsLabels)
+
                     return filter.every((tagLabel) => {
                        return  docTagsLabels.includes(tagLabel)
                     })

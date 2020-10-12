@@ -125,11 +125,11 @@ function documentHasNodeType(doc, nodeName) {
 	return result
 }
 
-export function documentHasNotStartedTodos(doc) { 
-    return documentHasNodeTypeWithAttrValue(doc, "todo_item", "status", "not started") 
+export function documentHasNotDoneTodos(doc) { 
+    return documentHasNodeTypeWithAttrValue(doc, "todo_item", "status", "done", "NOT EQUAL") 
 }
 
-function documentHasNodeTypeWithAttrValue(doc, nodeName, fieldKey, fieldValue) {
+function documentHasNodeTypeWithAttrValue(doc, nodeName, fieldKey, fieldValue, operator = "EQUAL") {
 	if (doc.json === undefined) {
 		return false
 	}
@@ -147,11 +147,16 @@ function documentHasNodeTypeWithAttrValue(doc, nodeName, fieldKey, fieldValue) {
         if (descendant.type.name === nodeName) {
             
             // Check value of attr
-            result = descendant.attrs[fieldKey] === fieldValue
+            result = compareByOperator[operator](descendant.attrs[fieldKey], fieldValue) 
         }
 	})
 
 	return result
+}
+
+const compareByOperator = {
+    "EQUAL": function (a, b) { return a === b },
+    "NOT EQUAL": function (a, b) {  return a !== b } 
 }
 
 export function documentGetCommitInfo(doc) {

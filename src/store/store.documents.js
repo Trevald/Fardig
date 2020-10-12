@@ -9,7 +9,7 @@ import {
 	documentGetJsonFromMarkdown,
 	documentGetTagsLabels,
     documentHasTodos,
-    documentHasNotStartedTodos
+    documentHasNotDoneTodos
 } from "./../utils/document"
 
 const storeDocuments = {
@@ -43,7 +43,7 @@ const storeDocuments = {
         },
         
 		documentsWithNotStartedTodos: (state) => {
-			return state.documents.filter((doc) => documentHasNotStartedTodos(doc) === true)
+			return state.documents.filter((doc) => documentHasNotDoneTodos(doc) === true)
 		},        
 
 		firstDocument: (state) => {
