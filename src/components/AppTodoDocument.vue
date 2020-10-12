@@ -22,7 +22,8 @@
 </template>
 
 <script>
-	import { Editor, EditorContent } from "tiptap"
+    import { Editor, EditorContent } from "tiptap"
+    import { Node } from "prosemirror-model"
 	// import { Schema } from "prosemirror-model"
 	// import { Fragment } from "prosemirror-model"
 	// import { Node } from "prosemirror-model"
@@ -97,12 +98,50 @@
 				content: doc,
 
 				onUpdate: ({ getJSON }) => {
-					const json = getJSON()
-					console.log(json)
+                    const json = getJSON()
+                    const newTodos = documentGetTodos({json})
+
+                    const doc = Node.fromJSON(schema, this.document.json)
+                    console.log(doc.toJSON(), this.document.json)
+
+                    doc.content.descendants((node, pos, parent) => {
+                        
+                        if (node.type.name !== "todo_item") return
+
+                        const id = node.attrs.id
+                        
+                        const newTodo = this.getTodoById(newTodos, id)
+                        if (!newTodo) {
+                            console.error(`No todo_item with id ${id}`)
+                            return
+                        }
+
+                        node.attrs = newTodo.attrs
+                        node.content = newTodo.content
+
+                        console.log(node, newTodo, pos, parent)
+
+                    })
+                    
+                    console.log(doc.toJSON())
+                    
+                    const fileLastChanged = Date.now()
+                    this.$store.commit("updateDocument", {
+                        id: this.documentId,
+                        json: doc.toJSON(),
+                        lastChanged: fileLastChanged,
+                    })
+                    
+                    
 				},
 			})
 		},
 		methods: {
+
+            getTodoById(nodes, id) {
+                return nodes.find(node => node.attrs.id === id)
+            },
+            
 			getDocumentName(doc) {
 				return documentGetName(doc)
 			},
