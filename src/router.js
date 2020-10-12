@@ -36,7 +36,10 @@ const routes = [
 	},
 ]
 
-export const router = new VueRouter({ mode: "history", routes })
+export const router = new VueRouter({
+	mode: process.env.IS_ELECTRON ? "hash" : "history",
+	routes,
+})
 
 router.beforeEach((to, from, next) => {
 	const accessToken = getPreferencesProp("accessToken")

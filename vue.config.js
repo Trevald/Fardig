@@ -1,3 +1,13 @@
 module.exports = {
-    runtimeCompiler: true
-  };
+	runtimeCompiler: true,
+	configureWebpack: {
+		devtool: "source-map",
+	},
+	pluginOptions: {
+		electronBuilder: {
+			builderOptions: {
+				productName: "Fardig",
+			},
+		},
+	},
+}

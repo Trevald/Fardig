@@ -1,13 +1,23 @@
 import { getPreferencesProp, updatePreferencesProp } from "./../utils/preferences"
-
 import Dropbox from "dropbox"
 
-const ACCESS_TOKEN =
-	getPreferencesProp("accessToken") || parseQueryString(window.location.hash).access_token
+let ACCESS_TOKEN = getAccessToken()
 const CLIENT_ID = "e3rslpuechz78qp"
 const API = new Dropbox.Dropbox({ accessToken: ACCESS_TOKEN, fetch: fetch })
 
 updatePreferencesProp("accessToken", ACCESS_TOKEN)
+
+function getAccessToken() {
+    if (process.env.IS_ELECTRON) {
+        return (
+			getPreferencesProp("accessToken") || parseQueryString(window.location.hash).access_token
+		)
+    } else {
+        return (
+			getPreferencesProp("accessToken") || parseQueryString(window.location.hash).access_token
+		)
+    }
+}
 
 const storeDropbox = {
 	state: () => {
