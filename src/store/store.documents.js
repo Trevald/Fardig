@@ -173,13 +173,18 @@ const storeDocuments = {
 				isUploading: true,
 				lastUpdated: doc.lastChanged,
 			})
-
-			const newDoc = await dispatch("storeContents", filesCommitInfo)
+            
+            console.log(`UPLOAD START: ${doc.id}`)
+            
+            const newDoc = await dispatch("storeContents", filesCommitInfo)
 			commit("updateDocument", {
 				id: doc.id,
 				rev: newDoc.rev,
 				isUploading: false,
-			})
+            })
+
+            console.log(`UPLOAD DONE: ${doc.id}`)
+
 			if (newDoc.id !== doc.id) {
 				commit("updateDocumentId", { id: doc.id, newId: newDoc.id })
 				router.replace({
@@ -189,7 +194,22 @@ const storeDocuments = {
 			}
 		},
 
-		uploadDocuments() {},
+        uploadDocuments() { },
+        
+        saveAll({ dispatch, getters }) {
+			if (getters.isCommandDisabled("saveDocument")) {
+				Vue.notify({
+					group: "main",
+					type: "warning",
+					text: "Can't save while image is uploading",
+				})
+				return
+            }
+
+            getters.unsavedDocuments.forEach(doc => {
+                dispatch("uploadDocument", doc.id)
+            })
+        },
 
 		saveDocument({ dispatch, getters }) {
 			if (getters.isCommandDisabled("saveDocument")) {

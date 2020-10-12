@@ -171,8 +171,9 @@ export default {
       let metaKey = isMacLike ? "⌘" : "⊞ Win";
 
       return option.shortcut
-        .replace("+", " + ")
+        .replaceAll("+", " + ")
         .replace("ctrl", "^")
+        .replace("shift", "⇧")
         .replace("meta", metaKey);
     },
 

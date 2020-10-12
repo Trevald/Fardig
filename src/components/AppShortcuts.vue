@@ -36,6 +36,7 @@ export default {
       return option.shortcut
         .replace("+", " + ")
         .replace("ctrl", "^")
+        .replace("shift", "⇧")
         .replace("meta", metaKey);
     },
   },

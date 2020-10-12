@@ -30,17 +30,6 @@ export default {
     AppShortcuts,
   },
 
-  props: {
-    hasUnsavedChanges: {
-      type: Boolean,
-      default: false,
-    },
-    isSaving: {
-      type: Boolean,
-      default: false,
-    },
-  },
-
   data() {
     return {
       shortcutsAreVisisble: false,
@@ -48,6 +37,14 @@ export default {
   },
 
   computed: {
+    hasUnsavedChanges() {
+      return this.$store.getters.hasUnsavedDocuments;
+    },
+
+    isSaving() {
+      return this.$store.getters.documentsAreUploading;
+    },
+
     saveState() {
       if (this.isSaving === true) {
         return "Saving ...";
@@ -62,10 +59,24 @@ export default {
     },
   },
 
-  methods: {
-    toggleShortcuts() {
+    methods: {
+        toggleShortcuts() {
       this.shortcutsAreVisisble = !this.shortcutsAreVisisble;
     },
+
+    beforeUnload(event) {
+      if (this.hasUnsavedChanges || this.isUploading) {
+        // Cancel the event as stated by the standard.
+        event.preventDefault();
+
+        // Chrome requires returnValue to be set.
+        event.returnValue = "";
+      }
+    },
+  },
+
+  mounted() {
+    window.addEventListener("beforeunload", this.beforeUnload);
   },
 };
 </script>
