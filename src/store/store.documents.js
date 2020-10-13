@@ -1,232 +1,244 @@
-import Vue from "vue"
-import Document from "./Document"
-import { router } from "./../router"
+import Vue from "vue";
+import Document from "./Document";
+import { router } from "./../router";
 
-import { getPreferencesProp, updatePreferencesProp } from "./../utils/preferences"
+import {
+    getPreferencesProp,
+    updatePreferencesProp,
+} from "./../utils/preferences";
 
 import {
     documentGetCommitInfo,
-	documentGetJsonFromMarkdown,
-	documentGetTagsLabels,
+    documentGetJsonFromMarkdown,
+    documentGetTagsLabels,
     documentHasTodos,
-    documentHasNotDoneTodos
-} from "./../utils/document"
+    documentHasNotDoneTodos,
+} from "./../utils/document";
 
 const storeDocuments = {
-	state: () => {
-		return {
-			documents: [],
-			activeDocumentId: getPreferencesProp("activeDocumentId"),
-			openDocumentsIds: getPreferencesProp("openDocumentIds", []),
-		}
-	},
+    state: () => {
+        return {
+            documents: [],
+            activeDocumentId: getPreferencesProp("activeDocumentId"),
+            openDocumentsIds: getPreferencesProp("openDocumentIds", []),
+        };
+    },
 
-	getters: {
-		activeDocument: (state) => {
-			return state.documents.find((document) => document.id === state.activeDocumentId)
-		},
-
-		activeDocumentId: (state) => {
-			return state.activeDocumentId
-		},
-
-		allDocuments: (state) => {
-			return state.documents
-		},
-
-		documentsLoaded: (state) => {
-			return state.documents.filter((doc) => doc.isLoaded === true)
-		},
-
-		documentsWithTodos: (state) => {
-			return state.documents.filter((doc) => documentHasTodos(doc) === true)
+    getters: {
+        activeDocument: (state) => {
+            return state.documents.find(
+                (document) => document.id === state.activeDocumentId
+            );
         },
-        
-		documentsWithNotStartedTodos: (state) => {
-			return state.documents.filter((doc) => documentHasNotDoneTodos(doc) === true)
-		},        
 
-		firstDocument: (state) => {
-			return state.documents[0]
-		},
+        activeDocumentId: (state) => {
+            return state.activeDocumentId;
+        },
 
-		getDocumentById: (state) => (id) => {
-			return state.documents.find((document) => document.id === id)
-		},
+        allDocuments: (state) => {
+            return state.documents;
+        },
 
-		openDocuments: (state, getters) => {
-			// Make sure we sort by index of openDocumentIds
-			return state.openDocumentsIds
-				.map((id) => {
-					return getters.getDocumentById(id)
-				})
-				.filter((document) => {
-					return document !== undefined
-				})
-		},
+        documentsLoaded: (state) => {
+            return state.documents.filter((doc) => doc.isLoaded === true);
+        },
 
-		tags: (state) => {
-			let tags = []
-			state.documents.forEach((doc) => {
-				tags = tags.concat(documentGetTagsLabels(doc))
-			})
+        documentsWithTodos: (state) => {
+            return state.documents.filter(
+                (doc) => documentHasTodos(doc) === true
+            );
+        },
 
-			return [...new Set(tags)]
-		},
+        documentsWithNotStartedTodos: (state) => {
+            return state.documents.filter(
+                (doc) => documentHasNotDoneTodos(doc) === true
+            );
+        },
 
-		unsavedDocuments: (state) => {
-			return state.documents.filter((doc) => {
-				return doc.lastUpdated < doc.lastChanged
-			})
-		},
+        firstDocument: (state) => {
+            return state.documents[0];
+        },
 
-		hasUnsavedDocuments: (state, getters) => {
-			return getters.unsavedDocuments.length > 0
-		},
+        getDocumentById: (state) => (id) => {
+            return state.documents.find((document) => document.id === id);
+        },
 
-		uploadingDocuments: (state) => {
-			return state.documents.filter((doc) => {
-				return doc.isUploading === true
-			})
-		},
+        openDocuments: (state, getters) => {
+            // Make sure we sort by index of openDocumentIds
+            return state.openDocumentsIds
+                .map((id) => {
+                    return getters.getDocumentById(id);
+                })
+                .filter((document) => {
+                    return document !== undefined;
+                });
+        },
 
-		documentsAreUploading: (state, getters) => {
-			return getters.uploadingDocuments.length > 0
-		},
-	},
+        tags: (state) => {
+            let tags = [];
+            state.documents.forEach((doc) => {
+                tags = tags.concat(documentGetTagsLabels(doc));
+            });
 
-	mutations: {
-		addDocument(state, payload) {
-			const document = new Document(payload)
-			state.documents.push(document)
-		},
+            return [...new Set(tags)];
+        },
 
-		setActiveDocument(state, payload) {
-			this.commit("openDocument", payload)
-			state.activeDocumentId = payload.id
+        unsavedDocuments: (state) => {
+            return state.documents.filter((doc) => {
+                return doc.lastUpdated < doc.lastChanged;
+            });
+        },
 
-			updatePreferencesProp("activeDocumentId", payload.id)
-		},
+        hasUnsavedDocuments: (state, getters) => {
+            return getters.unsavedDocuments.length > 0;
+        },
 
-		openDocument(state, payload) {
-			const id = payload.id
-			if (!state.openDocumentsIds.includes(id)) {
-				state.openDocumentsIds.unshift(payload.id)
-				if (state.openDocumentsIds.length > 3) {
-					state.openDocumentsIds.length = 3 // .splice(0, state.openDocumentsIds.length - 3)
-				}
+        uploadingDocuments: (state) => {
+            return state.documents.filter((doc) => {
+                return doc.isUploading === true;
+            });
+        },
 
-				updatePreferencesProp("openDocumentIds", state.openDocumentsIds)
-			}
-		},
+        documentsAreUploading: (state, getters) => {
+            return getters.uploadingDocuments.length > 0;
+        },
+    },
 
-		updateDocument(state, payload) {
-			const document = this.getters.getDocumentById(payload.id)
-			for (let prop in payload) {
-				if (Object.prototype.hasOwnProperty.call(payload, prop)) {
-					Vue.set(document, prop, payload[prop])
-				}
-			}
-		},
+    mutations: {
+        addDocument(state, payload) {
+            const document = new Document(payload);
+            state.documents.push(document);
+        },
 
-		updateDocumentId(state, payload) {
-			const document = this.getters.getDocumentById(payload.id)
-			document.id = payload.newId
-		},
-	},
+        setActiveDocument(state, payload) {
+            this.commit("openDocument", payload);
+            state.activeDocumentId = payload.id;
 
-	actions: {
-		async fetchDocuments({ dispatch, commit }) {
-			const files = await dispatch("getEntries")
-			files.forEach((file) => {
-				commit("addDocument", file)
-				dispatch("fetchDocument", file)
-			})
-		},
+            updatePreferencesProp("activeDocumentId", payload.id);
+        },
 
-		async fetchDocument({ commit, dispatch }, file) {
-			const fileContent = await dispatch("getContents", file.path_lower)
+        openDocument(state, payload) {
+            const id = payload.id;
+            if (!state.openDocumentsIds.includes(id)) {
+                state.openDocumentsIds.unshift(payload.id);
+                if (state.openDocumentsIds.length > 3) {
+                    state.openDocumentsIds.length = 3; // .splice(0, state.openDocumentsIds.length - 3)
+                }
 
-			file.json = documentGetJsonFromMarkdown(fileContent)
-			commit("updateDocument", { id: file.id, json: file.json })
-		},
+                updatePreferencesProp(
+                    "openDocumentIds",
+                    state.openDocumentsIds
+                );
+            }
+        },
 
-		newDocument({ commit }) {
-			const newDocument = {
-				id: `temp-${Date.now()}`,
-				json: documentGetJsonFromMarkdown("# My new file\n"),
-			}
-			commit("addDocument", newDocument)
-			commit("setActiveDocument", newDocument)
-			router.push({
-				name: "Document",
-				params: { documentId: newDocument.id },
-			})
-		},
+        updateDocument(state, payload) {
+            const document = this.getters.getDocumentById(payload.id);
+            for (let prop in payload) {
+                if (Object.prototype.hasOwnProperty.call(payload, prop)) {
+                    Vue.set(document, prop, payload[prop]);
+                }
+            }
+        },
 
-		async uploadDocument({ commit, dispatch, getters }, documentId) {
-			const doc = getters.getDocumentById(documentId)
-			const filesCommitInfo = documentGetCommitInfo(doc)
+        updateDocumentId(state, payload) {
+            const document = this.getters.getDocumentById(payload.id);
+            document.id = payload.newId;
+        },
+    },
 
-			commit("updateDocument", {
-				id: doc.id,
-				isUploading: true,
-				lastUpdated: doc.lastChanged,
-			})
-            
-            console.log(`UPLOAD START: ${doc.id}`)
-            
-            const newDoc = await dispatch("storeContents", filesCommitInfo)
-			commit("updateDocument", {
-				id: doc.id,
-				rev: newDoc.rev,
-				isUploading: false,
-            })
+    actions: {
+        async fetchDocuments({ dispatch, commit }) {
+            const files = await dispatch("getEntries");
+            files.forEach((file) => {
+                commit("addDocument", file);
+                dispatch("fetchDocument", file);
+            });
+        },
 
-            console.log(`UPLOAD DONE: ${doc.id}`)
+        async fetchDocument({ commit, dispatch }, file) {
+            const fileContent = await dispatch("getContents", file.path_lower);
 
-			if (newDoc.id !== doc.id) {
-				commit("updateDocumentId", { id: doc.id, newId: newDoc.id })
-				router.replace({
-					name: "Document",
-					params: { documentId: newDoc.id },
-				})
-			}
-		},
+            file.json = documentGetJsonFromMarkdown(fileContent);
+            commit("updateDocument", { id: file.id, json: file.json });
+        },
 
-        uploadDocuments() { },
-        
+        newDocument({ commit }) {
+            const newDocument = {
+                id: `temp-${Date.now()}`,
+                json: documentGetJsonFromMarkdown("# My new file\n"),
+            };
+            commit("addDocument", newDocument);
+            commit("setActiveDocument", newDocument);
+            router.push({
+                name: "Document",
+                params: { documentId: newDocument.id },
+            });
+        },
+
+        async uploadDocument({ commit, dispatch, getters }, documentId) {
+            const doc = getters.getDocumentById(documentId);
+            const filesCommitInfo = documentGetCommitInfo(doc);
+
+            commit("updateDocument", {
+                id: doc.id,
+                isUploading: true,
+                lastUpdated: doc.lastChanged,
+            });
+
+            console.log(`UPLOAD START: ${doc.id}`);
+
+            const newDoc = await dispatch("storeContents", filesCommitInfo);
+            commit("updateDocument", {
+                id: doc.id,
+                rev: newDoc.rev,
+                isUploading: false,
+            });
+
+            console.log(`UPLOAD DONE: ${doc.id}`);
+
+            if (newDoc.id !== doc.id) {
+                commit("updateDocumentId", { id: doc.id, newId: newDoc.id });
+                router.replace({
+                    name: "Document",
+                    params: { documentId: newDoc.id },
+                });
+            }
+        },
+
+        uploadDocuments() {},
+
         saveAll({ dispatch, getters }) {
-			if (getters.isCommandDisabled("saveDocument")) {
-				Vue.notify({
-					group: "main",
-					type: "warning",
-					text: "Can't save while image is uploading",
-				})
-				return
+            if (getters.isCommandDisabled("saveDocument")) {
+                Vue.notify({
+                    group: "main",
+                    type: "warning",
+                    text: "Can't save while image is uploading",
+                });
+                return;
             }
 
-            getters.unsavedDocuments.forEach(doc => {
-                dispatch("uploadDocument", doc.id)
-            })
+            getters.unsavedDocuments.forEach((doc) => {
+                dispatch("uploadDocument", doc.id);
+            });
         },
 
-		saveDocument({ dispatch, getters }) {
-			if (getters.isCommandDisabled("saveDocument")) {
-				Vue.notify({
-					group: "main",
-					type: "warning",
-					text: "Can't save while image is uploading",
-				})
-				return
-			}
-			const documentId = router.currentRoute.params.documentId
-			const document = getters.getDocumentById(documentId)
-			if (document !== undefined) {
-				dispatch("uploadDocument", documentId)
-			}
-		},
-	},
-}
+        saveDocument({ dispatch, getters }) {
+            if (getters.isCommandDisabled("saveDocument")) {
+                Vue.notify({
+                    group: "main",
+                    type: "warning",
+                    text: "Can't save while image is uploading",
+                });
+                return;
+            }
+            const documentId = router.currentRoute.params.documentId;
+            const document = getters.getDocumentById(documentId);
+            if (document !== undefined) {
+                dispatch("uploadDocument", documentId);
+            }
+        },
+    },
+};
 
-export default storeDocuments
+export default storeDocuments;
