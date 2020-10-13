@@ -1,5 +1,4 @@
 class TodoParser {
-
     parseText(text) {
         const tags = this.extractTagsFromString(text);
         const dateTime = this.extractDateTimeFromString(text);
@@ -8,29 +7,31 @@ class TodoParser {
         return {
             content,
             tags,
-            dateTime
-        }
+            dateTime,
+        };
     }
 
     extractTagsFromString(text) {
-        let re = /#\S*/gi
-        return  text.match(re);
+        let re = /#\S*/gi;
+        return text.match(re);
     }
 
     extractDateTimeFromString(text) {
-        let re = /@(tomorrow|today|[0-9\-\/]{8,19}),?\s?([0-9\:?]{4,5})|@(tomorrow|today|[0-9\-\/]{8,10})/; // Examples: @2020-04-24, 13:37 | @tomorrow 1337
+        let re = /@(tomorrow|today|[0-9\-/]{8,19}),?\s?([0-9:?]{4,5})|@(tomorrow|today|[0-9-/]{8,10})/; // Examples: @2020-04-24, 13:37 | @tomorrow 1337
         const match = text.match(re);
 
         if (match) {
             const dateString = match[0].toUpperCase().replace("@", "");
-            const time = match[1] !== undefined ? 
-                {
-                    hours: match[1].slice(0,2),
-                    minutes: match[1].slice(-2)
-                } : null;
+            const time =
+                match[1] !== undefined
+                    ? {
+                          hours: match[1].slice(0, 2),
+                          minutes: match[1].slice(-2),
+                      }
+                    : null;
             let date;
 
-            switch(dateString) {
+            switch (dateString) {
                 case "TODAY":
                     date = new Date();
                     break;
@@ -58,11 +59,10 @@ class TodoParser {
 
     extractContentFromText(text) {
         let tagRe = /#\S*/gi;
-        let dateRe = /@(tomorrow|today|[0-9\-\/]{8,19}),?\s?([0-9\:?]{4,5})|@(tomorrow|today|[0-9\-\/]{8,10})/;
+        let dateRe = /@(tomorrow|today|[0-9\-/]{8,19}),?\s?([0-9:?]{4,5})|@(tomorrow|today|[0-9\-/]{8,10})/;
 
         return text.replace(tagRe, "").replace(dateRe, "");
-    } 
-
+    }
 }
 
 exports.TodoParser = TodoParser;

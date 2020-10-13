@@ -1,78 +1,78 @@
 {
-    "name": "fardig",
-    "version": "0.1.3",
-    "private": true,
-    "description": "Get Fardig!",
-    "author": "@trevald",
-    "scripts": {
-        "serve": "vue-cli-service serve",
-        "build": "vue-cli-service build",
-        "lint": "vue-cli-service lint",
-        "electron:build": "vue-cli-service electron:build",
-        "electron:serve": "vue-cli-service electron:serve",
-        "postinstall": "electron-builder install-app-deps",
-        "postuninstall": "electron-builder install-app-deps",
-        "electron:generate-icons": "electron-icon-builder --input=./public/icon.png --output=build --flatten"
+  "name": "fardig",
+  "version": "0.1.3",
+  "private": true,
+  "description": "Get Fardig!",
+  "author": "@trevald",
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint",
+    "electron:build": "vue-cli-service electron:build",
+    "electron:generate-icons": "electron-icon-builder --input=./public/icon.png --output=build --flatten",
+    "electron:serve": "vue-cli-service electron:serve",
+    "postinstall": "electron-builder install-app-deps",
+    "postuninstall": "electron-builder install-app-deps"
+  },
+  "main": "background.js",
+  "dependencies": {
+    "core-js": "^3.6.4",
+    "dropbox": "^7.1.0",
+    "electron-json-storage": "^4.2.0",
+    "fuse.js": "^6.4.1",
+    "jwt-decode": "^3.0.0",
+    "keytar": "^7.0.0",
+    "markdown-it-task-lists": "^2.1.1",
+    "marked": "^1.2.0",
+    "prosemirror-markdown": "^1.5.0",
+    "prosemirror-utils": "^0.9.6",
+    "tippy.js": "^6.2.7",
+    "tiptap": "^1.30.0",
+    "tiptap-extensions": "^1.33.1",
+    "turndown": "^7.0.0",
+    "v-hotkey": "^0.8.0",
+    "vue": "^2.6.12",
+    "vue-notification": "^1.3.20",
+    "vue-router": "^3.4.6",
+    "vuex": "^3.5.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.5.7",
+    "@vue/cli-plugin-eslint": "~4.5.7",
+    "@vue/cli-service": "~4.5.7",
+    "babel-eslint": "^10.1.0",
+    "electron": "^10.1.0",
+    "electron-devtools-installer": "^3.1.0",
+    "electron-icon-builder": "^1.0.2",
+    "eslint": "^7.11.0",
+    "eslint-plugin-vue": "^7.0.1",
+    "vue-cli-plugin-electron-builder": "~2.0.0-rc.4",
+    "vue-template-compiler": "^2.6.12"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
     },
-    "main": "background.js",
-    "dependencies": {
-        "core-js": "^3.6.4",
-        "dropbox": "^7.1.0",
-        "electron-json-storage": "^4.2.0",
-        "fuse.js": "^6.4.1",
-        "jwt-decode": "^3.0.0",
-        "keytar": "^7.0.0",
-        "markdown-it-task-lists": "^2.1.1",
-        "marked": "^1.2.0",
-        "prosemirror-markdown": "^1.5.0",
-        "prosemirror-utils": "^0.9.6",
-        "tippy.js": "^6.2.7",
-        "tiptap": "^1.30.0",
-        "tiptap-extensions": "^1.33.1",
-        "turndown": "^7.0.0",
-        "v-hotkey": "^0.8.0",
-        "vue": "^2.6.12",
-        "vue-notification": "^1.3.20",
-        "vue-router": "^3.4.6",
-        "vuex": "^3.5.1"
-    },
-    "devDependencies": {
-        "@vue/cli-plugin-babel": "^4.5.7",
-        "@vue/cli-plugin-eslint": "~4.5.7",
-        "@vue/cli-service": "~4.5.7",
-        "babel-eslint": "^10.1.0",
-        "electron": "^10.1.0",
-        "electron-devtools-installer": "^3.1.0",
-        "electron-icon-builder": "^1.0.2",
-        "eslint": "^7.11.0",
-        "eslint-plugin-vue": "^7.0.1",
-        "vue-cli-plugin-electron-builder": "~2.0.0-rc.4",
-        "vue-template-compiler": "^2.6.12"
-    },
-    "eslintConfig": {
-        "root": true,
-        "env": {
-            "node": true
-        },
-        "extends": [
-            "plugin:vue/essential",
-            "eslint:recommended"
-        ],
-        "parserOptions": {
-            "parser": "babel-eslint"
-        },
-        "rules": {}
-    },
-    "browserslist": [
-        "> 1%",
-        "last 2 versions",
-        "not dead"
+    "extends": [
+      "plugin:vue/essential",
+      "eslint:recommended"
     ],
-    "bin": {
-        "fardig": "./bin/cli.js"
+    "parserOptions": {
+      "parser": "babel-eslint"
     },
-    "license": "ISC",
-    "resolutions": {
-        "prosemirror-model": "1.11.2"
-    }
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "bin": {
+    "fardig": "./bin/cli.js"
+  },
+  "license": "ISC",
+  "resolutions": {
+    "prosemirror-model": "1.11.2"
+  }
 }
