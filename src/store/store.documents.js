@@ -36,7 +36,9 @@ const storeDocuments = {
         },
 
         allDocuments: (state) => {
-            return state.documents;
+            return state.documents.sort((a, b) => {
+                return b.lastChanged - a.lastChanged;
+            });
         },
 
         documentsLoaded: (state) => {
@@ -163,10 +165,13 @@ const storeDocuments = {
         },
 
         async fetchDocument({ commit, dispatch }, file) {
-            const fileContent = await dispatch("getContents", file.path_lower);
+            const fileContent = await dispatch("getContents", file.id);
 
             file.json = documentGetJsonFromMarkdown(fileContent);
-            commit("updateDocument", { id: file.id, json: file.json });
+            commit("updateDocument", {
+                id: file.id,
+                json: file.json,
+            });
         },
 
         newDocument({ commit }) {
