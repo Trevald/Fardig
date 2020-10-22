@@ -36,9 +36,7 @@ const storeDocuments = {
         },
 
         allDocuments: (state) => {
-            return state.documents.sort((a, b) => {
-                return b.lastChanged - a.lastChanged;
-            });
+            return state.documents;
         },
 
         documentsLoaded: (state) => {
@@ -141,27 +139,29 @@ const storeDocuments = {
                     Vue.set(document, prop, payload[prop]);
                 }
             }
+            this.commit("sortDocumentsByLastChanged");
         },
 
         updateDocumentId(state, payload) {
             const document = this.getters.getDocumentById(payload.id);
             document.id = payload.newId;
         },
+
+        sortDocumentsByLastChanged(state) {
+            state.documents.sort((a, b) => {
+                return b.lastChanged - a.lastChanged;
+            });
+        },
     },
 
     actions: {
-        /*
-        async getFilesMeta({ dispatch, commit}) { 
-            const files = await dispatch("getEntries");
-        },
-        */
-
         async fetchDocuments({ dispatch, commit, getters }) {
             const files = await dispatch("getEntries");
             files.forEach((file) => {
                 commit("addDocument", file);
             });
 
+            commit("sortDocumentsByLastChanged");
             getters.allDocuments.forEach((doc) => {
                 dispatch("fetchDocument", doc);
             });
@@ -170,10 +170,10 @@ const storeDocuments = {
         async fetchDocument({ commit, dispatch }, file) {
             const fileContent = await dispatch("getContents", file.id);
 
-            file.json = documentGetJsonFromMarkdown(fileContent);
+            const json = documentGetJsonFromMarkdown(fileContent);
             commit("updateDocument", {
                 id: file.id,
-                json: file.json,
+                json: json,
             });
         },
 

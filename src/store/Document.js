@@ -1,4 +1,7 @@
-import { documentGetFirstLine } from "./../utils/document";
+import {
+    documentGetFirstLine,
+    documentGetTagsLabels,
+} from "./../utils/document";
 
 export default class Document {
     constructor(data) {
@@ -41,5 +44,11 @@ export default class Document {
                 : firstTextLine;
 
         return `${firstTextLine}.txt`;
+    }
+
+    get tags() {
+        return documentGetTagsLabels(this).map((tag) => {
+            return `#${tag}`;
+        });
     }
 }

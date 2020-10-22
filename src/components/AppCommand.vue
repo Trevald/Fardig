@@ -34,7 +34,7 @@
             {{ resultsHeading }}
         </h4>
         <ul class="app-command-results no-style">
-            <li v-for="(option, index) in filteredDocumentsSliced" :key="index">
+            <li v-for="(option, index) in filteredDocuments" :key="index">
                 <button
                     type="button"
                     @mouseover="setActiveOptionToIndex('documents', index)"
@@ -60,7 +60,7 @@ import AppIcon from "./AppIcon";
 const fuseOptions = {
     includeScore: true,
     threshold: 0.3,
-    keys: ["name", "description"],
+    keys: ["name", "description", "tags", "text"],
 };
 
 export default {
@@ -108,20 +108,16 @@ export default {
 
         filteredDocuments() {
             if (this.query === "") {
-                return this.documents;
+                return this.documents.slice(0, 5);
             }
             this.fuseDocuments.setCollection(this.documents);
 
-            return this.fuseDocuments.search(this.query);
-        },
-
-        filteredDocumentsSliced() {
-            return this.filteredDocuments.slice(0, 5);
+            return this.fuseDocuments.search(this.query).slice(0, 10);
         },
 
         resultsHeading() {
             const numberOfDocumentsFound = this.filteredDocuments.length;
-            const numberOfDocumentsShown = this.filteredDocumentsSliced.length;
+            const numberOfDocumentsShown = this.filteredDocuments.length;
 
             return `${numberOfDocumentsShown} of ${numberOfDocumentsFound} documents`;
         },
@@ -184,7 +180,7 @@ export default {
             const result =
                 this.activeList === "commands"
                     ? this.filteredCommands
-                    : this.filteredDocumentsSliced;
+                    : this.filteredDocuments;
             const option = result[this.activeItem].item
                 ? result[this.activeItem].item
                 : result[this.activeItem];
@@ -227,7 +223,7 @@ export default {
                 if (activeItem < 0) {
                     activeItem = 0;
                 } else if (activeItem >= this.filteredCommands.length) {
-                    if (this.filteredDocumentsSliced.length > 0) {
+                    if (this.filteredDocuments.length > 0) {
                         activeItem = 0;
                         this.activeList = "documents";
                     } else {
@@ -238,8 +234,8 @@ export default {
                 if (activeItem < 0) {
                     this.activeList = "commands";
                     activeItem = this.filteredCommands.length - 1;
-                } else if (activeItem >= this.filteredDocumentsSliced.length) {
-                    activeItem = this.filteredDocumentsSliced.length - 1;
+                } else if (activeItem >= this.filteredDocuments.length) {
+                    activeItem = this.filteredDocuments.length - 1;
                 }
             }
 
