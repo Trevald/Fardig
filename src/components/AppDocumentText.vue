@@ -1,38 +1,38 @@
 <template>
-	<AppEditor :json="json" @change="contentChanged" />
+    <AppEditor :json="json" @change="contentChanged" />
 </template>
 
 <script>
-	import AppEditor from "./AppEditor.vue"
+import AppEditor from "./AppEditor.vue";
 
-	export default {
-		name: "AppDocument",
+export default {
+    name: "AppDocument",
 
-		components: {
-			AppEditor,
-		},
+    components: {
+        AppEditor,
+    },
 
-		props: {
-			file: Object,
-		},
+    props: {
+        file: Object,
+    },
 
-		computed: {
-			json() {
-				return this.file.json
-			},
-		},
+    computed: {
+        json() {
+            return this.file.json;
+        },
+    },
 
-		methods: {
-			contentChanged(data) {
-				const json = data.json
+    methods: {
+        contentChanged(data) {
+            const json = data.json;
 
-				const fileLastChanged = Date.now()
-				this.$store.commit("updateDocument", {
-					id: this.file.id,
-					json: json,
-					lastChanged: fileLastChanged,
-				})
-			},
-		},
-	}
+            const fileLastChanged = Date.now();
+            this.$store.commit("updateDocument", {
+                id: this.file.id,
+                json: json,
+                lastChanged: fileLastChanged,
+            });
+        },
+    },
+};
 </script>

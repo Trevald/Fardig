@@ -148,6 +148,12 @@ const storeDocuments = {
     },
 
     actions: {
+        /*
+        async getFilesMeta({ dispatch, commit}) { 
+            const files = await dispatch("getEntries");
+        },
+        */
+
         async fetchDocuments({ dispatch, commit }) {
             const files = await dispatch("getEntries");
             files.forEach((file) => {
@@ -188,7 +194,8 @@ const storeDocuments = {
 
             console.log(`UPLOAD START: ${doc.id}`);
 
-            const newDoc = await dispatch("storeContents", filesCommitInfo);
+            const response = await dispatch("storeContents", filesCommitInfo);
+            const newDoc = response.result;
             commit("updateDocument", {
                 id: doc.id,
                 rev: newDoc.rev,
@@ -198,11 +205,15 @@ const storeDocuments = {
             console.log(`UPLOAD DONE: ${doc.id}`);
 
             if (newDoc.id !== doc.id) {
+                const oldId = doc.id;
                 commit("updateDocumentId", { id: doc.id, newId: newDoc.id });
-                router.replace({
-                    name: "Document",
-                    params: { documentId: newDoc.id },
-                });
+                const currentRouteParams = router.currentRoute.params;
+                if (currentRouteParams.documentId === oldId) {
+                    router.replace({
+                        name: "Document",
+                        params: { documentId: newDoc.id },
+                    });
+                }
             }
         },
 
