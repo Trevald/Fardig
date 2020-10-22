@@ -1,26 +1,66 @@
 progress {
-	appearance: none;
+    appearance: none;
 
-	margin: var(-unit);
-	padding: 0;
-	height: var(--unit);
-	background: transparent;
-	border-radius: calc(var(--unit) / 2);
-	overflow: hidden;
-	border: 1px solid var(--color-disabled);
+    margin: var(--unit);
+    padding: 0;
+    height: var(--unit);
+    background: transparent;
+    border-radius: calc(var(--unit) / 2);
+    overflow: hidden;
+    border: 1px solid var(--color-disabled);
 }
 
 progress::-webkit-progress-inner-element {
 }
 
 progress::-webkit-progress-bar {
-	background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.1);
 }
 
 progress::-webkit-progress-value {
-	background: var(--color-muted);
-	transition: all 0.3s ease;
+    background: var(--color-muted);
+    transition: all 0.3s ease;
 }
 
 progress:indeterminate {
+}
+
+progress.spinner {
+    position: relative;
+    width: calc(var(--unit) * 2);
+    height: calc(var(--unit) * 2);
+
+    margin: 0;
+    padding: 0;
+
+    border-radius: 100%;
+
+    border: 2px solid hsla(var(--_color-fg), 0.1);
+    border-left: 2px solid hsla(var(--_color-fg), 0.3);
+
+    animation: progress-circle-spin 1s infinite linear;
+    flex: 0 0 auto;
+}
+
+progress.spinner::-webkit-progress-bar {
+    background: transparent;
+    /* border: clamp(2px, 25%, var(--unit)) solid rgba(0, 0, 0, 0.1); */
+}
+
+progress.spinner::-webkit-progress-value {
+    background: transparent;
+    /*border: clamp(2px, 25%, var(--unit)) solid var(--color-muted);*/
+}
+
+progress.spinner:indeterminate::-webkit-progress-value {
+    animation: progress-circle-spin 1s infinite linear;
+}
+
+@keyframes progress-circle-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }

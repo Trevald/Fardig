@@ -156,11 +156,14 @@ const storeDocuments = {
         },
         */
 
-        async fetchDocuments({ dispatch, commit }) {
+        async fetchDocuments({ dispatch, commit, getters }) {
             const files = await dispatch("getEntries");
             files.forEach((file) => {
                 commit("addDocument", file);
-                dispatch("fetchDocument", file);
+            });
+
+            getters.allDocuments.forEach((doc) => {
+                dispatch("fetchDocument", doc);
             });
         },
 

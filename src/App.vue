@@ -1,15 +1,9 @@
 <template>
     <div id="app">
-        <AppProgress
-            v-if="!appReady"
-            :value="numberOfFilesLoaded"
-            :max="totalNumberOfFiles"
-            class="app-progress"
-        />
-        <div class="view-col" v-if="appReady">
-            <AppHeader v-if="appReadyAndLoggedIn" />
+        <div class="view-col">
+            <AppHeader v-if="loggedIn" />
 
-            <main class="app-main" v-if="appReady">
+            <main class="app-main">
                 <div
                     class="container"
                     style="display: flex; min-height: min-content"
@@ -19,9 +13,9 @@
                     </div>
                 </div>
             </main>
-            <AppStatus v-if="appReadyAndLoggedIn" class="app-status" />
+            <AppStatus v-if="loggedIn" class="app-status" />
             <transition name="fade">
-                <AppCommand v-if="commandIsVisible && appReadyAndLoggedIn" />
+                <AppCommand v-if="commandIsVisible && loggedIn" />
             </transition>
         </div>
         <notifications group="main" classes="unity-notification" />
@@ -31,7 +25,6 @@
 <script>
 import AppCommand from "./components/AppCommand";
 import AppHeader from "./components/AppHeader";
-import AppProgress from "./components/AppProgress";
 import AppStatus from "./components/AppStatus";
 
 // App Plugins
@@ -43,7 +36,6 @@ export default {
     components: {
         AppCommand,
         AppHeader,
-        AppProgress,
         AppStatus,
     },
 
@@ -61,14 +53,6 @@ export default {
                 this.loggedIn &&
                 this.numberOfFilesLoaded >= this.totalNumberOfFiles
             );
-        },
-
-        numberOfFilesLoaded() {
-            return this.$store.getters.documentsLoaded.length;
-        },
-
-        totalNumberOfFiles() {
-            return this.$store.getters.allDocuments.length;
         },
 
         activeView() {
