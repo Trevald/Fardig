@@ -92,6 +92,12 @@ const storeDropbox = {
                 });
         },
 
+        deleteFile(store, payload) {
+            return API.filesDeleteV2({ path: payload.id }).then((response) => {
+                return response;
+            });
+        },
+
         getContents({ commit }, path) {
             commit("addRequestedFilesCount");
 

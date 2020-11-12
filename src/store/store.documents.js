@@ -144,15 +144,41 @@ const storeDocuments = {
                 );
 
                 if (state.activeDocumentId === id) {
-                    state.activeDocumentId = undefined;
-                    updatePreferencesProp("activeDocumentId", undefined);
+                    const newActiveDocument =
+                        this.getters.openDocuments.length > 0
+                            ? this.getters.openDocuments[
+                                  this.getters.openDocuments.length - 1
+                              ]
+                            : undefined;
+
+                    this.commit("setActiveDocument", {
+                        id: newActiveDocument?.id,
+                    });
 
                     if (router.currentRoute.params.documentId === id) {
-                        router.push({
-                            name: "Index",
-                        });
+                        if (newActiveDocument !== undefined) {
+                            router.push({
+                                name: "Document",
+                                params: { documentId: newActiveDocument.id },
+                            });
+                        } else {
+                            router.push({
+                                name: "Index",
+                            });
+                        }
                     }
                 }
+            }
+        },
+
+        documentDeleted(state, payload) {
+            const documentIndex = state.documents.findIndex(
+                (doc) => payload.id === doc.id
+            );
+            this.commit("closeDocument", payload);
+
+            if (documentIndex) {
+                state.documents.splice(documentIndex, 1);
             }
         },
 
@@ -199,6 +225,11 @@ const storeDocuments = {
                 id: file.id,
                 json: json,
             });
+        },
+
+        async deleteDocument({ commit, dispatch }, file) {
+            await dispatch("deleteFile", file);
+            commit("documentDeleted", file);
         },
 
         newDocument({ commit }) {
