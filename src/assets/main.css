@@ -348,8 +348,6 @@ input.app-command-input:focus {
 }
 
 .tabs .close {
-    position: relative;
-    z-index: 5;
     align-self: stretch;
     padding: 0 var(--unit);
 }
