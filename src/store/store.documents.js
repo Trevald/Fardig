@@ -121,14 +121,38 @@ const storeDocuments = {
             const id = payload.id;
             if (!state.openDocumentsIds.includes(id)) {
                 state.openDocumentsIds.unshift(payload.id);
-                if (state.openDocumentsIds.length > 3) {
-                    state.openDocumentsIds.length = 3; // .splice(0, state.openDocumentsIds.length - 3)
+                if (state.openDocumentsIds.length > 5) {
+                    state.openDocumentsIds.length = 5; // .splice(0, state.openDocumentsIds.length - 3)
                 }
 
                 updatePreferencesProp(
                     "openDocumentIds",
                     state.openDocumentsIds
                 );
+            }
+        },
+
+        closeDocument(state, payload) {
+            const id = payload.id;
+            if (state.openDocumentsIds.includes(id)) {
+                const index = state.openDocumentsIds.indexOf(id);
+                state.openDocumentsIds.splice(index, 1);
+
+                updatePreferencesProp(
+                    "openDocumentIds",
+                    state.openDocumentsIds
+                );
+
+                if (state.activeDocumentId === id) {
+                    state.activeDocumentId = undefined;
+                    updatePreferencesProp("activeDocumentId", undefined);
+
+                    if (router.currentRoute.params.documentId === id) {
+                        router.push({
+                            name: "Index",
+                        });
+                    }
+                }
             }
         },
 

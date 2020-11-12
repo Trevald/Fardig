@@ -338,7 +338,7 @@ input.app-command-input:focus {
     align-items: center;
     margin: 0;
     /*padding: calc(var(--unit) * 1 + var(--offset)) calc(var(--unit) * 2) calc(var(--unit) * 1);*/
-    padding: 0 calc(var(--unit) * 2);
+    padding: 0 calc(var(--unit) * 0) 0 calc(var(--unit) * 3);
     color: var(--color-tabs-inactive);
     font-variation-settings: "wght" 400;
     font-size: var(--font-size);
@@ -347,8 +347,35 @@ input.app-command-input:focus {
     text-decoration: none;
 }
 
+.tabs .close {
+    position: relative;
+    z-index: 5;
+    align-self: stretch;
+    padding: 0 var(--unit);
+}
+
+.tabs .close:focus {
+    outline: 0;
+}
+
+.tabs .close svg {
+    width: calc(var(--unit) * 1.5);
+    height: calc(var(--unit) * 1.5);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.tabs li:hover .close svg {
+    opacity: 1;
+    color: var(--color-fg-muted);
+}
+
+.tabs li:hover .close svg:hover {
+    color: var(--color-fg);
+}
+
 .tabs progress.spinner {
-    margin-left: 1rem;
+    margin: 0 calc(var(--unit) * 2);
 }
 
 /*
@@ -369,6 +396,10 @@ input.app-command-input:focus {
     background: var(--color-background);
     color: var(--color-tabs-active);
     /* border-color: #6BE548; */
+}
+
+.tabs li a.router-link-exact-active + .close {
+    background: var(--color-background);
 }
 
 .tabs li a:focus {

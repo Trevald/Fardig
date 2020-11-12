@@ -83,7 +83,6 @@ const storeDropbox = {
         getEntries() {
             return API.filesListFolder({ path: "" })
                 .then(function(response) {
-                    console.log(response);
                     return response.result.entries.filter(
                         (file) => file[".tag"] === "file"
                     );
@@ -120,7 +119,7 @@ const storeDropbox = {
                     resolve(fileFromCache);
                 });
             }
-            return API.filesDownload({ path }).then((repsonse) => {
+            return API.filesDownload({ path }).then((response) => {
                 var reader = new FileReader();
 
                 return new Promise((resolve) => {
@@ -131,7 +130,8 @@ const storeDropbox = {
                         });
                         resolve(reader.result);
                     };
-                    reader.readAsDataURL(repsonse.fileBlob);
+
+                    reader.readAsDataURL(response.result.fileBlob);
                 });
             });
         },
