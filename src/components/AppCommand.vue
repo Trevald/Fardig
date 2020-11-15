@@ -193,9 +193,7 @@ export default {
             }
 
             if (option.id !== undefined && this.activeList === "commands") {
-                console.log(this.$genie.makeWishComeTrue, option);
                 this.$genie.makeWishComeTrue(option.id);
-                // option.action();
             } else if (option.id !== undefined) {
                 this.$router
                     .push({

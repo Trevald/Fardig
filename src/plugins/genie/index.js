@@ -2,8 +2,7 @@ import Commands from "./Commands";
 import defaultCommands from "./default-commands";
 
 const Genie = {
-    install(vue, args = {}, more) {
-        console.log(vue, args, more, this);
+    install(vue, args = {}) {
         if (this.intalled) {
             return;
         }

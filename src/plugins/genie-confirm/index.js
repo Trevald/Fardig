@@ -16,14 +16,7 @@ class Confirm {
 
         this.answer = (value) => {
             this._isActive = false;
-            switch (value) {
-                case true:
-                    this.resolve(value);
-                    break;
-                default:
-                    this.reject(value);
-                    break;
-            }
+            this.resolve(value);
         };
     }
 

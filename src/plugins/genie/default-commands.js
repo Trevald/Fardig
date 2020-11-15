@@ -79,7 +79,10 @@ export default [
         action: ({ router, store, Vue }) => {
             Vue.genieConfirm
                 .confirm("Are you sure you want to delete this file?")
-                .then(() => {
+                .then((confirmed) => {
+                    if (!confirmed) {
+                        return;
+                    }
                     const documentId = router.currentRoute.params.documentId;
                     const document = store.getters.getDocumentById(documentId);
                     store.dispatch("deleteDocument", document).then(() => {
