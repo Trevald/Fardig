@@ -1,96 +1,95 @@
 button.no-style {
-	appearance: none;
-	display: inline-block;
+    appearance: none;
+    display: inline-block;
 
-	margin: 0;
-	padding: 0;
-	min-height: unset;
-	min-width: unset;
+    margin: 0;
+    padding: 0;
+    min-height: unset;
+    min-width: unset;
 
-	font-family: inherit;
-	font-size: calc(var(--unit) * 2.25);
-	font-weight: normal;
-	font-variation-settings: "wght" 400;
-	color: inherit;
-	text-align: left;
+    font-family: inherit;
+    font-size: calc(var(--unit) * 2.25);
+    font-weight: normal;
+    font-variation-settings: "wght" 400;
+    color: inherit;
+    text-align: left;
 
-	border-radius: 0;
-	border: none;
-	background-image: none;
-	background-color: transparent;
+    border-radius: 0;
+    border: none;
+    background-image: none;
+    background-color: transparent;
 
-	transition: all 0.3s ease, outline 0s linear;
-	user-select: none;
+    transition: all 0.3s ease, outline 0s linear;
+    user-select: none;
 }
 
 .button,
 button:not(.no-style) {
-	position: relative;
-	display: inline-flex;
-	justify-content: center;
-	align-items: center;
-	margin: var(--unit);
-	padding: var(--unit) calc(var(--unit) * 2);
-	min-height: 3rem;
-	min-width: 10rem;
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: var(--unit);
+    padding: var(--unit) calc(var(--unit) * 2);
+    min-height: 3rem;
+    min-width: 10rem;
 
-	font-family: "Inter", sans-serif;
-	font-size: calc(var(--unit) * 2);
-	font-weight: normal;
-	font-variation-settings: "wght" 600;
-	line-height: 1;
-	text-decoration: none;
-	color: var(--color-default);
+    font-family: "Inter", sans-serif;
+    font-size: calc(var(--unit) * 2);
+    font-weight: normal;
+    font-variation-settings: "wght" 600;
+    line-height: 1;
+    text-decoration: none;
+    color: var(--color-default);
 
-	border-radius: 3px;
-	border: none;
-	background: none;
+    border-radius: 3px;
+    border: none;
 
-	transition: all 0.3s ease;
-	backface-visibility: hidden;
-	will-change: transform;
-	transform-style: preserve-3d;
+    transition: all 0.3s ease;
+    backface-visibility: hidden;
+    will-change: transform;
+    transform-style: preserve-3d;
 }
 
 .button,
 button:not(.no-style) {
-	background-color: hsl(var(--_color-action-primary));
-	box-shadow: var(--shadow-md);
-	outline: 1px dashed transparent;
-	outline-offset: calc(var(--unit) * 0.5);
-	color: var(--main-bg);
+    background-color: hsl(var(--_color-bg-level-1));
+    box-shadow: var(--shadow-md);
+    outline: 1px dashed transparent;
+    outline-offset: calc(var(--unit) * 0.5);
+    color: var(--main-bg);
 }
 
 .button:hover,
 button:not(.no-style):hover {
-	box-shadow: var(--shadow-lg);
-	transform: scale(1.125) translateZ(0) perspective(1px); /*  50.4 */
+    box-shadow: var(--shadow-lg);
+    transform: scale(1.0625) translateZ(0) perspective(1px); /*  50.4 */
 }
 
 .button:active,
 button:not(.no-style):active {
-	box-shadow: var(--shadow-sm), rgba(255, 255, 255, 0.1) 0 0 0 100rem inset;
+    box-shadow: var(--shadow-sm), rgba(255, 255, 255, 0.1) 0 0 0 100rem inset;
 
-	transform: scale(1) translateY(0.125rem) translateZ(0) perspective(1px);
+    transform: scale(1) translateY(0.125rem) translateZ(0) perspective(1px);
 }
 
 .button,
 button {
-	outline-offset: calc(var(--unit) * 0.5);
+    outline-offset: calc(var(--unit) * 0.5);
 }
 
 .button:focus,
 button:focus {
-	outline: none;
+    outline: none;
 }
 
 .button:focus:not(:active),
 button:focus:not(:active) {
-	outline: 1px dashed #869dd2;
+    outline: 1px dashed #869dd2;
 }
 
 button:disabled {
-	opacity: 0.4;
+    opacity: 0.4;
 }
 
 /*
@@ -100,8 +99,8 @@ button:disabled {
 .button.primary,
 button[type="submit"]:not(.no-style),
 button.primary {
-	color: var(--main-fg);
-	background-color: var(--interaction-primary-idle);
+    color: var(--main-fg);
+    background-color: var(--color-action);
 }
 /* 
 .button.primary:hover,

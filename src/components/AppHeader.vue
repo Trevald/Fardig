@@ -17,6 +17,7 @@
                             />
                         </transition>
                     </router-link>
+
                     <button
                         class="no-style close"
                         v-if="document.isLoaded"

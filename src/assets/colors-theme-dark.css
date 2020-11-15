@@ -1,55 +1,57 @@
 html {
-	--_color-bg: 18, 19%, 14%;
-	--_color-bg-muted: 22, 20%, 11%;
+    --_color-bg: 18, 19%, 14%;
+    --_color-bg-muted: 22, 20%, 11%;
+    --_color-bg-level-1: 290 4% 22%;
 
-	--_color-fg: 5, 68%, 87%;
-	--_color-fg-muted: 49, 11%, 49%;
-	--_color-fg-emphasized: 68, 94%, 69%;
+    --_color-fg: 5, 68%, 87%;
+    --_color-fg-muted: 49, 11%, 49%;
+    --_color-fg-emphasized: 68, 94%, 69%;
 
-	--_color-link: 199, 94%, 67%;
-	--_color-action: 238, 77%, 55%;
+    --_color-link: 199, 94%, 67%;
+    --_color-action: 238, 77%, 55%;
 
-	--_color-good: 134, 86%, 66%;
-	--_color-worrying: 36, 98%, 67%;
-	--_color-bad: 18, 66%, 58%;
+    --_color-good: 134, 86%, 66%;
+    --_color-worrying: 36, 98%, 67%;
+    --_color-bad: 18, 66%, 58%;
 
-	--_color-overlay-bg: 240, 4%, 22%;
-	--_color-overlay-highlight: 228, 7%, 27%;
+    --_color-overlay-bg: 240, 4%, 22%;
+    --_color-overlay-highlight: 228, 7%, 27%;
 
-	--_color-neutral-1: 313, 86%, 80%;
-	--_color-neutral-2: 67, 88%, 72%;
-	--_color-neutral-3: 313, 86%, 80%;
+    --_color-neutral-1: 313, 86%, 80%;
+    --_color-neutral-2: 67, 88%, 72%;
+    --_color-neutral-3: 313, 86%, 80%;
 
-	/* 
+    /* 
     
     Assigning of colors
     
     Base 
     
     */
-	--color-background: hsl(var(--_color-bg));
-	--color-foreground: hsl(var(--_color-fg));
+    --color-background: hsl(var(--_color-bg));
+    --color-foreground: hsl(var(--_color-fg));
 
-	--color-background-dark: hsl(var(--_color-bg-muted));
+    --color-background-dark: hsl(var(--_color-bg-muted));
+    --color-background-light: hsl(var(--_color-bg-level-1));
 
-	--color-background-status: hsl(var(--_color-action));
-	--color-foreground-status: hsl(var(--_color-fg));
-	--shadow-overlay: rgba(0, 0, 0, 0.15) 0 7px 15px;
+    --color-background-status: hsl(var(--_color-action));
+    --color-foreground-status: hsl(var(--_color-fg));
+    --shadow-overlay: rgba(0, 0, 0, 0.15) 0 7px 15px;
 
-	/* 
+    /* 
     Navigation 
     */
-	--color-tabs-inactive: hsl(var(--_color-fg-muted));
-	--color-tabs-active: hsl(var(--_color-fg));
+    --color-tabs-inactive: hsl(var(--_color-fg-muted));
+    --color-tabs-active: hsl(var(--_color-fg));
 
-	/* Inputs */
-	--color-todo-checkbox-background-idle: hsl(var(--_color-bg-muted));
-	--color-todo-checkbox-background-checked: hsl(var(--_color-good));
-	--color-todo-checkbox-border: hsla(var(--_color-good), 0.4);
+    /* Inputs */
+    --color-todo-checkbox-background-idle: hsl(var(--_color-bg-muted));
+    --color-todo-checkbox-background-checked: hsl(var(--_color-good));
+    --color-todo-checkbox-border: hsla(var(--_color-good), 0.4);
 
-	/* Command */
-	--color-command-background: hsl(var(--_color-overlay-bg));
-	--color-command-foreground: hsl(var(--_color-fg));
-	--color-commmand-active-foreground: hsl(var(--_color-fg-emphasized));
-	--color-commmand-active-background: hsl(var(--_color-overlay-highlight));
+    /* Command */
+    --color-command-background: hsl(var(--_color-overlay-bg));
+    --color-command-foreground: hsl(var(--_color-fg));
+    --color-commmand-active-foreground: hsl(var(--_color-fg-emphasized));
+    --color-commmand-active-background: hsl(var(--_color-overlay-highlight));
 }

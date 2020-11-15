@@ -1,15 +1,18 @@
-import keycodes from "./keycodes";
+import Vue from "vue";
 import { store } from "./../../main";
 import { router } from "./../../router";
+
+import keycodes from "./keycodes";
 
 export default class {
     constructor() {
         this._commands = [];
+
         // Listen for keyboard events
         document.addEventListener("keydown", (event) => {
             const command = this.keyHandler(event);
             if (command) {
-                this.handleCommand(command, { router, store });
+                this.handleCommand(command, { router, store, Vue });
             }
         });
     }
@@ -31,7 +34,7 @@ export default class {
 
     makeWishComeTrue(commandId) {
         const command = this.getCommandById(commandId);
-        this.handleCommand(command, { router, store });
+        this.handleCommand(command, { router, store, Vue });
     }
 
     handleCommand(command, params) {

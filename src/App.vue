@@ -19,6 +19,7 @@
             </transition>
         </div>
         <notifications group="main" classes="unity-notification" />
+        <AppConfirm></AppConfirm>
     </div>
 </template>
 
@@ -29,6 +30,7 @@ import AppStatus from "./components/AppStatus";
 
 // App Plugins
 import AppPresentation from "./app-plugins/presentation/index";
+import AppConfirm from "./components/AppConfirm.vue";
 
 export default {
     name: "App",
@@ -37,6 +39,7 @@ export default {
         AppCommand,
         AppHeader,
         AppStatus,
+        AppConfirm,
     },
 
     computed: {

@@ -124,16 +124,20 @@ export default {
 
         keymap() {
             return {
-                enter: () => {
+                enter: (event) => {
+                    event.preventDefault();
                     this.checkActiveOption();
                 },
-                down: () => {
+                down: (event) => {
+                    event.preventDefault();
                     this.setActiveItem(1);
                 },
-                up: () => {
+                up: (event) => {
+                    event.preventDefault();
                     this.setActiveItem(-1);
                 },
-                esc: () => {
+                esc: (event) => {
+                    event.preventDefault();
                     this.$store.dispatch("toggleCommand");
                 },
             };

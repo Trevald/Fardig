@@ -605,6 +605,14 @@ figure:last-of-type:nth-child(odd) {
     border-left: solid var(--unit) var(--color-worrying);
 }
 
+.unity-notification.error {
+    border-left: solid var(--unit) var(--color-bad);
+}
+
+.unity-notification.success {
+    border-left: solid var(--unit) var(--color-good);
+}
+
 /* 
  * Vue Transitions 
  */
@@ -632,15 +640,22 @@ figure:last-of-type:nth-child(odd) {
     transition: opacity 0.2s;
 }
 
-.slide-from-bottom-enter-active {
-    transition: transform 0.5s ease-out;
+.slide-from-bottom-enter-active,
+.slide-from-top-enter-active {
+    transition: transform 0.25s ease-out;
 }
 
-.slide-from-bottom-leave-active {
-    transition: transform 0.5s ease-in;
+.slide-from-bottom-leave-active,
+.slide-from-top-leave-active {
+    transition: transform 0.25s ease-in;
 }
 
 .slide-from-bottom-enter,
 .slide-from-bottom-leave-to {
     transform: translateY(100%);
+}
+
+.slide-from-top-enter,
+.slide-from-top-leave-to {
+    transform: translateY(-100%) translateX(-50%);
 }
