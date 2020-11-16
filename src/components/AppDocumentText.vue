@@ -25,11 +25,13 @@ export default {
     methods: {
         contentChanged(data) {
             const json = data.json;
+            const text = data.text;
 
             const fileLastChanged = Date.now();
             this.$store.commit("updateDocument", {
                 id: this.file.id,
                 json: json,
+                text: text,
                 lastChanged: fileLastChanged,
             });
         },

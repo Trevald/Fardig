@@ -128,11 +128,16 @@ export default {
             autoFocus: true,
             content: this.json,
 
-            onUpdate: ({ getJSON }) => {
+            onUpdate: ({ state, getJSON }) => {
+                const doc = state.doc;
+                const docLength = doc.nodeSize - 2;
+                const text = state.doc.textBetween(0, docLength, " ");
+
                 const json = getJSON();
 
                 this.$emit("change", {
                     json,
+                    text,
                 });
             },
         });

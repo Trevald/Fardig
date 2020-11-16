@@ -58,6 +58,7 @@ import { documentGetTitle } from "./../utils/document";
 import AppIcon from "./AppIcon";
 
 const fuseOptions = {
+    ignoreLocation: true, // Allow searching more than 60chars
     includeScore: true,
     threshold: 0.3,
     keys: ["name", "description", "tags", "text"],

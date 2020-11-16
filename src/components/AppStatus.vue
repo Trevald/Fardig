@@ -32,7 +32,7 @@
 
 <script>
 import AppShortcuts from "./AppShortcuts";
-let APP_VERSION;
+
 export default {
     name: "AppStatus",
 
@@ -97,7 +97,6 @@ export default {
     },
 
     mounted() {
-        console.log(APP_VERSION, process, process.env.APP_VERSION);
         window.addEventListener("beforeunload", this.beforeUnload);
     },
 };

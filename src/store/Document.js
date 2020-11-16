@@ -21,6 +21,7 @@ export default class Document {
             ? data.lastUpdated
             : serverModified;
         this.json = data?.json;
+        this.text = data?.text;
     }
 
     get isLoaded() {

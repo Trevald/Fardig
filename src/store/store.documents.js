@@ -221,9 +221,13 @@ const storeDocuments = {
             const fileContent = await dispatch("getContents", file.id);
 
             const json = documentGetJsonFromMarkdown(fileContent);
+            // const removeMarkdownRegEx = /(#{1,6})|((\r\n|\r|\n)n#{1,6})|((\r\n|\r|\n)\*)|((\r\n|\r|\n)n\d*)|((\r\n|\r|\n)n)/gi;
+            const text = fileContent; // .replace(removeMarkdownRegEx, "");
+
             commit("updateDocument", {
                 id: file.id,
                 json: json,
+                text: text,
             });
         },
 
