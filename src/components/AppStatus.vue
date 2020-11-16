@@ -21,7 +21,7 @@
                 </button>
             </li>
             <li>
-                <AppLogo />
+                Fardig.io <small>{{ appVersion }}</small>
             </li>
         </ul>
         <transition name="fade">
@@ -31,15 +31,12 @@
 </template>
 
 <script>
-import AppLogo from "./AppLogo";
-
 import AppShortcuts from "./AppShortcuts";
-
+let APP_VERSION;
 export default {
     name: "AppStatus",
 
     components: {
-        AppLogo,
         AppShortcuts,
     },
 
@@ -50,6 +47,9 @@ export default {
     },
 
     computed: {
+        appVersion() {
+            return process.env.APP_VERSION;
+        },
         numberOfFilesLoaded() {
             return this.$store.getters.documentsLoaded.length;
         },
@@ -97,6 +97,7 @@ export default {
     },
 
     mounted() {
+        console.log(APP_VERSION, process, process.env.APP_VERSION);
         window.addEventListener("beforeunload", this.beforeUnload);
     },
 };
@@ -115,5 +116,9 @@ li {
 
 li:not(:last-child) {
     margin-right: 1rem;
+}
+
+small {
+    opacity: 0.5;
 }
 </style>

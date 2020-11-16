@@ -1,111 +1,128 @@
-import { getPreferencesProp, updatePreferencesProp } from "./../utils/preferences"
-import { deleteFromArray } from "./../utils/helpers"
+import {
+    getPreferencesProp,
+    updatePreferencesProp,
+} from "./../utils/preferences";
+import { deleteFromArray } from "./../utils/helpers";
 
 const storeApp = {
-	state: () => {
-		return {
-			activeView: getPreferencesProp("activeView", "editor"),
-			// accessToken: dropboxAccessToken,
-			commandIsVisible: false,
-			darkMode: true,
-			editorToolbarIsVisible: getPreferencesProp("editorToolbarIsVisible", "editor"),
-			disabledCommands: [],
-			// cloudStorage: new DropboxApi(dropboxAccessToken),
-		}
-	},
+    state: () => {
+        return {
+            activeView: getPreferencesProp("activeView", "editor"),
+            commandIsVisible: false,
+            darkMode: true,
+            editorToolbarIsVisible: getPreferencesProp(
+                "editorToolbarIsVisible",
+                "editor"
+            ),
+            disabledCommands: [],
+        };
+    },
 
-	getters: {
-		activeView: (state) => {
-			return state.activeView
-		},
+    getters: {
+        activeView: (state) => {
+            return state.activeView;
+        },
 
-		accessToken: (state) => {
-			return state.accessToken
-		},
+        accessToken: (state) => {
+            return state.accessToken;
+        },
 
-		commandIsVisible: (state) => {
-			return state.commandIsVisible
-		},
+        commandIsVisible: (state) => {
+            return state.commandIsVisible;
+        },
 
-		darkMode: (state) => {
-			return state.darkMode
-		},
+        darkMode: (state) => {
+            return state.darkMode;
+        },
 
-		editorToolbarIsVisible: (state) => {
-			return state.editorToolbarIsVisible
-		},
+        editorToolbarIsVisible: (state) => {
+            return state.editorToolbarIsVisible;
+        },
 
-		isCommandDisabled: (state) => (name) => {
-			return state.disabledCommands.find((command) => command.name === name) !== undefined
-		},
+        isCommandDisabled: (state) => (name) => {
+            return (
+                state.disabledCommands.find(
+                    (command) => command.name === name
+                ) !== undefined
+            );
+        },
 
-		getDisabledCommandsByName: (state) => (name) => {
-			return state.disabledCommands.filter((command) => command.name === name)
-		},
+        getDisabledCommandsByName: (state) => (name) => {
+            return state.disabledCommands.filter(
+                (command) => command.name === name
+            );
+        },
 
-		disabledCommands: (state) => {
-			return state.disabledCommands
-		},
-	},
+        disabledCommands: (state) => {
+            return state.disabledCommands;
+        },
+    },
 
-	mutations: {
-		addShortcut(state, payload) {
-			state.shortcuts.push(payload)
-		},
+    mutations: {
+        addShortcut(state, payload) {
+            state.shortcuts.push(payload);
+        },
 
-		setActiveView(state, payload) {
-			state.activeView = payload.name
-			updatePreferencesProp("activeView", payload.name)
-		},
+        setActiveView(state, payload) {
+            state.activeView = payload.name;
+            updatePreferencesProp("activeView", payload.name);
+        },
 
-		setAccessToken(state, payload) {
-			state.accessToken = payload.accessToken
-		},
+        setAccessToken(state, payload) {
+            state.accessToken = payload.accessToken;
+        },
 
-		toggleCommand(state) {
-			state.commandIsVisible = !state.commandIsVisible
-		},
+        toggleCommand(state) {
+            state.commandIsVisible = !state.commandIsVisible;
+        },
 
-		toggleDarkMode(state, payload) {
-			state.darkMode = payload
-		},
+        toggleDarkMode(state, payload) {
+            state.darkMode = payload;
+        },
 
-		toggleEditorToolbar(state) {
-			state.editorToolbarIsVisible = !state.editorToolbarIsVisible
-			updatePreferencesProp("editorToolbarIsVisible", state.editorToolbarIsVisible)
-		},
+        toggleEditorToolbar(state) {
+            state.editorToolbarIsVisible = !state.editorToolbarIsVisible;
+            updatePreferencesProp(
+                "editorToolbarIsVisible",
+                state.editorToolbarIsVisible
+            );
+        },
 
-		disableCommand(state, payload) {
-			state.disabledCommands.push(payload)
-		},
+        disableCommand(state, payload) {
+            state.disabledCommands.push(payload);
+        },
 
-		enableCommand(state, payload) {
-			state.disabledCommands = deleteFromArray(state.disabledCommands, payload, "key")
-		},
-	},
+        enableCommand(state, payload) {
+            state.disabledCommands = deleteFromArray(
+                state.disabledCommands,
+                payload,
+                "key"
+            );
+        },
+    },
 
-	actions: {
-		login() {},
+    actions: {
+        login() {},
 
-		toggleCommand({ commit }) {
-			commit("toggleCommand")
-		},
+        toggleCommand({ commit }) {
+            commit("toggleCommand");
+        },
 
-		toggleEditorToolbar({ commit }) {
-			commit("toggleEditorToolbar")
-		},
+        toggleEditorToolbar({ commit }) {
+            commit("toggleEditorToolbar");
+        },
 
-		toggleDarkMode({ commit }) {
-			const htmlClassList = document.querySelector("html").classList
-			if (!htmlClassList.contains("theme-light")) {
-				htmlClassList.add("theme-light")
-				commit("toggleDarkMode", false)
-			} else {
-				htmlClassList.remove("theme-light")
-				commit("toggleDarkMode", true)
-			}
-		},
-	},
-}
+        toggleDarkMode({ commit }) {
+            const htmlClassList = document.querySelector("html").classList;
+            if (!htmlClassList.contains("theme-light")) {
+                htmlClassList.add("theme-light");
+                commit("toggleDarkMode", false);
+            } else {
+                htmlClassList.remove("theme-light");
+                commit("toggleDarkMode", true);
+            }
+        },
+    },
+};
 
-export default storeApp
+export default storeApp;
