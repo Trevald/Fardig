@@ -6,6 +6,7 @@
             class="app-command-input"
             placeholder="Your wish..."
             v-model="query"
+            @input="queryUpdate()"
         />
         <ul class="app-command-results no-style">
             <li v-for="(option, index) in filteredCommands" :key="index">
@@ -249,9 +250,15 @@ export default {
                     ? this.filteredCommands[activeItem]
                     : this.filteredDocuments[activeItem];
             this.activeItem = activeItem;
+            console.log(activeItem);
             if (this.isDisabled(activeOption)) {
                 this.setActiveItem(value);
             }
+        },
+
+        queryUpdate() {
+            this.activeList = "commands";
+            this.setActiveItem(0);
         },
     },
 
