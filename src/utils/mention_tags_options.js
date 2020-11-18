@@ -1,73 +1,70 @@
 export default function MENTION_TAGS_OPTIONS(self, itemsCallback) {
-	return {
-		/**
-		 * List of suggestions
-		 */
-		items: () => {
-			return itemsCallback()
-		},
+    return {
+        /**
+         * List of suggestions
+         */
+        items: () => {
+            return itemsCallback();
+        },
 
-		/**
-		 * Suggestion starts
-		 */
-		onEnter: ({ items, query, range, command, virtualNode }) => {
-			console.log("Enter")
-			;(self.mentionTagsQuery = query),
-				(self.mentionTagsFilteredTags = items),
-				(self.mentionTagsSuggestionRange = range),
-				self.mentionTagsRenderPopup(virtualNode)
-			self.mentionTagsInsertTag = command
-		},
+        /**
+         * Suggestion starts
+         */
+        onEnter: ({ items, query, range, command, virtualNode }) => {
+            (self.mentionTagsQuery = query),
+                (self.mentionTagsFilteredTags = items),
+                (self.mentionTagsSuggestionRange = range),
+                self.mentionTagsRenderPopup(virtualNode);
+            self.mentionTagsInsertTag = command;
+        },
 
-		/**
-		 * Suggestion changes
-		 */
-		onChange: ({ items, query, range, virtualNode }) => {
-			self.mentionTagsQuery = query
-			self.mentionTagsFilteredTags = items
-			self.mentionTagsSuggestionRange = range
-			self.mentionTagsNavigatedTagIndex = 0
-			self.mentionTagsRenderPopup(virtualNode)
-		},
+        /**
+         * Suggestion changes
+         */
+        onChange: ({ items, query, range, virtualNode }) => {
+            self.mentionTagsQuery = query;
+            self.mentionTagsFilteredTags = items;
+            self.mentionTagsSuggestionRange = range;
+            self.mentionTagsNavigatedTagIndex = 0;
+            self.mentionTagsRenderPopup(virtualNode);
+        },
 
-		/**
-		 * Suggestion canceled
-		 */
+        /**
+         * Suggestion canceled
+         */
 
-		onExit: () => {
-			console.log("onExit")
-			self.mentionTagsQuery = null
-			self.mentionTagsFilteredTags = []
-			self.mentionTagsSuggestionRange = null
-			self.mentionTagsNavigatedTagIndex = 0
-			self.mentionTagsDestroyPopup()
-		},
+        onExit: () => {
+            self.mentionTagsQuery = null;
+            self.mentionTagsFilteredTags = [];
+            self.mentionTagsSuggestionRange = null;
+            self.mentionTagsNavigatedTagIndex = 0;
+            self.mentionTagsDestroyPopup();
+        },
 
-		/**
-		 * Cathc every keyDown while a suggestion is active
-		 */
+        /**
+         * Cathc every keyDown while a suggestion is active
+         */
 
-		onKeyDown: ({ event }) => {
-			console.log("onKeyDown", event)
-			switch (event.key) {
-				case "ArrowUp":
-					self.mentionTagsUpHandler()
-					return true
-				case "ArrowDown":
-					self.mentionTagsDownHandler()
-					return true
-				case "Enter":
-					self.mentionTagsEnterHandler(self.mentionTagsQuery)
-					return true
-				default:
-					return false
-			}
-		},
+        onKeyDown: ({ event }) => {
+            switch (event.key) {
+                case "ArrowUp":
+                    self.mentionTagsUpHandler();
+                    return true;
+                case "ArrowDown":
+                    self.mentionTagsDownHandler();
+                    return true;
+                case "Enter":
+                    self.mentionTagsEnterHandler(self.mentionTagsQuery);
+                    return true;
+                default:
+                    return false;
+            }
+        },
 
-		/**
-		 * Optional filtering
-		 */
+        /**
+         * Optional filtering
+         */
 
-		// onFilter: (items, query) => {}
-	}
+        // onFilter: (items, query) => {}
+    };
 }
