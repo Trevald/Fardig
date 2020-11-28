@@ -62,7 +62,24 @@ const fuseOptions = {
     ignoreLocation: true, // Allow searching more than 60chars
     includeScore: true,
     threshold: 0.3,
-    keys: ["name", "description", "tags", "text"],
+    keys: [
+        {
+            name: "name",
+            weight: 1,
+        },
+        {
+            name: "tags",
+            weight: 0.8,
+        },
+        {
+            name: "description",
+            weight: 0.5,
+        },
+        {
+            name: "text",
+            weight: 0.2,
+        },
+    ],
 };
 
 export default {
