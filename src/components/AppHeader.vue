@@ -1,5 +1,5 @@
 <template>
-    <header class="app-header">
+    <header>
         <nav class="tabs" v-if="openDocuments">
             <ul>
                 <li v-for="(document, index) in openDocuments" :key="index">

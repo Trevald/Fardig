@@ -1,23 +1,17 @@
 <template>
     <div id="app">
-        <div class="view-col">
-            <AppHeader v-if="loggedIn" />
+        <AppHeader v-if="loggedIn" class="app-header" />
 
-            <main class="app-main">
-                <div
-                    class="container"
-                    style="display: flex; min-height: min-content"
-                >
-                    <div class="view">
-                        <router-view></router-view>
-                    </div>
-                </div>
-            </main>
-            <AppStatus v-if="loggedIn" class="app-status" />
-            <transition name="fade">
-                <AppCommand v-if="commandIsVisible && loggedIn" />
-            </transition>
-        </div>
+        <main class="app-main view">
+            <div class="container view">
+                <router-view></router-view>
+            </div>
+        </main>
+        <AppStatus v-if="loggedIn" class="app-status" />
+        <transition name="fade">
+            <AppCommand v-if="commandIsVisible && loggedIn" />
+        </transition>
+
         <notifications group="main" classes="unity-notification" />
         <AppConfirm></AppConfirm>
     </div>
