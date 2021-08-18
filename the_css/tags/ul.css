@@ -29,19 +29,35 @@ ol {
 
 ul > li::before {
 	position: absolute;
-	left: calc(var(--unit) * -4);
-	top: 1em;
+	left: calc(var(--unit) * -2.5);
+	top: 0.5em;
 	content: "•";
 	color: var(--color-any-1);
 }
 
 ol > li::before {
 	position: absolute;
-	left: calc(var(--unit) * -4);
-	top: 1em;
+	left: calc(var(--unit) * -2.5);
+	top: 0.5em;
 	counter-increment: section;
 	content: counter(section) ".";
 	color: var(--color-any-1);
+}
+
+@media screen and (min-width: 32rem) {
+    ul > li::before,
+    ol > li::before {
+        top: 0.45em;
+        left: calc(var(--unit) * -3);
+    }
+}
+
+@media screen and (min-width: 48rem) {
+    ul > li::before,
+    ol > li::before {
+        top: 1em;
+        left: calc(var(--unit) * -4);
+    }
 }
 
 /*
