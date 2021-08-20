@@ -53,5 +53,5 @@ html {
     --color-command-background: hsl(var(--_color-overlay-bg));
     --color-command-foreground: hsl(var(--_color-fg));
     --color-commmand-active-foreground: hsl(var(--_color-fg-emphasized));
-    --color-commmand-active-background: hsl(var(--_color-overlay-highlight));
+    --color-commmand-active-background: hsla(228, 88%, 84%, 0.2);
 }

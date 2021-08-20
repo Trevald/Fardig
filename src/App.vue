@@ -1,7 +1,7 @@
 <template>
-    <div id="app">
+    <div id="app" :class="appClassList">
         <AppHeader v-if="loggedIn" class="app-header" />
-
+        <AppSidebar />
         <main class="app-main view">
             <div class="container view">
                 <router-view></router-view>
@@ -20,6 +20,7 @@
 <script>
 import AppCommand from "./components/AppCommand";
 import AppHeader from "./components/AppHeader";
+import AppSidebar from "./components/AppSidebar";
 import AppStatus from "./components/AppStatus";
 
 // App Plugins
@@ -31,25 +32,29 @@ export default {
 
     components: {
         AppCommand,
-        AppHeader,
-        AppStatus,
         AppConfirm,
+        AppHeader,
+        AppSidebar,
+        AppStatus,
     },
 
     computed: {
+        appClassList() {
+            const classList = [];
+            if (this.$store.getters.sidebarIsVisible === true) {
+                classList.push("show-sidebar");
+            }
+            return classList;
+        },
         appReady() {
             return (
                 !this.loggedIn ||
-                (this.loggedIn &&
-                    this.numberOfFilesLoaded >= this.totalNumberOfFiles)
+                (this.loggedIn && this.numberOfFilesLoaded >= this.totalNumberOfFiles)
             );
         },
 
         appReadyAndLoggedIn() {
-            return (
-                this.loggedIn &&
-                this.numberOfFilesLoaded >= this.totalNumberOfFiles
-            );
+            return this.loggedIn && this.numberOfFilesLoaded >= this.totalNumberOfFiles;
         },
 
         activeView() {

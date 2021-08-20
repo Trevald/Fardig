@@ -17,6 +17,11 @@
         hsla(var(--_color-bg), 0)
     );
     pointer-events: none;
+    transition: all 0.3s ease;
+}
+
+.show-sidebar .app-editor-menubar {
+    left: calc(1rem + max(var(--sidebar-max-width), var(--sidebar-min-width)));
 }
 
 .app-editor-menubar .groups {

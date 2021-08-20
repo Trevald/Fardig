@@ -8,6 +8,8 @@
 
 :root {
     --figure-border-width: var(--unit);
+    --sidebar-max-width: 20vw;
+    --sidebar-min-width: 320px;
 }
 
 body {
@@ -73,20 +75,33 @@ img {
 
 #app {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: auto 1fr;
     grid-template-rows: auto 1fr auto;
     grid-template-areas:
-        "header"
-        "main"
-        "footer";
+        "sidebar header"
+        "sidebar main"
+        "footer footer";
     width: 100%;
     height: 100vh;
+}
+
+.app-sidebar {
+    grid-area: sidebar;
+    background-color: black;
+    overflow-x: hidden;
+    overflow-y: auto;
+    width: 0px;
+    transition: all 0.3s ease;
+}
+
+#app.show-sidebar .app-sidebar {
+    width: max(var(--sidebar-max-width), var(--sidebar-min-width));
 }
 
 .app-main {
     grid-area: main;
     overflow: auto;
-    
+
     padding-top: calc(var(--unit) * 2);
     padding-right: 1rem;
     padding-left: 2rem;
@@ -108,13 +123,11 @@ img {
 .app-editor {
     display: flex;
     flex: 1 1 100%;
-    
 }
 
 .app-editor-content {
     display: flex;
     flex: 1 1 100%;
-    
 }
 
 .app-editor-content .ProseMirror::after {
@@ -217,7 +230,7 @@ li[data-type="todo_item"] input[type="checkbox"] {
 @media screen and (min-width: 48rem) {
     li[data-type="todo_item"] input[type="checkbox"] {
         top: 0.45em;
-        left: calc(var(--unit) * -7);        
+        left: calc(var(--unit) * -7);
         width: calc(var(--unit) * 3);
         height: calc(var(--unit) * 3);
     }
@@ -271,7 +284,8 @@ input.app-command-input:focus {
     outline: none;
 }
 
-.app-command-results-heading {
+.app-command-results-heading,
+button.app-command-results-heading {
     margin: 0;
     padding: calc(var(--unit) * 2) calc(var(--unit) * 2) calc(var(--unit) * 1)
         calc(var(--unit) * 2);
@@ -291,7 +305,8 @@ input.app-command-input:focus {
     padding: 0;
 }
 
-.app-command-results > li > button {
+.app-command-results > li > button,
+.app-command-results > li > a {
     display: flex;
     align-items: center;
 
@@ -299,6 +314,7 @@ input.app-command-input:focus {
     min-height: calc(var(--unit) * 6);
     font-size: calc(var(--unit) * 2);
     font-family: var(--font-monospace);
+    text-decoration: none;
     width: 100%;
 }
 
@@ -308,7 +324,8 @@ input.app-command-input:focus {
     height: 20px;
 }
 
-.app-command-results > li > button.is-active {
+.app-command-results > li > button.is-active,
+.app-command-results > li > a:hover {
     color: var(--color-commmand-active-foreground);
     background: var(--color-commmand-active-background);
 }
@@ -342,10 +359,7 @@ input.app-command-input:focus {
     --line-height: calc(var(--unit) * 2);
     --line-height-percentage: calc(2 / 1.75);
     --cap-height: 0.7;
-    --offset: calc(
-        var(--font-size) * (var(--line-height-percentage) - var(--cap-height)) /
-            2
-    );
+    --offset: calc(var(--font-size) * (var(--line-height-percentage) - var(--cap-height)) / 2);
 
     grid-area: header;
     flex: 0 0 auto;

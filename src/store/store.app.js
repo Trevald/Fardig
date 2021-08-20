@@ -1,7 +1,4 @@
-import {
-    getPreferencesProp,
-    updatePreferencesProp,
-} from "./../utils/preferences";
+import { getPreferencesProp, updatePreferencesProp } from "./../utils/preferences";
 import { deleteFromArray } from "./../utils/helpers";
 
 const storeApp = {
@@ -10,11 +7,9 @@ const storeApp = {
             activeView: getPreferencesProp("activeView", "editor"),
             commandIsVisible: false,
             darkMode: true,
-            editorToolbarIsVisible: getPreferencesProp(
-                "editorToolbarIsVisible",
-                "editor"
-            ),
+            editorToolbarIsVisible: getPreferencesProp("editorToolbarIsVisible", true),
             disabledCommands: [],
+            sidebarIsVisible: getPreferencesProp("sidebarIsVisible", false),
         };
     },
 
@@ -39,18 +34,18 @@ const storeApp = {
             return state.editorToolbarIsVisible;
         },
 
+        sidebarIsVisible: (state) => {
+            return state.sidebarIsVisible;
+        },
+
         isCommandDisabled: (state) => (name) => {
             return (
-                state.disabledCommands.find(
-                    (command) => command.name === name
-                ) !== undefined
+                state.disabledCommands.find((command) => command.name === name) !== undefined
             );
         },
 
         getDisabledCommandsByName: (state) => (name) => {
-            return state.disabledCommands.filter(
-                (command) => command.name === name
-            );
+            return state.disabledCommands.filter((command) => command.name === name);
         },
 
         disabledCommands: (state) => {
@@ -80,12 +75,14 @@ const storeApp = {
             state.darkMode = payload;
         },
 
+        toggleSidebar(state) {
+            state.sidebarIsVisible = !state.sidebarIsVisible;
+            updatePreferencesProp("sidebarIsVisible", state.sidebarIsVisible);
+        },
+
         toggleEditorToolbar(state) {
             state.editorToolbarIsVisible = !state.editorToolbarIsVisible;
-            updatePreferencesProp(
-                "editorToolbarIsVisible",
-                state.editorToolbarIsVisible
-            );
+            updatePreferencesProp("editorToolbarIsVisible", state.editorToolbarIsVisible);
         },
 
         disableCommand(state, payload) {
@@ -93,11 +90,7 @@ const storeApp = {
         },
 
         enableCommand(state, payload) {
-            state.disabledCommands = deleteFromArray(
-                state.disabledCommands,
-                payload,
-                "key"
-            );
+            state.disabledCommands = deleteFromArray(state.disabledCommands, payload, "key");
         },
     },
 
@@ -121,6 +114,10 @@ const storeApp = {
                 htmlClassList.remove("theme-light");
                 commit("toggleDarkMode", true);
             }
+        },
+
+        toggleSidebar({ commit }) {
+            commit("toggleSidebar");
         },
     },
 };

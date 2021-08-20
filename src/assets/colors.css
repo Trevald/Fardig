@@ -1,23 +1,23 @@
 html {
-	--color-bg: hsl(var(--_color-bg));
-	--color-bg-muted: hsl(var(--_color-bg-muted));
+    --color-bg: hsl(var(--_color-bg));
+    --color-bg-muted: hsl(var(--_color-bg-muted));
 
-	--color-fg: hsl(var(--_color-fg));
-	--color-fg-muted: hsl(var(--_color-fg-muted));
-	--color-fg-emphasized: hsl(var(--_color-fg-emphasized));
+    --color-fg: hsl(var(--_color-fg));
+    --color-fg-muted: hsl(var(--_color-fg-muted));
+    --color-fg-emphasized: hsl(var(--_color-fg-emphasized));
 
-	--color-link: hsl(var(--_color-link));
-	--color-action: hsl(var(--_color-action));
+    --color-link: hsl(var(--_color-link));
+    --color-action: hsl(var(--_color-action));
 
-	--color-good: hsl(var(--_color-good));
-	--color-worrying: hsl(var(--_color-worrying));
-	--color-bad: hsl(var(--_color-bad));
+    --color-good: hsl(var(--_color-good));
+    --color-worrying: hsl(var(--_color-worrying));
+    --color-bad: hsl(var(--_color-bad));
 
-	--color-overlay-bg: hsl(var(--_color-overlay-bg));
-	--color-overlay-highlight: hsl(var(--_color-overlay-highlight));
+    --color-overlay-bg: hsl(var(--_color-overlay-bg));
+    --color-overlay-highlight: hsl(var(--_color-overlay-highlight));
 
-	--color-neutral-1: hsl(var(--_color-neutral-1));
-	--color-neutral-2: hsl(var(--_color-neutral-2));
+    --color-neutral-1: hsl(var(--_color-neutral-1));
+    --color-neutral-2: hsl(var(--_color-neutral-2));
 }
 
 /*
@@ -25,32 +25,31 @@ html {
 */
 
 html {
-	/* Base */
-	--color-background: hsl(var(--_color-bg));
-	--color-foreground: hsl(var(--_color-fg));
+    /* Base */
+    --color-background: hsl(var(--_color-bg));
+    --color-foreground: hsl(var(--_color-fg));
 
-	--color-background-dark: hsl(var(--_color-bg-muted));
+    --color-background-dark: hsl(var(--_color-bg-muted));
 
-	--color-background-status: var(--color-action);
-	--color-foreground-status: var(--color-fg);
-	--shadow-overlay: rgba(0, 0, 0, 0.15) 0 7px 15px;
+    --color-background-status: var(--color-action);
+    --color-foreground-status: var(--color-fg);
+    --shadow-overlay: rgba(0, 0, 0, 0.15) 0 7px 15px;
 
-	/* Navigation */
-	--color-tabs-inactive: var(--color-fg-muted);
-	--color-tabs-active: var(--color-fg);
+    /* Navigation */
+    --color-tabs-inactive: var(--color-fg-muted);
+    --color-tabs-active: var(--color-fg);
 
-	/* Inputs */
-	--color-todo-checkbox-background-idle: var(--color-bg-muted);
-	--color-todo-checkbox-background-checked: var(--color-good);
-	--color-todo-checkbox-border: hsla(var(--_color-good), 0.4);
+    /* Inputs */
+    --color-todo-checkbox-background-idle: var(--color-bg-muted);
+    --color-todo-checkbox-background-checked: var(--color-good);
+    --color-todo-checkbox-border: hsla(var(--_color-good), 0.4);
 
-	/* Command */
-	--color-command-background: var(--color-overlay-bg);
-	--color-command-foreground: var(--color-fg);
-	--color-commmand-active-foreground: var(--color-fg-emphasized);
-	--color-commmand-active-background: var(--color-overlay-highlight);
+    /* Command */
+    --color-command-background: var(--color-overlay-bg);
+    --color-command-foreground: var(--color-fg);
+    --color-commmand-active-foreground: var(--color-fg-emphasized);
 
-	/* Mapping for Unity.css */
+    /* Mapping for Unity.css */
 
-	--color-any-1: var(--color-neutral-2);
+    --color-any-1: var(--color-neutral-2);
 }
